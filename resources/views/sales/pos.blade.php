@@ -113,13 +113,19 @@
             <div class="content-section" id="main-pos">
                 <section class="pos-content">
                     <div class="d-flex align-items-center">
-                        <div class="w-100 text-gray-600 position-relative">
+                        <div class="w-50 text-gray-600 position-relative">
                             <div id="autocomplete" class="autocomplete">
                                 <input type="text" class="form-control border border-gray-300 py-3 pr-3"
                                     placeholder="{{ __('translate.Scan_Search_Product_by_Code_Name') }}" />
                                 <ul class="autocomplete-result-list">
                                     <li></li>
                                 </ul>
+                            </div>
+                        </div>
+                        <div class="w-50 text-gray-600 position-relative">
+                            <div id="autocomplete" class="autocomplete">
+                                {{-- category --}}
+                                <ul id="CategoryUl"></ul>
                             </div>
                         </div>
                         <div style="position: relative;">
@@ -293,21 +299,21 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <button type="button" class="cart-btn btn btn-success"
                                                 id="HoldOrderBtn">Hold &nbsp; <i
                                                     class="fa-solid fa-hand"></i></button>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <button type="button" class="cart-btn btn btn-danger"
                                                 id="ResetPos">Reset &nbsp;<i
                                                     class="fa-solid fa-arrow-rotate-right"></i></button>
                                         </div>
-                                        <div class="col-md-4">
+                                        {{-- <div class="col-md-4">
                                             <button class="cart-btn btn btn-primary" id="PayNow">
                                                 {{ __('translate.Pay_Now') }} <i class="fa-solid fa-money-bill"></i>
                                             </button>
-                                        </div>
+                                        </div> --}}
                                     </div>
 
                                 </div>
@@ -397,10 +403,10 @@
                                                 </div>
 
                                                 <div class="col-lg-12">
-                                                    <button type="submit" id="save_pos" class="btn btn-primary">
+                                                    {{-- <button type="submit" id="save_pos" class="btn btn-primary">
                                                         <i class="i-Yes me-2 font-weight-bold"></i>
                                                         {{ __('translate.Submit') }}
-                                                    </button>
+                                                    </button> --}}
                                                 </div>
                                             </div>
                                         </form>
@@ -568,8 +574,7 @@
                             <div class="col-12 col-lg-8">
                                 <div class="row" id="products-box">
 
-                                    <div class="d-flex justify-content-center">
-                                    </div>
+
 
                                 </div>
                                 <!-- Add this container for pagination links -->
@@ -579,18 +584,99 @@
                                     <!-- Pagination links will be inserted here -->
                                 </div>
                             </div>
+                            <div class="col-12 col-lg-4">
+                                <div class="calculator">
+                                    <div class="input-calu-box">
+                                        <div class="calu-box-main">
+                                            <div class="input-output-value">
+                                                <p>Items Total</p>
+                                                <h6 id="items-total">00.00</h6>
+                                            </div>
+                                            {{-- <div class="input-output-value">
+                                                <p>Qty</p>
+                                                <h6>00.00</h6>
+                                            </div> --}}
+                                            <div class="input-output-value">
+                                                <p>To Pay</p>
+                                                <h6 id="to-pay">00.00</h6>
+                                            </div>
+                                            <div class="input-output-value">
+                                                <p>Paid Amount</p>
+                                                <h6 id="paid-amount">00.00</h6>
+                                            </div>
+                                        </div>
 
-                            <div class="d-md-block col-12 col-lg-4">
+                                        <div class="calu-box-main">
+                                            
+                                            <div class="input-output-value">
+                                                <p>Balance</p>
+                                                <h6 id="balance">00.00</h6>
+                                            </div>
+                                            <div class="input-output-value">
+                                                <p>Change</p>
+                                                <h6 id="change">00.00</h6>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <input type="text" id="display" disabled>
+                                    <div class="two-input-box-radio">
+                                        <div class="radio-box-main">
+                                            <input type="radio" id="cash" name="fav_language" value="cash">
+                                            <label for="cash">Cash</label>
+                                        </div>
+                                        <div class="radio-box-main">
+                                            <input type="radio" id="card" name="fav_language" value="card">
+                                            <label for="card">Card</label>
+                                        </div>
+                                    </div>
+                                    <div class="buttons">
+                                        <button class="btn-calcu"
+                                            onclick="appendNumber(5)">{{ $currency }}5</button>
+                                        <button class="btn-calcu"
+                                            onclick="appendNumber(10)">{{ $currency }}10</button>
+                                        <button class="btn-calcu"
+                                            onclick="appendNumber(20)">{{ $currency }}20</button>
+                                        <button class="btn-calcu"
+                                            onclick="appendNumber(50)">{{ $currency }}50</button>
+                                        <button class="btn-calcu" onclick="appendNumber(7)">7</button>
+                                        <button class="btn-calcu" onclick="appendNumber(8)">8</button>
+                                        <button class="btn-calcu" onclick="appendNumber(9)">9</button>
+                                        <button class="btn-calcu red-btn" onclick="clearDisplay()">Clear</button>
+                                        <button class="btn-calcu" onclick="appendNumber(4)">4</button>
+                                        <button class="btn-calcu" onclick="appendNumber(5)">5</button>
+                                        <button class="btn-calcu" onclick="appendNumber(6)">6</button>
+                                        <button class="btn-calcu red-btn" onclick="deleteLast()">Delete</button>
+                                        <button class="btn-calcu" onclick="appendNumber(1)">1</button>
+                                        <button class="btn-calcu" onclick="appendNumber(2)">2</button>
+                                        <button class="btn-calcu" onclick="appendNumber(3)">3</button>
+                                        <button class="btn-calcu grand-total-btn" onclick="calculateGrandTotal()"
+                                            id="grand-total-actual-btn">00.00</button>
+                                        <button class="btn-calcu" onclick="appendNumber(0)">0</button>
+                                        <button class="btn-calcu" onclick="appendNumber(`00`)">00</button>
+                                        <button class="btn-calcu" onclick="appendNumber(`.`)">.</button>
+                                        <button class="btn-calcu grand-total-btn" onclick="calculateGrandTotal()"
+                                            id="grand-total-round-btn">00.00</button>
+                                    </div>
+                                    <button type="submit" id="save_pos" class="btn btn-primary">
+                                        <i class="i-Yes me-2 font-weight-bold"></i>
+                                        {{ __('translate.Submit') }}
+                                    </button>
+                                </div>
+                            </div>
+
+
+                            {{-- <div class="d-md-block col-12 col-lg-4">
                                 <div class="card category-card">
                                     <div class="category-head">
                                         <h5 class="fw-semibold m-0">{{ __('translate.All_Category') }}</h5>
                                     </div>
                                     <ul class="p-0" id="CategoryUl">
-                                        {{-- Category Print Here Using Ajax --}}
+                                        Category Print Here Using Ajax
                                     </ul>
                                 </div>
+                            </div> --}}
 
-                            </div>
                         </div>
                     </div>
             </div>
@@ -601,6 +687,83 @@
     <audio id="clickSound" src="{{ asset('assets/audio/Beep.wav') }}"></audio>
 
     {{-- --------------------------------------------------------------------------------------------- --}}
+
+    <script>
+        function appendNumber(number) {
+            const display = document.getElementById('display');
+            display.value += number;
+            $("#paid-amount").text(display.value);
+            $("#paying_amount").val(display.value);
+        
+            if($("#paid-amount").text() > $("#GrandTotal").val()) {
+                $("#change").text(parseFloat($("#paid-amount").text()) - parseFloat($("#GrandTotal").text()));
+            }
+
+            console.log(display.value);
+            console.log($("#GrandTotal").text());
+        }
+
+        function calculateGrandTotal() {
+            var currentValue = $("#grand-total-round-btn").text();
+            const display = document.getElementById('display');
+            display.value += currentValue;
+            $("#paid-amount").text(display.value);
+            $("#paying_amount").val(display.value);
+        }
+
+        function clearDisplay() {
+            const display = document.getElementById('display');
+            display.value = '';
+            $("#paid-amount").text('00.00');
+            $("#paying_amount").val('00.00');
+            $("#change").text('00.00');
+        }
+
+        function deleteLast() {
+            const display = document.getElementById('display');
+            display.value = display.value.slice(0, -1);
+            $("#paid-amount").text(display.value || '00.00');
+            $("#paying_amount").val(display.value || '00.00');
+        }
+
+        $("#cash").on("change", function() {
+            if ($(this).is(':checked')) {
+                var cashOptionValue = null;
+
+                // Find the value associated with the "Cash" option
+                $("#payment_method_id option").each(function() {
+                    if ($(this).text().trim() === 'Cash') {
+                        cashOptionValue = $(this).val();
+                        return false; // Break out of the loop
+                    }
+                });
+
+                // Set the select box to the "Cash" option if found
+                if (cashOptionValue !== null) {
+                    $("#payment_method_id").val(cashOptionValue).trigger("change");
+                }
+            }
+        });
+
+        $("#card").on("change", function() {
+            if ($(this).is(':checked')) {
+                var cashOptionValue = null;
+
+                // Find the value associated with the "Cash" option
+                $("#payment_method_id option").each(function() {
+                    if ($(this).text().trim() === 'Credit card') {
+                        cashOptionValue = $(this).val();
+                        return false; // Break out of the loop
+                    }
+                });
+
+                // Set the select box to the "Cash" option if found
+                if (cashOptionValue !== null) {
+                    $("#payment_method_id").val(cashOptionValue).trigger("change");
+                }
+            }
+        });
+    </script>
 
     <script type="text/javascript">
         $(window).on('load', function() {
@@ -764,6 +927,14 @@
                 $("#discount").val('');
                 $("#orderTax").val('');
                 $("#GrandTotal").text('');
+                $("#grand-total-actual-btn").text('00.001');
+                $("#grand-total-round-btn").text('00.001');
+                $("#items-total").text('00.00');
+                $("#balance").text('00.00');
+                $("#paid-amount").text('00.00');
+                $("#to-pay").text('00.00');
+                $("#display").val('00.00');
+                $("#change").text('00.00');
                 $("#discountType").val('');
                 $("#discountInput").val('');
                 $("#discountAmount").val('');
@@ -960,6 +1131,12 @@
                             $("#orderTax").val("");
                             $("#discount").val("");
                             $("#GrandTotal").text("");
+                            $("#grand-total-actual-btn").text('00.00');
+                            $("#grand-total-round-btn").text('00.00');
+                            $("#items-total").text('00.00');
+                            $("#balance").text('00.00');
+                            $("#to-pay").text('00.00');
+                            $("#change").text('00.00');
                             $("#discountType").val("");
                             $("#warehouse_id").attr("disabled", false);
                             $("#warehouse_id").css("cursor", "pointer");
@@ -1286,6 +1463,12 @@
                     deleteProductFromCart(id);
                     updateGrandTotalWithShippingAndTax();
                     $("#GrandTotal").text(0);
+                    $("#grand-total-actual-btn").text(0);
+                    $("#grand-total-round-btn").text(0);
+                    $("#items-total").text(0);
+                    $("#balance").text(0);
+                    $("#to-pay").text(0);
+                    $("#change").text(0);
                     $("#paying_amount_badge").text("Grand Total: " + 0);
                 });
 
@@ -1554,6 +1737,11 @@
                 // Update grand total without changing previous calculation
                 total = total.toFixed(2);
                 $("#GrandTotal").text(total);
+                $("#grand-total-actual-btn").text(total);
+                $("#grand-total-round-btn").text(Math.ceil(total));
+                $("#items-total").text(total);
+                $("#balance").text(total);
+                $("#to-pay").text(total);
 
                 // Assuming you have an element for TaxNet, update its value
                 $("#TaxNet").text(taxNet.toFixed(2));
@@ -1633,6 +1821,12 @@
 
                 if (data == null) {
                     $("#GrandTotal").text("0");
+                    $("#grand-total-actual-btn").text("00.00");
+                    $("#grand-total-round-btn").text("00.00");
+                    $("#items-total").text("0");
+                    $("#balance").text("0");
+                    $("#to-pay").text("0");
+                    $("#change").text("0");
                     $("#paying_amount_badge").text("Grand Total: " + 0);
                 }
 
@@ -1812,6 +2006,15 @@
                             $("#orderTax").val('');
                             $("#payment_method_id").val('');
                             $("#GrandTotal").text('');
+                            $("#grand-total-actual-btn").text('00.00');
+                            $("#grand-total-round-btn").text('00.00');
+                            $("#balance").text('00.00');
+                            $("#items-total").text('00.00');
+                            $("#to-pay").text('00.00');
+                            $("#change").text('00.00');
+                            $("#paid-amount").text('00.00');
+                            $("#display").val('');
+
                             $("#note").val('');
                             $(".sale_note").val('');
                             $("#paying_amount").val('');
@@ -1928,5 +2131,265 @@
 
     .discount-select-type {
         width: 125px !important;
+    }
+
+    ul#CategoryUl {
+        position: absolute;
+        top: -30px;
+        background-color: white;
+        border-radius: 10px;
+        border: 1px solid #ff000040;
+        z-index: 99999;
+        padding: 10px;
+        left: 50px;
+        max-width: 250px;
+        width: 200px;
+        transition: .3s;
+        box-shadow: 5px 5px 20px 5px #00000014;
+    }
+
+    ul#CategoryUl li#Category {
+        display: none;
+        cursor: pointer;
+        font-size: 16px;
+        color: black;
+    }
+
+    ul#CategoryUl li#Category:nth-child(1) {
+        display: block;
+    }
+
+    ul#CategoryUl:hover li#Category {
+        display: block !important;
+        transition: .3s;
+    }
+
+    ul#CategoryUl li#Category i {
+        color: red;
+        margin-right: 5px;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    ul#CategoryUl li#Category:hover {
+        background-color: whitesmoke;
+    }
+
+    ul#CategoryUl .category-item.CategorySelected {
+        color: red !important;
+    }
+
+    .calculator {
+        border: 2px solid #333;
+        border-radius: 10px;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    #display {
+        width: 100%;
+        height: 50px;
+        font-size: 24px;
+        text-align: right;
+        margin-bottom: 10px;
+        padding-right: 10px;
+        border: 1px solid #f00;
+        border-radius: 5px;
+        color: black;
+        font-size: 14px;
+    }
+
+    .buttons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        row-gap: 10px;
+        column-gap: 10px;
+    }
+
+    .btn-calcu {
+        font-size: 24px;
+        padding: 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #f1f1f1;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .btn-calcu:hover {
+        background-color: #ddd;
+    }
+
+    .calculator .input-calu-box {
+        display: flex;
+    }
+
+    .calculator .input-calu-box .calu-box-main {
+        width: 50%;
+    }
+
+    .calculator .input-calu-box .calu-box-main .input-output-value {
+        display: flex;
+        align-items: center;
+        column-gap: 10px;
+        margin: 5px;
+        flex-direction: column;
+        margin-bottom: 15px;
+        row-gap: 2px;
+    }
+
+    .calculator .input-calu-box .calu-box-main .input-output-value p,
+    .calculator .input-calu-box .calu-box-main .input-output-value h6 {
+        font-size: 12px;
+        margin: 0;
+        padding: 0;
+        font-weight: 700;
+        width: 100%;
+    }
+
+    .calculator .input-calu-box .calu-box-main .input-output-value h6 {
+        text-align: center !important;
+        border: 1px solid red;
+        font-size: 15px;
+        font-weight: 800;
+        padding: 5px;
+        border-radius: 5px;
+    }
+
+    .buttons button.btn-calcu {
+        width: 22%;
+        background-color: black;
+        color: white;
+        transition: .3s;
+        font-size: 14px;
+        padding: 10px 5px;
+    }
+
+    .buttons button.btn-calcu:hover {
+        background-color: red;
+    }
+
+    button.btn-calcu.grand-total-btn {
+        background-color: green;
+        font-size: 10px;
+    }
+
+    button.btn-calcu.red-btn {
+        background-color: red;
+        font-size: 10px;
+    }
+
+    .calculator .two-input-box-radio {
+        display: flex;
+        flex-direction: column;
+        margin: 10px 0;
+        row-gap: 10px;
+    }
+
+    .calculator .two-input-box-radio .radio-box-main {
+        position: relative;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .calculator .two-input-box-radio .radio-box-main input {
+        width: 100%;
+        height: 100%;
+        -webkit-appearance: none;
+    }
+
+    .calculator .two-input-box-radio .radio-box-main label {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        position: absolute;
+        color: black;
+        border: 1px solid black;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        cursor: pointer;
+        font-weight: 800;
+        font-size: 16px;
+    }
+
+    .calculator .two-input-box-radio .radio-box-main input[type="radio"]+label::after {
+        color: black;
+    }
+
+
+    .calculator .two-input-box-radio .radio-box-main input[type="radio"]:checked+label::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        margin: 0;
+        color: white;
+        line-height: 2.4em;
+        border-radius: 10px;
+    }
+
+
+    .calculator .two-input-box-radio .radio-box-main input[type="radio"]:checked+label {
+        background-color: black;
+        color: white;
+    }
+
+    .calculator .two-input-box-radio .radio-box-main input[type="radio"]:checked+label {
+        color: white !important;
+    }
+
+    .calculator button#save_pos {
+        width: 100%;
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        column-gap: 5px;
+        line-height: 0;
+        padding: 10px 0;
+        transition: .3s;
+    }
+
+    .calculator button#save_pos i {
+        margin: 0 !important;
+    }
+
+    .calculator button#save_pos:hover {
+        background-color: black;
+        box-shadow: none;
+        border: 1px solid black;
+    }
+
+    @media only screen and (max-width: 767px) {
+
+        ul#CategoryUl li#Category {
+            font-size: 9px;
+        }
+
+        ul#CategoryUl {
+            top: -30px;
+            padding: 5px;
+            left: 5px;
+            max-width: 100px;
+            width: 100px;
+        }
+
+        ul#CategoryUl li#Category i {
+            margin-right: 1px;
+            font-size: 8px;
+        }
     }
 </style>

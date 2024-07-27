@@ -137,7 +137,7 @@
             </tr>
 
             <tr v-show="isPaidLessThanTotal">
-              <td colspan="3" class="total">{{ __('translate.Due') }}</td>
+              <td colspan="3" class="total">{{ __('translate.Change') }}</td>
               <td class="total text-right">
                 @{{sale.due}}
               </td>
