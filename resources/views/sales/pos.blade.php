@@ -607,7 +607,7 @@
                                         </div>
 
                                         <div class="calu-box-main">
-                                            
+
                                             <div class="input-output-value">
                                                 <p>Balance</p>
                                                 <h6 id="balance">00.00</h6>
@@ -694,13 +694,13 @@
             display.value += number;
             $("#paid-amount").text(display.value);
             $("#paying_amount").val(display.value);
-        
-            if($("#paid-amount").text() > $("#GrandTotal").val()) {
-                $("#change").text(parseFloat($("#paid-amount").text()) - parseFloat($("#GrandTotal").text()));
+
+            if ($("#GrandTotal").val()) {
+                if ($("#paid-amount").text() > $("#GrandTotal").val()) {
+                    $("#change").text(parseFloat($("#paid-amount").text()) - parseFloat($("#GrandTotal").text()));
+                }
             }
 
-            console.log(display.value);
-            console.log($("#GrandTotal").text());
         }
 
         function calculateGrandTotal() {
@@ -1367,7 +1367,6 @@
                 const warehouseId = $(this).val();
                 warehouse_id = warehouseId;
                 const categoryId = $(".category-item.CategorySelected").data("id");
-                console.log(categoryId, warehouseId);
                 ProductByCategory(categoryId, warehouseId, "Warehouse");
                 selectedWarehouse = warehouseId;
                 data = null;
