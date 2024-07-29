@@ -112,8 +112,8 @@
 
             <div class="content-section" id="main-pos">
                 <section class="pos-content">
-                    <div class="d-flex align-items-center">
-                        <div class="w-50 text-gray-600 position-relative">
+                    <div class="d-flex align-items-end">
+                        {{-- <div class="w-50 text-gray-600 position-relative">
                             <div id="autocomplete" class="autocomplete">
                                 <input type="text" class="form-control border border-gray-300 py-3 pr-3"
                                     placeholder="{{ __('translate.Scan_Search_Product_by_Code_Name') }}" />
@@ -124,16 +124,12 @@
                         </div>
                         <div class="w-50 text-gray-600 position-relative">
                             <div id="autocomplete" class="autocomplete">
-                                {{-- category --}}
                                 <ul id="CategoryUl"></ul>
                             </div>
-                        </div>
-                        <div style="position: relative;">
-                            <span id="hold-order-count"
-                                style="user-select: none; position: absolute; top: -8px; right: -8px; background-color: rgb(252, 51, 51); color: white; border-radius: 50%; padding-left: 6px; padding-right: 6px;"></span>
-                            <button class="btn btn-primary btn-sm ms-3" id="show-hold-order">
-                                Hold Orders
-                            </button>
+                        </div> --}}
+                        <div class="position-relative">
+                            <span id="hold-order-count" style="user-select: none; position: absolute; top: -8px; right: -8px; background-color: rgb(252, 51, 51); color: white; border-radius: 50%; padding-left: 6px; padding-right: 6px;"></span>
+                            <button class="btn btn-primary btn-sm ms-3" id="show-hold-order">Hold Orders</button>
                         </div>
                     </div>
 
@@ -142,7 +138,7 @@
                             <form>
 
                                 <!-- warehouse -->
-                                <div class="filter-box">
+                                {{-- <div class="filter-box">
                                     <label>Warehouse <span class="field_required">*</span></label>
                                     <select name="warehouse_id" class="form-control" id="warehouse_id">
                                         <option value="">Select Warehouse</option>
@@ -153,7 +149,9 @@
                                             </option>
                                         @endforeach
                                     </select>
-                                </div>
+                                </div> --}}
+
+                                <input type="hidden" name="warehouse_id" id="warehouse_id" value="{{ $settings->warehouse_id }}">
 
                                 <!-- Customer -->
                                 <div class="filter-box d-flex justify-content-between align-items-center">
@@ -191,7 +189,7 @@
                                                     Delivery Charge
                                                 </span>
 
-                                                <div class="col-lg-8 col-sm-12">
+                                                {{-- <div class="col-lg-8 col-sm-12">
                                                     <div class="input-group text-right">
                                                         <input type="text" class="no-focus form-control pos-shipping"
                                                             id="shipping">
@@ -199,7 +197,7 @@
                                                             id="basic-addon3">{{ $currency }}</span>
                                                     </div>
                                                     <span class="error"></span>
-                                                </div>
+                                                </div> --}}
                                             </div>
 
                                             <div class="summery-item mb-2 row">
@@ -600,18 +598,19 @@
                                                 <p>To Pay</p>
                                                 <h6 id="to-pay">00.00</h6>
                                             </div>
-                                            <div class="input-output-value">
-                                                <p>Paid Amount</p>
-                                                <h6 id="paid-amount">00.00</h6>
-                                            </div>
                                         </div>
 
                                         <div class="calu-box-main">
 
                                             <div class="input-output-value">
+                                                <p>Paid Amount</p>
+                                                <h6 id="paid-amount">00.00</h6>
+                                            </div>
+
+                                            {{-- <div class="input-output-value">
                                                 <p>Balance</p>
                                                 <h6 id="balance">00.00</h6>
-                                            </div>
+                                            </div> --}}
                                             <div class="input-output-value">
                                                 <p>Change</p>
                                                 <h6 id="change">00.00</h6>
