@@ -135,7 +135,7 @@
                     </div>
 
                     <div class="row pos-card-left">
-                        <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
                             <form>
 
                                 <!-- warehouse -->
@@ -569,7 +569,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12 mt-3">
+                    <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 mt-3">
                         <div class="row">
                             <div class="col-12 col-lg-8">
                                 <div class="row" id="products-box">
@@ -2418,6 +2418,71 @@
         box-shadow: none;
         border: 1px solid black;
     }
+    .cart-item.box-shadow-3 {
+    position: relative;
+}
+
+.cart-item.box-shadow-3 a#DeleteProduct {
+    position: absolute;
+    top: -10px;
+    right: 10px;
+}
+
+.cart-item.box-shadow-3 a#DeleteProduct i {
+    font-size: 30px !important;
+}
+
+    @media only screen and (max-width: 1470px){
+
+.buttons button.btn-calcu {
+    width: 21%;
+    font-size: 12px;
+}
+button.btn-calcu.red-btn,button#grand-total-actual-btn {
+    font-size: 8px;
+}
+button#grand-total-round-btn {
+    font-size: 8px;
+}
+    }
+        @media only screen and (max-width: 1360px){
+.cart-qty {
+    font-size: 14px;
+    height: 30px;
+    width: 25px;
+}
+.pos-body .pos-content .cart-item {
+    padding: 5px 10px;
+    margin-top: 15px;
+    height: 85px;
+}
+.cart-item.box-shadow-3 a#DeleteProduct i {
+    font-size: 25px !important;
+}
+.cart-item.box-shadow-3 a#DeleteProduct {
+    position: absolute;
+    top: -5px;
+    right: 5px;
+}
+.font_16 {
+    font-size: 14px;
+}
+        }
+
+        @media only screen and (max-width: 1188px){
+    .buttons button.btn-calcu {
+        width: 19%;
+        font-size: 10px;
+        padding: 7px 2px;
+    }
+    button.btn-calcu.red-btn,button#grand-total-actual-btn {
+    font-size: 7px;
+}
+button#grand-total-round-btn {
+    font-size: 8px;
+}
+
+        }
 
     @media only screen and (max-width: 767px) {
 
