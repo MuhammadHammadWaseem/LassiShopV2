@@ -12,7 +12,7 @@
         <meta data-n-head="ssr" data-hid="i18n-og" property="og:locale" content="en">
         <meta data-n-head="ssr" data-hid="i18n-og-alt-ar" property="og:locale:alternate" content="ar">
         <!-- Favicon icon -->
-    <link rel=icon href={{ asset('images/' . $settings->logo) }}>
+        <link rel=icon href={{ asset('images/' . $settings->logo) }}>
         <style
             data-vue-ssr-id="603044f4:0 603044f4:1 4f857918:0 86684824:0 3191d5ad:0 375b3626:0 2643d6a7:0 7f538b62:0 224d7b4a:0 44771f32:0 68a9ba70:0">
             @import url(https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600&display=swap);
@@ -893,18 +893,19 @@
             }
 
             .place-content {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    flex-grow: 1;
-    position: relative;
-    padding-top: 100px;
-    padding-bottom: 0;
-    background: var(--color-white);
-    border-radius: 24px 24px 0 0;
-    margin-top: -130px;
-    box-shadow: var(--shadow-0);
-}
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+                flex-grow: 1;
+                position: relative;
+                padding-top: 100px;
+                padding-bottom: 0;
+                background: var(--color-white);
+                border-radius: 24px 24px 0 0;
+                margin-top: -130px;
+                box-shadow: var(--shadow-0);
+            }
+
             .place-content__footer {
                 font-size: 12px;
                 margin-top: auto;
@@ -3268,14 +3269,14 @@
         </style>
         <style type="text/css">
             /*!
-       * Cropper.js v1.6.0
-       * https://fengyuanchen.github.io/cropperjs
-       *
-       * Copyright 2015-present Chen Fengyuan
-       * Released under the MIT license
-       *
-       * Date: 2023-08-26T08:14:25.104Z
-       */
+           * Cropper.js v1.6.0
+           * https://fengyuanchen.github.io/cropperjs
+           *
+           * Copyright 2015-present Chen Fengyuan
+           * Released under the MIT license
+           *
+           * Date: 2023-08-26T08:14:25.104Z
+           */
             .cropper-container {
                 direction: ltr;
                 font-size: 0;
@@ -6075,41 +6076,46 @@
             .menu-item-list__item:not(:last-child) {
                 margin-bottom: 56px
             }
+
             .place .wrapper {
                 padding-bottom: 60px !important;
             }
+
             div#__nuxt {
-    background-color: #ff000000 !important;
-}
+                background-color: #ff000000 !important;
+            }
 
-div#__layout {
-    background-color: #ff000000 !important;
-}
+            div#__layout {
+                background-color: #ff000000 !important;
+            }
 
-main.place {
-    background-color: #ff000000 !important;
-}
+            main.place {
+                background-color: #ff000000 !important;
+            }
 
-.place-body {
-    background-color: #ff000000 !important;
-}
-body{
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-.main-site-logo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #ff000000;
-    margin-bottom: 30px;
-    z-index: 99;
-}
-.place-content.wrapper {
-    background: rgb(191 30 46 / 6%);
-    backdrop-filter: blur(3px);
-    box-shadow: 0px 0px 15px 5px #00000012;
-}
+            .place-body {
+                background-color: #ff000000 !important;
+            }
+
+            body {
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+
+            .main-site-logo {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: #ff000000;
+                margin-bottom: 30px;
+                z-index: 99;
+            }
+
+            .place-content.wrapper {
+                background: rgb(191 30 46 / 6%);
+                backdrop-filter: blur(3px);
+                box-shadow: 0px 0px 15px 5px #00000012;
+            }
         </style>
     </head>
 
@@ -6120,7 +6126,8 @@ body{
                     style="--color-primary: #bf1e2e; --color-primary-1: #bf1e2e; --color-primary-4: rgba(76,214,198,0.15); --color-primary-5: rgba(76,214,198,0.1);">
                     <div itemscope="itemscope" itemtype="https://schema.org/LocalBusiness" class="place-body">
                         <div class="main-site-logo">
-                            <img src="{{ asset('images/' . $settings->logo) }}" alt="" width="100px" height="100px">
+                            <img src="{{ asset('images/' . $settings->logo) }}" alt="" width="100px"
+                                height="100px">
                         </div>
                         <div class="place-content wrapper">
                             <h1 class="place-title"><span>{{ $setting[0]->app_name }}</span> <!----></h1>
@@ -6153,16 +6160,16 @@ body{
                             <div class="order" selected-menu="[object Object]">
                                 <div class="place-nav">
                                     <div class="place-nav__inner wrapper">
-                                            <a href="{{ url('/guest') }}">
-                                                <button class="back-button focus">
-                                                    <svg
-                                                            width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                            xmlns="http://www.w3.org/2000/svg">
-                                                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                                                d="M6.41412 13L12.707 19.2929L11.2928 20.7071L2.58569 12L11.2928 3.29289L12.707 4.70711L6.41412 11H20.9999V13H6.41412Z"
-                                                                fill="var(--color-black)"></path>
-                                                        </svg>
-                                            </button></a></div>
+                                        <a href="{{ url('/guest') }}">
+                                            <button class="back-button focus">
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                                        d="M6.41412 13L12.707 19.2929L11.2928 20.7071L2.58569 12L11.2928 3.29289L12.707 4.70711L6.41412 11H20.9999V13H6.41412Z"
+                                                        fill="var(--color-black)"></path>
+                                                </svg>
+                                            </button></a>
+                                    </div>
                                 </div>
                                 <h2 class="h2"><span>My order:</span></h2>
                                 <div class="order-item-list">
@@ -6203,8 +6210,10 @@ body{
                                         <div class="col-12 d-flex justify-content-center align-items-start flex-column">
                                             <div class="order-total-price"><span style="font-size: 12px">Delivery: </span>
                                                 <div class="menu-item-price menu-item-price--regular"><span
-                                                        class="menu-item-price__current"><b id="delivery_price" style="font-size: 12px"></b>
-                                                        <span style="font-size: 12px">{{ $setting[0]->Currency->symbol }}</span></span>
+                                                        class="menu-item-price__current"><b id="delivery_price"
+                                                            style="font-size: 12px"></b>
+                                                        <span
+                                                            style="font-size: 12px">{{ $setting[0]->Currency->symbol }}</span></span>
                                                     <!---->
                                                 </div>
                                             </div>
@@ -6219,7 +6228,8 @@ body{
                                     </div>
                                 </div>
 
-                                <button class="place-order focus mt-5" onclick="CheckSession()" id="checkoutBtn">Checkout</button>
+                                <button class="place-order focus mt-5" onclick="CheckSession()"
+                                    id="checkoutBtn">Checkout</button>
                             </div>
                         </div> <!----> <!----> <!---->
                     </div>
@@ -6227,7 +6237,8 @@ body{
             </div>
         </div>
 
-        <div class="modal fade" id="checkoutModal" tabindex="-1" role="dialog" aria-labelledby="checkoutModal" aria-hidden="true">
+        <div class="modal fade" id="checkoutModal" tabindex="-1" role="dialog" aria-labelledby="checkoutModal"
+            aria-hidden="true">
             <div class="modal-dialog modal-md" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -6251,7 +6262,7 @@ body{
                                 <input type="text" required class="form-control" name="phone" id="phone">
                                 <div id="phone-error" class="text-danger"></div>
                             </div>
-                            <div class="form-group mt-3">
+                            {{-- <div class="form-group mt-3">
                                 <label for="city">City</label>
                                 <input type="text" required class="form-control" name="city" id="city">
                                 <div id="city-error" class="text-danger"></div>
@@ -6265,7 +6276,7 @@ body{
                                 <label for="address">Address</label>
                                 <input type="text" required class="form-control" name="address" id="address">
                                 <div id="address-error" class="text-danger"></div>
-                            </div>
+                            </div> --}}
                             <input type="hidden" name="latitude" id="latitude">
                             <input type="hidden" name="longitude" id="longitude">
                             <button type="button" class="btn btn-danger mt-3" onclick="placeOrder()">Submit</button>
@@ -6280,56 +6291,56 @@ body{
 
 <script>
     $(document).ready(function() {
-    calculateTotalPrice();
-    checkCart();
-});
+        calculateTotalPrice();
+        checkCart();
+    });
 
-        function CheckSession() {
-            var dataName = $('#checkoutBtn').data('name');
-            if(dataName === 'Disabled') {
-                toastr.error('Cart is empty');
-            }else{
+    function CheckSession() {
+        var dataName = $('#checkoutBtn').data('name');
+        if (dataName === 'Disabled') {
+            toastr.error('Cart is empty');
+        } else {
 
-                $.ajax({
-                    url: '/guest/checkSession',
-                    type: "POST",
-                    token: "{{ csrf_token() }}",
-                    dataType: "json",
-                    headers: {
-                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                    },
-                    success: function(response) {
-                        console.log(response.guest_order_details);
-                        if(response.guest_order_details.length == 0) {
-                            $("#checkoutModal").modal('show');
-                        } else {
-                            window.location.href = '/guest/checkout';
-                        }
-                    },
-                    error: function(error) {
-                        console.log(error);
+            $.ajax({
+                url: '/guest/checkSession',
+                type: "POST",
+                token: "{{ csrf_token() }}",
+                dataType: "json",
+                headers: {
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                },
+                success: function(response) {
+                    console.log(response.guest_order_details);
+                    if (response.guest_order_details.length == 0) {
+                        $("#checkoutModal").modal('show');
+                    } else {
+                        window.location.href = '/guest/checkout';
                     }
-                });
-            }
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
         }
+    }
 
-function calculateTotalPrice() {
-    var price = 0;
-    var delivery_price = {{ $setting[0]->delivery_charge }};
-    $.ajax({
-        url: '/guest/getProducts',
-        type: "POST",
-        token: "{{ csrf_token() }}",
-        dataType: "json",
-        headers: {
-            "X-CSRF-TOKEN": "{{ csrf_token() }}"
-        },
-        success: function(response) {
-            $(".order-item-list").empty();
+    function calculateTotalPrice() {
+        var price = 0;
+        var delivery_price = {{ $setting[0]->delivery_charge }};
+        $.ajax({
+            url: '/guest/getProducts',
+            type: "POST",
+            token: "{{ csrf_token() }}",
+            dataType: "json",
+            headers: {
+                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+            },
+            success: function(response) {
+                $(".order-item-list").empty();
 
-            for (var productId in response) {
-                if (response.hasOwnProperty(productId)) {
-                    $(".order-item-list").append(`
+                for (var productId in response) {
+                    if (response.hasOwnProperty(productId)) {
+                        $(".order-item-list").append(`
                         <div class="order-item _in-order order-item--regular">
                             <div class="order-item-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px">
                                 <h3 class="order-item-title">${response[productId].name}</h3>
@@ -6354,263 +6365,257 @@ function calculateTotalPrice() {
                             </div>
                         </div>
                     `);
+                    }
                 }
-            }
 
-            var products = response;
-            for (var productId in products) {
-                if (products.hasOwnProperty(productId)) {
-                    p = parseInt(products[productId].price);
-                    q = parseInt(products[productId].quantity);
-                    price += p * q;
+                var products = response;
+                for (var productId in products) {
+                    if (products.hasOwnProperty(productId)) {
+                        p = parseInt(products[productId].price);
+                        q = parseInt(products[productId].quantity);
+                        price += p * q;
+                    }
                 }
+                price += delivery_price;
+                $("#delivery_price").text(delivery_price);
+                $("#total_price").text(price);
+            },
+            error: function(error) {
+                console.log(error);
             }
-            price += delivery_price;
-            $("#delivery_price").text(delivery_price);
-            $("#total_price").text(price);
-        },
-        error: function(error) {
-            console.log(error);
+        });
+    }
+
+    function addToCart(id, price, name, img_path) {
+        $.ajax({
+            url: '/guest/addToCart',
+            type: "POST",
+            token: "{{ csrf_token() }}",
+            dataType: "json",
+            headers: {
+                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+            },
+            data: {
+                id,
+                price,
+                name,
+                img_path,
+                warehouse_id: {{ $setting[0]->warehouse_id }}
+            },
+            success: function(response) {
+                if (response.message) {
+                    toastr.error('Out of stock');
+                } else {
+                    calculateTotalPrice();
+                    $("#count_" + id).css('visibility', 'visible');
+                    $("#count_" + id).css('opacity', '1');
+                    $("#add_" + id).css('opacity', '1');
+                    $("#add_" + id).css('visibility', 'visible');
+                    $("#remove_" + id).css('opacity', '1');
+                    $("#remove_" + id).css('visibility', 'visible');
+                    for (var productId in response.guest_cart) {
+                        if (response.guest_cart.hasOwnProperty(productId)) {
+                            var quantity = response.guest_cart[productId].quantity;
+                            $("#count_" + productId).text(quantity);
+                        }
+                    }
+                }
+            },
+            error: function(data) {
+                console.log("Error:", data);
+            }
+        });
+    }
+
+    function updateQuantity(id, action) {
+        var currentQuantity = parseInt($("#count_" + id).text());
+        if (action === 'decrease' && currentQuantity <= 1) {
+            return; // Don't allow the quantity to go below 1
         }
-    });
-}
 
-function addToCart(id, price, name, img_path) {
-    $.ajax({
-        url: '/guest/addToCart',
-        type: "POST",
-        token: "{{ csrf_token() }}",
-        dataType: "json",
-        headers: {
-            "X-CSRF-TOKEN": "{{ csrf_token() }}"
-        },
-        data: {
-            id,
-            price,
-            name,
-            img_path,
-            warehouse_id: {{ $setting[0]->warehouse_id }}
-        },
-        success: function(response) {
-            if (response.message) {
-                toastr.error('Out of stock');
-            } else {
-                calculateTotalPrice();
-                $("#count_" + id).css('visibility', 'visible');
-                $("#count_" + id).css('opacity', '1');
-                $("#add_" + id).css('opacity', '1');
-                $("#add_" + id).css('visibility', 'visible');
-                $("#remove_" + id).css('opacity', '1');
-                $("#remove_" + id).css('visibility', 'visible');
-                for (var productId in response.guest_cart) {
-                    if (response.guest_cart.hasOwnProperty(productId)) {
-                        var quantity = response.guest_cart[productId].quantity;
+        console.log(id, action);
+        $("#remove_" + id).prop('disabled', true);
+        $("#remove_" + id).css('pointer-events', 'none');
+
+
+
+        $.ajax({
+            url: '/guest/updateQuantity',
+            type: "POST",
+            token: "{{ csrf_token() }}",
+            dataType: "json",
+            headers: {
+                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+            },
+            data: {
+                id: id,
+                action: action,
+                warehouse_id: {{ $setting[0]->warehouse_id }}
+            },
+            success: function(responseData) {
+                if (responseData.message === 'Out of stock') {
+                    toastr.error('Out of stock');
+                }
+                for (var productId in responseData.guest_cart) {
+                    if (responseData.guest_cart.hasOwnProperty(productId)) {
+                        var quantity = responseData.guest_cart[productId].quantity;
                         $("#count_" + productId).text(quantity);
                     }
                 }
+                calculateTotalPrice();
+                checkCart();
+                // $("#remove_" + id).css('disabled', false);
+                // $("#add_" + id).css('disabled', false);
+            },
+            error: function(data) {
+                console.log(data);
             }
-        },
-        error: function(data) {
-            console.log("Error:", data);
-        }
-    });
-}
-
-function updateQuantity(id, action) {
-    var currentQuantity = parseInt($("#count_" + id).text());
-    if (action === 'decrease' && currentQuantity <= 1) {
-        return; // Don't allow the quantity to go below 1
+        });
     }
 
-    console.log(id, action);
-    $("#remove_" + id).prop('disabled', true);
-    $("#remove_" + id).css('pointer-events', 'none');
-
-
-
-    $.ajax({
-        url: '/guest/updateQuantity',
-        type: "POST",
-        token: "{{ csrf_token() }}",
-        dataType: "json",
-        headers: {
-            "X-CSRF-TOKEN": "{{ csrf_token() }}"
-        },
-        data: {
-            id: id,
-            action: action,
-            warehouse_id: {{ $setting[0]->warehouse_id }}
-        },
-        success: function(responseData) {
-            if (responseData.message === 'Out of stock') {
-                toastr.error('Out of stock');
-            }
-            for (var productId in responseData.guest_cart) {
-                if (responseData.guest_cart.hasOwnProperty(productId)) {
-                    var quantity = responseData.guest_cart[productId].quantity;
-                    $("#count_" + productId).text(quantity);
+    function checkCart() {
+        $.ajax({
+            url: '/checkCart',
+            type: "POST",
+            token: "{{ csrf_token() }}",
+            dataType: "json",
+            headers: {
+                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+            },
+            data: {
+                warehouse_id: {{ $setting[0]->warehouse_id }}
+            },
+            success: function(response) {
+                console.log(response.data);
+                if (Object.keys(response.data).length > 0) {
+                    // $("#checkoutBtn").removeAttr('disabled');
+                    $('#checkoutBtn').data('name', 'Enabled').attr('data-name', 'Enabled');
+                } else {
+                    // $("#checkoutBtn").attr('disabled', 'disabled');
+                    $('#checkoutBtn').data('name', 'Disabled').attr('data-name', 'Disabled');
                 }
+            },
+            error: function(data) {
+                console.log("Error:", data);
             }
-            calculateTotalPrice();
-            checkCart();
-            // $("#remove_" + id).css('disabled', false);
-            // $("#add_" + id).css('disabled', false);
-        },
-        error: function(data) {
-            console.log(data);
-        }
-    });
-}
+        });
+    }
 
-function checkCart() {
-    $.ajax({
-        url: '/checkCart',
-        type: "POST",
-        token: "{{ csrf_token() }}",
-        dataType: "json",
-        headers: {
-            "X-CSRF-TOKEN": "{{ csrf_token() }}"
-        },
-        data: {
-            warehouse_id: {{ $setting[0]->warehouse_id }}
-        },
-        success: function(response) {
-            console.log(response.data);
-            if (Object.keys(response.data).length > 0) {
-                // $("#checkoutBtn").removeAttr('disabled');
-                $('#checkoutBtn').data('name', 'Enabled').attr('data-name', 'Enabled');
-            } else {
-                // $("#checkoutBtn").attr('disabled', 'disabled');
-                $('#checkoutBtn').data('name', 'Disabled').attr('data-name', 'Disabled');
-            }
-        },
-        error: function(data) {
-            console.log("Error:", data);
-        }
-    });
-}
+    function remove(id) {
+        // Disable the "Submit" button
+        $("#submitBtn").prop('disabled', true);
 
-function remove(id) {
-    // Disable the "Submit" button
-    $("#submitBtn").prop('disabled', true);
-
-    $.ajax({
-        url: '/guest/removeProduct',
-        type: "POST",
-        token: "{{ csrf_token() }}",
-        dataType: "json",
-        headers: {
-            "X-CSRF-TOKEN": "{{ csrf_token() }}"
-        },
-        data: {
-            id: id,
-            warehouse_id: {{ $setting[0]->warehouse_id }}
-        },
-        success: function(responseData) {
-            checkCart();
-            if (responseData.message === 'Out of stock') {
-                toastr.error('Out of stock');
-            }
-            for (var productId in responseData.guest_cart) {
-                if (responseData.guest_cart.hasOwnProperty(productId)) {
-                    var quantity = responseData.guest_cart[productId].quantity;
-                    $("#count_" + productId).text(quantity);
+        $.ajax({
+            url: '/guest/removeProduct',
+            type: "POST",
+            token: "{{ csrf_token() }}",
+            dataType: "json",
+            headers: {
+                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+            },
+            data: {
+                id: id,
+                warehouse_id: {{ $setting[0]->warehouse_id }}
+            },
+            success: function(responseData) {
+                checkCart();
+                if (responseData.message === 'Out of stock') {
+                    toastr.error('Out of stock');
                 }
-            }
-            calculateTotalPrice();
-        },
-        error: function(data) {
-            console.log(data);
-        }
-    });
-}
-
-function placeOrder() {
-
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            document.getElementById('latitude').value = position.coords.latitude;
-            document.getElementById('longitude').value = position.coords.longitude;
-            $.ajax({
-                url: '/locations/search',
-                type: "GET",
-                token: "{{ csrf_token() }}",
-                dataType: "json",
-                headers: {
-                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                },
-                data: {
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude
-                },
-                success: function(response) {
-                    console.log(response.data.length);
-                    if(response.data.length > 0) {
-                        console.log("success");
-                        $.ajax({
-                            url: '/guest/placeOrder',
-                            type: "POST",
-                            token: "{{ csrf_token() }}",
-                            dataType: "json",
-                            headers: {
-                                "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                            },
-                            data: {
-                                name: $("#name").val(),
-                                email: $("#email").val(),
-                                phone: $("#phone").val(),
-                                city: $("#city").val(),
-                                country: $("#country").val(),
-                                address: $("#address").val()
-                            },
-                            success: function(response) {
-                                $(".error-message").remove();
-                                $("#checkoutModal").modal('hide');
-                                $("#name").val('');
-                                $("#email").val('');
-                                $("#phone").val('');
-                                $("#city").val('');
-                                $("#country").val('');
-                                $("#address").val('');
-                                window.location.href = '{{ url('/guest/checkout') }}';
-                            },
-                            error: function(data) {
-                                console.log(data.responseText);
-                                displayErrors(JSON.parse(data.responseText));
-                            }
-                        });
-                    }else{
-                        toastr.error(`Sorry, we don't deliver to your area.`);
+                for (var productId in responseData.guest_cart) {
+                    if (responseData.guest_cart.hasOwnProperty(productId)) {
+                        var quantity = responseData.guest_cart[productId].quantity;
+                        $("#count_" + productId).text(quantity);
                     }
-                },
-                error: function(data) {
-                    console.log(data);
                 }
+                calculateTotalPrice();
+            },
+            error: function(data) {
+                console.log(data);
+            }
+        });
+    }
+
+    function placeOrder() {
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                document.getElementById('latitude').value = position.coords.latitude;
+                document.getElementById('longitude').value = position.coords.longitude;
+                $.ajax({
+                    url: '/locations/search',
+                    type: "GET",
+                    token: "{{ csrf_token() }}",
+                    dataType: "json",
+                    headers: {
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    },
+                    data: {
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude
+                    },
+                    success: function(response) {
+                        console.log(response.data.length);
+                        if (response.data.length > 0) {
+                            console.log("success");
+                            $.ajax({
+                                url: '/guest/placeOrder',
+                                type: "POST",
+                                token: "{{ csrf_token() }}",
+                                dataType: "json",
+                                headers: {
+                                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                                },
+                                data: {
+                                    name: $("#name").val(),
+                                    email: $("#email").val(),
+                                    phone: $("#phone").val(),
+                                },
+                                success: function(response) {
+                                    $(".error-message").remove();
+                                    $("#checkoutModal").modal('hide');
+                                    $("#name").val('');
+                                    $("#email").val('');
+                                    $("#phone").val('');
+                                    window.location.href =
+                                        '{{ url('/guest/checkout') }}';
+                                },
+                                error: function(data) {
+                                    console.log(data.responseText);
+                                    displayErrors(JSON.parse(data.responseText));
+                                }
+                            });
+                        } else {
+                            toastr.error(`Sorry, we don't deliver to your area.`);
+                        }
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                });
             });
-        });
-    }
-}
-
-function displayErrors(errors) {
-    // Clear previous error messages
-    $(".error-message").remove();
-
-    // Display general error message
-    var errorMessage = errors.message;
-    if (errorMessage) {
-        $("#general-errors").html('<span class="error-message">' + errorMessage + '</span>');
+        }
     }
 
-    // Iterate through field errors and display them
-    var fieldErrors = errors.errors;
-    if (fieldErrors) {
-        $.each(fieldErrors, function(fieldName, messages) {
-            var fieldId = fieldName.toLowerCase(); // Convert field name to lowercase
+    function displayErrors(errors) {
+        // Clear previous error messages
+        $(".error-message").remove();
 
-            // Display error messages next to respective input fields
-            $("#" + fieldId + "-error").html('<span class="error-message">' + messages[0] + '</span>');
-        });
+        // Display general error message
+        var errorMessage = errors.message;
+        if (errorMessage) {
+            $("#general-errors").html('<span class="error-message">' + errorMessage + '</span>');
+        }
+
+        // Iterate through field errors and display them
+        var fieldErrors = errors.errors;
+        if (fieldErrors) {
+            $.each(fieldErrors, function(fieldName, messages) {
+                var fieldId = fieldName.toLowerCase(); // Convert field name to lowercase
+
+                // Display error messages next to respective input fields
+                $("#" + fieldId + "-error").html('<span class="error-message">' + messages[0] + '</span>');
+            });
+        }
     }
-}
-
 </script>

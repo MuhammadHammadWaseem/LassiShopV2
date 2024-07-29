@@ -6176,7 +6176,7 @@ select#payment_method_id {
                                                 <span class="order-item-title" id="namePrint" style="font-size: 16px!important;">{{ $order['name'] }}</span>
                                                 <span class="order-item-title" id="phonePrint" style="font-size: 16px!important;">{{ $order['phone'] }}</span>
                                                 <span class="order-item-title" id="emailPrint" style="font-size: 16px!important;">{{ $order['email'] }}</span>
-                                                <span class="order-item-title" style="font-size: 14px!important; color: #888888;"><span id="countryPrint">{{ $order['country'] }}</span> <span id="cityPrint">{{ $order['city'] }}</span> <span id="addressPrint">{{ $order['address'] }}</span></span>
+                                                {{-- <span class="order-item-title" style="font-size: 14px!important; color: #888888;"><span id="countryPrint">{{ $order['country'] }}</span> <span id="cityPrint">{{ $order['city'] }}</span> <span id="addressPrint">{{ $order['address'] }}</span></span> --}}
                                                 </div>
                                                 <div class="div">
                                                     <button class="btn btn-outline-danger" id="edit">Edit</button>
@@ -6195,7 +6195,7 @@ select#payment_method_id {
                                         <select name="payment_method_id" id="payment_method_id" class="form-select">
                                             <option selected disabled>Select payment method</option>
                                             @foreach ($payment_method as $p)
-                                                @if ($p->title == 'Cash On Delivery' ||$p->title == 'Stripe')
+                                                @if ($p->title == 'Cash' ||$p->title == 'Credit card')
                                                     <option value="{{ $p->id }}" data-value="{{ $p->title }}">{{ $p->title }}</option>
                                                 @endif
                                             @endforeach
@@ -6229,14 +6229,14 @@ select#payment_method_id {
                                         </div>
                                         <div class="col-md-6 d-flex justify-content-end align-items-end">
                                             {{-- <button class="btn btn-danger d-none me-2" id="placeOrder" onclick="confirmOrder()">Place Order</button> --}}
-                                            <form id="paymentForm" action="{{ route('guest.stripe') }}" method="GET">
+                                            <form id="paymentForm" action="{{ route('guest.cod') }}" method="GET">
                                                 @csrf
                                                 <input type="hidden" name="payment_method_id" id="paymentMethod">
                                                 <input type="hidden" name="delivery_charges" id="delivery_charges" value="{{ $setting[0]->delivery_charge }}">
                                                 <input type="hidden" name="GrandTotal" id="GrandTotal" value="{{ $total + $setting[0]->delivery_charge }}">
                                                 <input type="hidden" name="warehouse_id" id="warehouse_id" value="{{ $setting[0]->warehouse_id }}">
                                                 <input type="hidden" name="paying_amount" id="paying_amount" value="{{ $total + $setting[0]->delivery_charge }}">
-                                                <button type="submit" class="btn btn-danger d-none me-2" id="placeOrder">Place Order</button>
+                                                <button type="submit" class="btn btn-danger me-2" id="placeOrder">Place Order</button>
                                             </form>
                                             {{-- <a class="btn btn-danger d-none me-2" id="placeOrder">Place Order</a> --}}
                                         </div>
@@ -6275,7 +6275,7 @@ select#payment_method_id {
                                 <input type="text" required class="form-control" name="phone" id="phone">
                                 <div id="phone-error" class="text-danger"></div>
                             </div>
-                            <div class="form-group mt-3">
+                            {{-- <div class="form-group mt-3">
                                 <label for="city">City</label>
                                 <input type="text" required class="form-control" name="city" id="city">
                                 <div id="city-error" class="text-danger"></div>
@@ -6289,7 +6289,7 @@ select#payment_method_id {
                                 <label for="address">Address</label>
                                 <input type="text" required class="form-control" name="address" id="address">
                                 <div id="address-error" class="text-danger"></div>
-                            </div>
+                            </div> --}}
                             <button type="button" class="btn btn-danger mt-3" onclick="placeOrder()" id="submitBtn">update</button>
                         </form>
                     </div>
@@ -6304,34 +6304,15 @@ select#payment_method_id {
     var route;
     $(document).ready(function() {
         $("#payment_method_id").change(function() {
-            var selectedValue = $(this).val();
-            var selectedOption = $(this).find("option:selected");
-            $("#paymentMethod").val(selectedValue);
-            var dataValue = selectedOption.data("value");
-
-            if (selectedValue !== "") {
-                $("#placeOrder").removeClass("d-none");
-                if (dataValue == 'Stripe') {
-                    route = "{{ route('guest.stripe') }}";
-                    $("#paymentForm").attr("action", route);
-                }
-                if (dataValue == 'Cash On Delivery') {
-                    route = "{{ route('guest.cod') }}";
-                    $("#paymentForm").attr("action", route);
-
-                }
-            } else {
-                $("#placeOrder").addClass("d-none");
-            }
-        });
-
-
+        var selectedValue = $(this).val();
+        var selectedOption = $(this).find("option:selected");
+        $("#paymentMethod").val(selectedValue);
+        console.log(selectedValue);
+    });
         $('#name').val('{{ $order['name'] }}');
         $('#email').val('{{ $order['email'] }}');
         $('#phone').val('{{ $order['phone'] }}');
-        $('#city').val('{{ $order['city'] }}');
-        $('#country').val('{{ $order['country'] }}');
-        $('#address').val('{{ $order['address'] }}');
+       
 
         $('#edit').click(function() {
             $('#checkoutModal').modal('show');
@@ -6405,7 +6386,7 @@ function displayErrors(errors) {
 
 function confirmOrder() {
     $.ajax({
-        url: route,
+        url: '/guest/confirmOrder',
         type: "POST",
         token: "{{ csrf_token() }}",
         dataType: "json",

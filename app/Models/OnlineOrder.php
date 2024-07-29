@@ -11,6 +11,7 @@ class OnlineOrder extends Model
     protected $table = 'online_orders';
     protected $fillable = [
         'user_id',
+        'sales_id',
         'name',
         'email',
         'phone',

@@ -26,10 +26,10 @@ class OrderDetailsRequest extends FormRequest
         return [
             'name' => 'required | max:255',
             'email' => 'required|email',
-            'country' => 'required|max:255',
-            'phone' => 'required|numeric',
-            'city' => 'required|max:255',
-            'address' => 'required',
+            'country' => 'max:255',
+            'phone' => 'numeric',
+            'city' => 'max:255',
+            'address' => 'max:255',
         ];
     }
 

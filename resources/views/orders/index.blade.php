@@ -118,8 +118,8 @@
                                     class="i-Add me-2 font-weight-bold" onclick=" print()"></i>Print</button>
                         @endif
                         {{-- <div class="dropdown-menu" aria-labelledby="dropdownMenuLink"> --}}
-                            {{-- <a class="dropdown-item" href="#" onclick="ExportToExcel('xlsx')">excel</a> --}}
-                            {{-- <a class="dropdown-item" href="#">pdf</a> --}}
+                        {{-- <a class="dropdown-item" href="#" onclick="ExportToExcel('xlsx')">excel</a> --}}
+                        {{-- <a class="dropdown-item" href="#">pdf</a> --}}
                         {{-- </div> --}}
                     </div>
                 </div>
@@ -129,6 +129,7 @@
                             <tr>
                                 <th>Id</th>
                                 <th>Name</th>
+                                <th>Order #</th>
                                 <th>Email</th>
                                 <th>Staus</th>
                                 <th>Action</th>
@@ -191,15 +192,16 @@
     $(document).ready(function() {
 
         $.ajax({
-        url: '{{ route('OrderShowOnline') }}',
-        type: 'GET',
-        success: function(response) {
-            response.online_orders.forEach(function(order) {
-                if (order && order.orders && order.orders.id) {
-                    $("#tbody").append(`
+            url: '{{ route('OrderShowOnline') }}',
+            type: 'GET',
+            success: function(response) {
+                response.online_orders.forEach(function(order) {
+                    if (order && order.orders && order.orders.id) {
+                        $("#tbody").append(`
                         <tr>
                             <td>${order.orders.id}</td>
                             <td>${order.orders.name}</td>
+                            <td>${order.orders.order_no}</td>
                             <td>${order.orders.email}</td>
                             <td>
                                 <select class="form-control" onchange="updateStatus(${order.orders.id}, this.value)">
@@ -208,62 +210,85 @@
                                     <option value="delivered" ${order.orders.order_status === 2 ? 'selected' : ''}>delivered</option>
                                 </select>
                             </td>
-                            <td><a class="btn btn-sm btn-outline-success" onclick="ViewOrder(${order.orders.id})"><i class="fa fa-eye"></i></a></td>
+                            <td>
+                                <a class="btn btn-sm btn-outline-success" onclick="ViewOrder(${order.orders.id})"><i class="fa fa-eye"></i></a>
+                                <a class="btn btn-sm btn-outline-primary" onclick="PrintOrder(${order.orders.sales_id})"><i class="fa fa-print"></i></a>
+                            </td>
                         </tr>
                     `);
-                } else {
-                    console.error("Order or order.orders is null or does not have an 'id' property:", order);
-                }
-            });
+                    } else {
+                        console.error(
+                            "Order or order.orders is null or does not have an 'id' property:",
+                            order);
+                    }
+                });
 
-            $('#client_list_table').DataTable({
-                "paging": true,
-                "ordering": true,
-                "searching": true,
-                "dom": 'lBfrtip',
-                "buttons": [
-                    {
+                $('#client_list_table').DataTable({
+                    "paging": true,
+                    "ordering": true,
+                    "searching": true,
+                    "order": [
+                        [0, 'desc']
+                    ],
+                    "dom": 'lBfrtip',
+                    "buttons": [{
                         extend: 'collection',
                         text: 'Export',
                         buttons: [
                             'pdf',
                             'excel'
                         ]
-                    }
-                ]
-            });
-        },
-        error: function(error) {
-            console.log(error);
-        }
-    });
+                    }]
+                });
+            },
+            error: function(error) {
+                console.log(error);
+            }
 
-    // Print functionality
-    document.getElementById("printButton").addEventListener("click", function() {
-        var table = document.getElementById("client_list_table");
-        if (table) {
-            var tableClone = table.cloneNode(true);
 
-            // Remove the last column from each row
-            Array.from(tableClone.rows).forEach(function(row) {
-                row.deleteCell(-1);
-            });
+        });
 
-            var newWin = window.open('', 'Print-Window');
-            newWin.document.open();
-            newWin.document.write(`<html><head><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+        // Print functionality
+        document.getElementById("printButton").addEventListener("click", function() {
+            var table = document.getElementById("client_list_table");
+            if (table) {
+                var tableClone = table.cloneNode(true);
+
+                // Remove the last column from each row
+                Array.from(tableClone.rows).forEach(function(row) {
+                    row.deleteCell(-1);
+                });
+
+                var newWin = window.open('', 'Print-Window');
+                newWin.document.open();
+                newWin.document.write(`<html><head><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
                 </head><body>
                 <center class="mt-5">
                 <h1>Online Orders</h1>
                 </center> ` + tableClone.outerHTML + `</body></html>`);
-            newWin.document.close();
-            setTimeout(function() {
-                newWin.print();
-                newWin.close();
-            }, 10);
-        }
+                newWin.document.close();
+                setTimeout(function() {
+                    newWin.print();
+                    newWin.close();
+                }, 10);
+            }
+        });
+
     });
-});
+
+    function PrintOrder(id) {
+        // Print the document
+        var printUrl = "{{ url('invoice_pos') }}/" + id;
+        var a = window.open(printUrl, "", "height=1000, width=1000");
+        a.document.write(
+            '<link rel="stylesheet"  href="/assets/styles/vendor/pos_print.css"><html>'
+        );
+        a.document.write("<body>");
+        a.document.write("<iframe src='" + printUrl +
+            "' onload='this.contentWindow.print();'></iframe>");
+        a.document.write("</body></html>");
+        a.document.close();
+    }
 
     function ViewOrder(id) {
         $.ajax({
@@ -286,9 +311,6 @@
                         <p class="card-text">${response.orders[0].orders.phone}</p>
                     </div>
                     <div class="col-md-6">
-                        <p class="card-text">${response.orders[0].orders.country}</p>
-                        <p class="card-text">${response.orders[0].orders.city}</p>
-                        <p class="card-text">${response.orders[0].orders.address}</p>
                         <p class="card-text">${response.orders[0].orders.payment_method && response.orders[0].orders.payment_method.title ? response.orders[0].orders.payment_method.title : ''}</p>
                         <p class="card-text">${formatedTime}</p>
                     </div>

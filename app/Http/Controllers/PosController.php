@@ -869,7 +869,7 @@ class PosController extends Controller
             $item['shipping'] = $this->render_price_with_symbol_placement(number_format($sale->shipping, 2, '.', ','));
             $item['taxe'] = $this->render_price_with_symbol_placement(number_format($sale->TaxNet, 2, '.', ','));
             $item['tax_rate'] = $sale->tax_rate;
-            $item['client_name'] = $sale['client']->username;
+            $item['client_name'] = $sale['client']->username ?? "Online Customer";
             $item['warehouse_name'] = $sale['warehouse']->name;
             $item['GrandTotal'] = $this->render_price_with_symbol_placement(number_format($sale->GrandTotal, 2, '.', ','));
             $item['paid_amount'] = $this->render_price_with_symbol_placement(number_format($sale->paid_amount, 2, '.', ','));

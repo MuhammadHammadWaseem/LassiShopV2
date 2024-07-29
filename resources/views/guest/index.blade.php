@@ -1423,53 +1423,53 @@
                 opacity: .3
             }
             .place-content.wrapper.mt-2 button#TrackOrder {
-    max-width: max-content;
-    float: right;
-    display: block;
-    margin: auto;
-    margin-right: 0;
-    margin-top: -40px;
-}
+            max-width: max-content;
+            float: right;
+            display: block;
+            margin: auto;
+            margin-right: 0;
+            margin-top: -40px;
+            }
 
-#exampleModal .modal-content {
-    padding: 50px 400px;
-}
+            #exampleModal .modal-content {
+                padding: 50px 400px;
+            }
 
-#exampleModal .modal-content .row {
-    --bs-gutter-x: 0 !important;
-}
+            #exampleModal .modal-content .row {
+                --bs-gutter-x: 0 !important;
+            }
 
- #exampleModal .modal-content  tbody#order_table_body hr {
-    display: none;
-}
+             #exampleModal .modal-content  tbody#order_table_body hr {
+                display: none;
+            }
 
- #exampleModal .modal-content  tbody#order_table_body h3 {
-    border: 1px solid rgba(0, 0, 0, 0.116);
-    border-right: 0;
-    border-left: 0;
-    padding: 10px 0;
-    margin-bottom: 15px;
-}
+             #exampleModal .modal-content  tbody#order_table_body h3 {
+                border: 1px solid rgba(0, 0, 0, 0.116);
+                border-right: 0;
+                border-left: 0;
+                padding: 10px 0;
+                margin-bottom: 15px;
+            }
 
-@media only screen and (max-width: 767px) {
-    .place-content.wrapper.mt-2 button#TrackOrder {
-    margin: auto;
-    margin-right: auto;
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
-
-}
-
-@media only screen and (max-width: 1440px) {
-
-    #exampleModal .modal-content {
-    padding: 35px 100px;
-}
+            @media only screen and (max-width: 767px) {
+                .place-content.wrapper.mt-2 button#TrackOrder {
+                margin: auto;
+                margin-right: auto;
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
 
 
-}
+            }
+
+            @media only screen and (max-width: 1440px) {
+            
+                #exampleModal .modal-content {
+                padding: 35px 100px;
+            }
+
+
+            }
 
 
 
@@ -1488,8 +1488,8 @@
 
             @media only screen and (max-width: 768px){
                 .modal-fullscreen .modal-body h1.place-title {
-    font-size: 25px;
-}
+                font-size: 25px;
+            }
 
 
             }
@@ -1531,58 +1531,54 @@
                 }
 
                 #exampleModal .modal-content {
-    padding: 15px 20px;
-}
-.modal-fullscreen .modal-body h1.place-title {
-    font-size: 20px;
-    line-height: 1em;
-}
+                    padding: 15px 20px;
+                }
+                .modal-fullscreen .modal-body h1.place-title {
+                    font-size: 20px;
+                    line-height: 1em;
+                }
 
-#exampleModal .modal-content tbody#order_table_body h3 {
-    margin-bottom: 10px;
-    font-size: 18px;
-}
-.col-md-6 p.card-text {
-    font-size: 14px;
-    text-align: center;
-    margin-bottom: 5px;
-}
-.modal-body {
-    flex: none !important;
+                #exampleModal .modal-content tbody#order_table_body h3 {
+                    margin-bottom: 10px;
+                    font-size: 18px;
+                }
+                .col-md-6 p.card-text {
+                    font-size: 14px;
+                    text-align: center;
+                    margin-bottom: 5px;
+                }
+                .modal-body {
+                    flex: none !important;
 
-}
+                }
 
-            }
-            .main-site-logo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #ff000000;
-}
+                            }
+                            .main-site-logo {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: #ff000000;
+                }
 
-.place-body {
-    background-color: #ff000000;
-}
-div#__nuxt {
-    background-color: #ff000000;
-}
+                .place-body {
+                    background-color: #ff000000;
+                }
+                div#__nuxt {
+                    background-color: #ff000000;
+                }
 
-div#__layout {
-    background-color: #ff000000;
-}
-body {
-    background-size: cover !important;
-    background-repeat: no-repeat !important;
-}
+                div#__layout {
+                    background-color: #ff000000;
+                }
+                body {
+                    background-size: cover !important;
+                    background-repeat: no-repeat !important;
+                }
         </style>
         <title>Lassi Shop</title>
     </head>
 
     <body style="background-image: url({{ asset('images/OnlineSite/main-bg.png') }})">
-        {{-- <noscript>
-            <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-THVFN3M" height="0" width="0"
-                style="display:none;visibility:hidden"></iframe>
-        </noscript> --}}
         <div data-server-rendered="true" id="__nuxt">
             <!---->
             <div id="__layout">
@@ -1597,7 +1593,6 @@ body {
                                 <div class="row">
                                     <div class="col-md-12">
                                         <h1 class="place-title"><span>{{ $setting[0]->app_name }}</span> <!----></h1>
-                                        {{-- <h1 class="place-title"><span>{{ $OrderNumber ?? '' }}</span></h1> --}}
                                         <div class="row">
                                             <button class="btn btn-danger sm" id="TrackOrder" data-bs-toggle="modal"
                                                 data-bs-target="#exampleModal"><a href="#">Track Order</a></button>
@@ -1698,7 +1693,10 @@ body {
                         <div class="row">
                             <div class="col-md-12">
                                 <h1 class="place-title"><span>You Order No#</span></h1>
-                                <h1 class="place-title"><span>{{ $OrderNumber ?? '' }}</span></h1>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <h1 class="place-title"><span id="OrderNo">{{ $OrderNumber ?? '' }}</span></h1>
+                                    <button class="btn btn-danger btn-sm" onclick="copyOrderNo()">Copy Order No</button>
+                                </div>
                                 <div search-value="" class="menu-item-search-form _open">
                                     <form action="" class="menu-item-search-form-field">
                                         <div type="search" placeholder="Search"
@@ -1707,15 +1705,6 @@ body {
                                             <input type="search" value=""
                                                 placeholder="Search Orders" class="base-form-input-input"
                                                 id="search-orders">
-                                            {{-- <button aria-label="Search"
-                                                class="round-button focus _expand-clickable ripple menu-item-search-form-button">
-                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M14 18C18.4183 18 22 14.4183 22 10C22 5.58172 18.4183 2 14 2C9.58172 2 6 5.58172 6 10C6 11.8487 6.62708 13.551 7.68014 14.9056L2.29289 20.2929L3.70711 21.7071L9.09436 16.3199C10.449 17.3729 12.1513 18 14 18ZM8 10C8 13.3137 10.6863 16 14 16C17.3137 16 20 13.3137 20 10C20 6.68629 17.3137 4 14 4C10.6863 4 8 6.68629 8 10Z"
-                                                        fill="var(--color-text)"></path>
-                                                </svg>
-                                            </button> --}}
                                         </div>
                                     </form>
                                 </div>
@@ -1740,7 +1729,6 @@ body {
     </body>
 
     </html>
-    </style>
     </head>
 @endsection
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -1774,120 +1762,57 @@ body {
             });
         });
 
-       function trackOrder() {
-        $('#search-orders').on('input', function() {
-            var query = $(this).val();
-            $.ajax({
-                url: "{{ route('search.guest.order') }}",
-                method: 'GET',
-                data: {
-                    query: query
-                },
-                // success: function(response) {
-                //     $("#order_table_body").empty();
-                //     if (response.success) {
-                //         var order = response.data;
-
-                //         // Format the date
-                //         var orderDate = new Date(order.created_at);
-                //         var formattedDate = orderDate.toLocaleString('en-US', {
-                //             timeZone: 'UTC'
-                //         });
-
-                //         // Determine the order status text based on the order_status value
-                //         var orderStatusText;
-                //         switch (order.order_status) {
-                //             case 0:
-                //                 orderStatusText = 'Confirmed';
-                //                 break;
-                //             case 1:
-                //                 orderStatusText = 'On the way';
-                //                 break;
-                //             case 2:
-                //                 orderStatusText = 'Delivered';
-                //                 break;
-                //             default:
-                //                 orderStatusText = 'Unknown';
-                //         }
-
-                //         // Construct the new row
-                //         var newRow = '<tr>' +
-                //             '<td>' + order.name + '</td>' +
-                //             '<td>' + order.address + ', ' + order.city + ', ' + order
-                //             .country + '</td>' +
-                //             '<td>' + order.delivery_charges + '</td>' +
-                //             '<td>' + order.total + '</td>' +
-                //             '<td>' + formattedDate + '</td>' +
-                //             '<td>' + orderStatusText + '</td>' +
-                //             '</tr>';
-
-                //         $('#order_table_body').append(newRow);
-                //     }
-                // }
-                success: function(response) {
-                     $("#order_table_body").empty();
-                console.log(response);
-                var formatedTime = new Date(response.orders.created_at).toLocaleString();
-                // var orderStatusText;
-                //         switch (response.orders.order_status) {
-                //             case 0:
-                //                 orderStatusText = 'Confirmed';
-                //                 break;
-                //             case 1:
-                //                 orderStatusText = 'On the way';
-                //                 break;
-                //             case 2:
-                //                 orderStatusText = 'Delivered';
-                //                 break;
-                //             default:
-                //                 orderStatusText = 'Unknown';
-                //         }
-                $("#order_table_body").empty();
-                $("#order_table_body").append(`
-                <div class="row">
-                    <h3 class="text-center">Client Information</h3>
-                    <hr style="height:1px;border-width:0;color:gray;background-color:gray">
-                    <div class="col-md-6">
-                        <p class="card-text">${response.orders.name}</p>
-                        <p class="card-text">${response.orders.email}</p>
-                        <p class="card-text">${response.orders.phone}</p>
-                    </div>
-                    <div class="col-md-6">
-                        <p class="card-text">${response.orders.country}</p>
-                        <p class="card-text">${response.orders.city}</p>
-                        <p class="card-text">${response.orders.address}</p>
-                        <p class="card-text">${response.orders.payment_method.title}</p>
-                        <p class="card-text">${response.orders.order_status == 0 ? 'Confirmed' : response.orders.order_status == 1 ? 'On the way' : 'Delivered'}</p>
-                        <p class="card-text">${formatedTime}</p>
-                    </div>
-                </div>
-                `);
-
-                response.orders.forEach(function(order) {
-                    $("#order_table_body").append(`
-                    <div class="row">
-                        <div class="col-md-6">
-                            <p class="card-text">Name: ${order.products.name}</p>
-                            <p class="card-text">Price: ${order.products.online_product_price}</p>
-                            <p class="card-text">Qty: ${order.quantity}</p>
+        function trackOrder() {
+            $('#search-orders').on('input', function() {
+                var query = $(this).val();
+                $.ajax({
+                    url: "{{ route('search.guest.order') }}",
+                    method: 'GET',
+                    data: {
+                        query: query
+                    },
+                    success: function(response) {
+                         $("#order_table_body").empty();
+                        var formatedTime = new Date(response.orders.created_at).toLocaleString();
+                        $("#order_table_body").empty();
+                        $("#order_table_body").append(`
+                        <div class="row">
+                            <h3 class="text-center">Client Information</h3>
+                            <hr style="height:1px;border-width:0;color:gray;background-color:gray">
+                            <div class="col-md-6">
+                                <p class="card-text">Name: ${response.orders.name}</p>
+                                <p class="card-text">Email: ${response.orders.email}</p>
+                                <p class="card-text">Phone: ${response.orders.phone}</p>
+                            </div>
+                            <div class="col-md-6">
+                                
+                                <p class="card-text">Payment Method: ${response.orders.payment_method.title}</p>
+                                <p class="card-text">Status: ${response.orders.order_status == 0 ? 'Confirmed' : response.orders.order_status == 1 ? 'On the way' : 'Delivered'}</p>
+                                <p class="card-text">Order Date: ${formatedTime}</p>
+                            </div>
                         </div>
-                    </div>
-                    <hr style="height:1px;border-width:0;color:gray;background-color:gray">
-                    `);
+                        `);
+    
+                        $("#order_table_body").append(`
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p class="card-text">Delivery Charges: ${response.orders.delivery_charges}</p>
+                                    <p class="card-text">Total: ${response.orders.total}</p>
+                                </div>
+                            </div>
+                        `);
+                    },
                 });
-
-                $("#order_table_body").append(`
-                    <div class="row">
-                        <div class="col-md-6">
-                            <p class="card-text">Delivery Charges: ${response.orders.delivery_charges}</p>
-                            <p class="card-text">Total: ${response.orders.total}</p>
-                        </div>
-                    </div>
-                `);
-            },
             });
-
-        });
         }
     });
+
+    function copyOrderNo() {
+        var copyText = document.getElementById("OrderNo").innerText;
+        navigator.clipboard.writeText(copyText).then(function() {
+        }).catch(function(error) {
+            console.error("Unable to copy text", error);
+        });
+    }
+
 </script>

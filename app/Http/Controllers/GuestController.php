@@ -257,33 +257,6 @@ class GuestController extends Controller
         if (Session::get('guest_cart') == null) {
             return response()->json(['status' => 'error', 'message' => 'Please add some items!']);
         }
-        $online_ordrs = new OnlineOrder();
-        $online_ordrs->name = Session::get('guest_order_details')['name'];
-        $online_ordrs->email = Session::get('guest_order_details')['email'];
-        $online_ordrs->phone = Session::get('guest_order_details')['phone'];
-        $online_ordrs->city = Session::get('guest_order_details')['city'];
-        $online_ordrs->country = Session::get('guest_order_details')['country'];
-        $online_ordrs->address = Session::get('guest_order_details')['address'];
-        $online_ordrs->delivery_charges = $request->delivery_charges;
-        $online_ordrs->payment_method_id = $request->payment_method_id;
-        $online_ordrs->total = $request->GrandTotal;
-        $online_ordrs->payment_status = "unpaid";
-        $online_ordrs->order_no = $this->generate_random_code_payment();
-        $online_ordrs->order_status = "pending";
-        $online_ordrs->save();
-
-        $OrderNumber = $online_ordrs->order_no;
-        Session::put('OrderNumber', $OrderNumber);
-
-        $order_products = Session::get('guest_cart');
-        foreach ($order_products as $order_product) {
-            $OnlineOrderDetails = new OnlineOrderDetails();
-            $OnlineOrderDetails->online_order_id = $online_ordrs->id;
-            $OnlineOrderDetails->product_id = $order_product['id'];
-            $OnlineOrderDetails->quantity = $order_product['quantity'];
-            $OnlineOrderDetails->price = $order_product['price'];
-            $OnlineOrderDetails->save();
-        }
 
         $order = new Sale;
 
@@ -305,6 +278,35 @@ class GuestController extends Controller
         $order->user_id = Auth::user()->id ?? null;
         $order->is_onilne = 1;
         $order->save();
+
+        $online_ordrs = new OnlineOrder();
+        $online_ordrs->sales_id = $order->id;
+        $online_ordrs->name = Session::get('guest_order_details')['name'];
+        $online_ordrs->email = Session::get('guest_order_details')['email'];
+        $online_ordrs->phone = Session::get('guest_order_details')['phone'];
+        // $online_ordrs->city = Session::get('guest_order_details')['city'];
+        // $online_ordrs->country = Session::get('guest_order_details')['country'];
+        // $online_ordrs->address = Session::get('guest_order_details')['address'];
+        $online_ordrs->delivery_charges = $request->delivery_charges;
+        $online_ordrs->payment_method_id = $request->payment_method_id;
+        $online_ordrs->total = $request->GrandTotal;
+        $online_ordrs->payment_status = "unpaid";
+        $online_ordrs->order_no = $this->generate_random_code_payment();
+        $online_ordrs->order_status = "pending";
+        $online_ordrs->save();
+
+        $OrderNumber = $online_ordrs->order_no;
+        Session::put('OrderNumber', $OrderNumber);
+
+        $order_products = Session::get('guest_cart');
+        foreach ($order_products as $order_product) {
+            $OnlineOrderDetails = new OnlineOrderDetails();
+            $OnlineOrderDetails->online_order_id = $online_ordrs->id;
+            $OnlineOrderDetails->product_id = $order_product['id'];
+            $OnlineOrderDetails->quantity = $order_product['quantity'];
+            $OnlineOrderDetails->price = $order_product['price'];
+            $OnlineOrderDetails->save();
+        }
 
         $data = Session::get('guest_cart');
         foreach ($data as $key => $value) {
@@ -473,7 +475,7 @@ class GuestController extends Controller
         }
 
         $notification2 = Notification::create([
-            'messages' => 'New Order Created  Order Number: ' . $orders->order_no ,
+            'messages' => 'New Order Created  Order Number: ' . $online_ordrs->order_no ,
         ]);
         $user = User::where('id', 1)->first();
         $data2 =  NotificationDetail::create([
@@ -620,7 +622,29 @@ class GuestController extends Controller
             return response()->json(['status' => 'error', 'message' => 'Please add some items!']);
         }
 
+        $order = new Sale;
+
+        $order->is_pos = 1;
+        $order->date = now();
+        $order->Ref = 'SO-' . date("Ymd") . '-' . date("his");
+        $order->client_id = $onlineUserDetails->id ?? null;
+        $order->warehouse_id = $userData['warehouse_id'] ?? null;
+        $order->tax_rate = $userData['tax_rate'] ?? 0;
+        $order->TaxNet = $userData['TaxNet'] ?? 0;
+        $order->discount = $userData['discount'] ?? 0;
+        $order->discount_type = $userData['discount_type'] ?? 0;
+        $order->discount_percent_total = $userData['discount_percent_total'] ?? 0;
+        $order->shipping = $userData['shipping'];
+        $order->GrandTotal = $userData['GrandTotal'];
+        $order->notes = $userData['notes'] ?? '';
+        $order->statut = 'completed';
+        $order->payment_statut = 'unpaid';
+        $order->user_id = Auth::user()->id ?? null;
+        $order->is_onilne = 1;
+        $order->save();
+
         $online_ordrs = new OnlineOrder();
+        $online_ordrs->sales_id = $order->id;
         $online_ordrs->name = Session::get('guest_order_details')['name'];
         $online_ordrs->email = Session::get('guest_order_details')['email'];
         $online_ordrs->phone = Session::get('guest_order_details')['phone'];
@@ -647,27 +671,6 @@ class GuestController extends Controller
             $OnlineOrderDetails->price = $order_product['price'];
             $OnlineOrderDetails->save();
         }
-
-        $order = new Sale;
-
-        $order->is_pos = 1;
-        $order->date = now();
-        $order->Ref = 'SO-' . date("Ymd") . '-' . date("his");
-        $order->client_id = $onlineUserDetails->id ?? null;
-        $order->warehouse_id = $userData['warehouse_id'] ?? null;
-        $order->tax_rate = $userData['tax_rate'] ?? 0;
-        $order->TaxNet = $userData['TaxNet'] ?? 0;
-        $order->discount = $userData['discount'] ?? 0;
-        $order->discount_type = $userData['discount_type'] ?? 0;
-        $order->discount_percent_total = $userData['discount_percent_total'] ?? 0;
-        $order->shipping = $userData['shipping'];
-        $order->GrandTotal = $userData['GrandTotal'];
-        $order->notes = $userData['notes'] ?? '';
-        $order->statut = 'completed';
-        $order->payment_statut = 'unpaid';
-        $order->user_id = Auth::user()->id ?? null;
-        $order->is_onilne = 1;
-        $order->save();
 
         $data = Session::get('guest_cart');
         foreach ($data as $key => $value) {
