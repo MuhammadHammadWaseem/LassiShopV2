@@ -2444,6 +2444,13 @@ button.btn-calcu.red-btn,button#grand-total-actual-btn {
 button#grand-total-round-btn {
     font-size: 8px;
 }
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    row-gap: 10px;
+    column-gap: 10px;
+}
     }
         @media only screen and (max-width: 1360px){
 .cart-qty {
