@@ -75,6 +75,7 @@
                 ->where('status', 0)
                 ->count();
         @endphp
+        @if (Auth::user()->id == 1)
         <!-- Notification container -->
         <div class="notification">
             <a href="#">
@@ -98,6 +99,7 @@
                 </div>
             </a>
         </div>
+        @endif
 
 
         <div class="button_language dropdown p-2 ms-2">
@@ -175,7 +177,7 @@
 
             // Check if sound function is being called
             console.log("Attempting to play notification sound...");
-            playNotificationSound();
+            // playNotificationSound();
         });
 
          // Function to play notification sound
