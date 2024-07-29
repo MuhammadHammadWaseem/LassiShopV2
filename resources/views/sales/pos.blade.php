@@ -2393,17 +2393,19 @@
         color: white !important;
     }
 
-    .calculator button#save_pos {
-        width: 100%;
-        margin-top: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        column-gap: 5px;
-        line-height: 0;
-        padding: 10px 0;
-        transition: .3s;
-    }
+ .calculator button#save_pos {
+    width: 100%;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 5px;
+    line-height: 0;
+    padding: 10px 0;
+    transition: .3s;
+    font-size: 16px;
+    font-weight: 700;
+}
 
     .calculator button#save_pos i {
         margin: 0 !important;
@@ -2433,6 +2435,11 @@
         display: flex !important;
         justify-content: flex-start !important;
     }
+
+    .calculator button#save_pos i {
+    font-size: 18px;
+    font-weight: 700;
+}
 
     @media only screen and (max-width: 1470px) {
 
