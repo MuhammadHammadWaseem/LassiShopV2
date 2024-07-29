@@ -2032,6 +2032,18 @@
                     },
                     success: function(data) {
                         if (data.success) {
+
+                            if ($("#cash").is(':checked')) {
+                                $("#cash").prop('checked', false);
+                                $("#cash").css('color', 'black');
+                                $("#cash").css('background', 'white');
+                            }
+                            if ($("#card").is(':checked')) {
+                                $("#card").prop('checked', false);
+                                $("#card").css('color', 'black');
+                                $("#card").css('background', 'white');
+                            }
+
                             $("#form_Update_Detail").modal("hide");
                             $("#form_Update_Detail").trigger("reset");
                             toastr.success(data.message);
@@ -2393,19 +2405,19 @@
         color: white !important;
     }
 
- .calculator button#save_pos {
-    width: 100%;
-    margin-top: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    column-gap: 5px;
-    line-height: 0;
-    padding: 10px 0;
-    transition: .3s;
-    font-size: 16px;
-    font-weight: 700;
-}
+    .calculator button#save_pos {
+        width: 100%;
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        column-gap: 5px;
+        line-height: 0;
+        padding: 10px 0;
+        transition: .3s;
+        font-size: 16px;
+        font-weight: 700;
+    }
 
     .calculator button#save_pos i {
         margin: 0 !important;
@@ -2437,9 +2449,9 @@
     }
 
     .calculator button#save_pos i {
-    font-size: 18px;
-    font-weight: 700;
-}
+        font-size: 18px;
+        font-weight: 700;
+    }
 
     @media only screen and (max-width: 1470px) {
 
