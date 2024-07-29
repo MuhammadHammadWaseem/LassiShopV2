@@ -128,7 +128,8 @@
                             </div>
                         </div> --}}
                         <div class="position-relative">
-                            <span id="hold-order-count" style="user-select: none; position: absolute; top: -8px; right: -8px; background-color: rgb(252, 51, 51); color: white; border-radius: 50%; padding-left: 6px; padding-right: 6px;"></span>
+                            <span id="hold-order-count"
+                                style="user-select: none; position: absolute; top: -8px; right: -8px; background-color: rgb(252, 51, 51); color: white; border-radius: 50%; padding-left: 6px; padding-right: 6px;"></span>
                             <button class="btn btn-primary btn-sm ms-3" id="show-hold-order">Hold Orders</button>
                         </div>
                     </div>
@@ -151,7 +152,8 @@
                                     </select>
                                 </div> --}}
 
-                                <input type="hidden" name="warehouse_id" id="warehouse_id" value="{{ $settings->warehouse_id }}">
+                                <input type="hidden" name="warehouse_id" id="warehouse_id"
+                                    value="{{ $settings->warehouse_id }}">
 
                                 <!-- Customer -->
                                 <div class="filter-box d-flex justify-content-between align-items-center">
@@ -694,21 +696,58 @@
             $("#paid-amount").text(display.value);
             $("#paying_amount").val(display.value);
 
-            if ($("#GrandTotal").val()) {
-                if ($("#paid-amount").text() > $("#GrandTotal").val()) {
+            if ($("#GrandTotal").text() > 0) {
+                if ($("#paid-amount").text() > $("#GrandTotal").text()) {
                     $("#change").text(parseFloat($("#paid-amount").text()) - parseFloat($("#GrandTotal").text()));
                 }
             }
 
+            if($("#change").text() < 0){
+                $("#change").text('00.00');
+            }
+
         }
 
+        //function calculateGrandTotal() {
+        //    var currentValue = $("#grand-total-round-btn").text();
+        //    const display = document.getElementById('display');
+        //    display.value += currentValue;
+        //    $("#paid-amount").text(display.value);
+        //    $("#paying_amount").val(display.value);
+        //}
+
+        let initialValue = null; // Variable to store the initial value
+
         function calculateGrandTotal() {
-            var currentValue = $("#grand-total-round-btn").text();
             const display = document.getElementById('display');
-            display.value += currentValue;
-            $("#paid-amount").text(display.value);
-            $("#paying_amount").val(display.value);
+            const paidAmount = $("#paid-amount");
+            const payingAmount = $("#paying_amount");
+            const buttonValue = parseFloat($("#grand-total-round-btn").text());
+
+            if (initialValue === null) {
+                // First click: set initial value and update the display
+                initialValue = buttonValue;
+                display.value = initialValue;
+            } else {
+                // Subsequent clicks: double the value
+                initialValue *= 2;
+                display.value = initialValue;
+            }
+
+            // Update other elements with the new value
+            paidAmount.text(display.value);
+            payingAmount.val(display.value);
+
+            $("#change").text(parseFloat($("#paid-amount").text()) - parseFloat($("#GrandTotal").text()));
+
+            if($("#change").text() < 0){
+                $("#change").text('00.00');
+            }
+            if($("#paid-amount").text() == 0){
+                $("#change").text('00.00');
+            }
         }
+
 
         function clearDisplay() {
             const display = document.getElementById('display');
@@ -723,6 +762,15 @@
             display.value = display.value.slice(0, -1);
             $("#paid-amount").text(display.value || '00.00');
             $("#paying_amount").val(display.value || '00.00');
+            
+            $("#change").text(parseFloat($("#paid-amount").text()) - parseFloat($("#GrandTotal").text()));
+
+            if($("#change").text() < 0){
+                $("#change").text('00.00');
+            }
+            if($("#paid-amount").text() == 0){
+                $("#change").text('00.00');
+            }
         }
 
         $("#cash").on("change", function() {
