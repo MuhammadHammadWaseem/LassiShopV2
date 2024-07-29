@@ -234,10 +234,6 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4 mt-4">
-
-                                                </div>
-
                                                 <div
                                                     class="row d-flex justify-content-center align-items-center m-0 p-0">
                                                     <div class="col-md-12 mt-4">
@@ -702,7 +698,7 @@
                 }
             }
 
-            if($("#change").text() < 0){
+            if ($("#change").text() < 0) {
                 $("#change").text('00.00');
             }
 
@@ -740,10 +736,10 @@
 
             $("#change").text(parseFloat($("#paid-amount").text()) - parseFloat($("#GrandTotal").text()));
 
-            if($("#change").text() < 0){
+            if ($("#change").text() < 0) {
                 $("#change").text('00.00');
             }
-            if($("#paid-amount").text() == 0){
+            if ($("#paid-amount").text() == 0) {
                 $("#change").text('00.00');
             }
         }
@@ -762,13 +758,13 @@
             display.value = display.value.slice(0, -1);
             $("#paid-amount").text(display.value || '00.00');
             $("#paying_amount").val(display.value || '00.00');
-            
+
             $("#change").text(parseFloat($("#paid-amount").text()) - parseFloat($("#GrandTotal").text()));
 
-            if($("#change").text() < 0){
+            if ($("#change").text() < 0) {
                 $("#change").text('00.00');
             }
-            if($("#paid-amount").text() == 0){
+            if ($("#paid-amount").text() == 0) {
                 $("#change").text('00.00');
             }
         }
@@ -2418,78 +2414,122 @@
         box-shadow: none;
         border: 1px solid black;
     }
+
     .cart-item.box-shadow-3 {
-    position: relative;
-}
-
-.cart-item.box-shadow-3 a#DeleteProduct {
-    position: absolute;
-    top: -10px;
-    right: 10px;
-}
-
-.cart-item.box-shadow-3 a#DeleteProduct i {
-    font-size: 30px !important;
-}
-
-    @media only screen and (max-width: 1470px){
-
-.buttons button.btn-calcu {
-    width: 21%;
-    font-size: 12px;
-}
-button.btn-calcu.red-btn,button#grand-total-actual-btn {
-    font-size: 8px;
-}
-button#grand-total-round-btn {
-    font-size: 8px;
-}
-.buttons {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    row-gap: 10px;
-    column-gap: 10px;
-}
+        position: relative;
     }
-        @media only screen and (max-width: 1360px){
-.cart-qty {
-    font-size: 14px;
-    height: 30px;
-    width: 25px;
-}
-.pos-body .pos-content .cart-item {
-    padding: 5px 10px;
-    margin-top: 15px;
-    height: 85px;
-}
-.cart-item.box-shadow-3 a#DeleteProduct i {
-    font-size: 25px !important;
-}
-.cart-item.box-shadow-3 a#DeleteProduct {
-    position: absolute;
-    top: -5px;
-    right: 5px;
-}
-.font_16 {
-    font-size: 14px;
-}
+
+    .cart-item.box-shadow-3 a#DeleteProduct {
+        position: absolute;
+        top: -10px;
+        right: 10px;
+    }
+
+    .cart-item.box-shadow-3 a#DeleteProduct i {
+        font-size: 30px !important;
+    }
+
+    .summery-item.mb-3.row.d-flex.justify-content-center.align-items-center {
+        display: flex !important;
+        justify-content: flex-start !important;
+    }
+
+    @media only screen and (max-width: 1470px) {
+
+        .buttons button.btn-calcu {
+            width: 21%;
+            font-size: 12px;
         }
 
-        @media only screen and (max-width: 1188px){
-    .buttons button.btn-calcu {
-        width: 19%;
-        font-size: 10px;
-        padding: 7px 2px;
-    }
-    button.btn-calcu.red-btn,button#grand-total-actual-btn {
-    font-size: 7px;
-}
-button#grand-total-round-btn {
-    font-size: 8px;
-}
-
+        button.btn-calcu.red-btn,
+        button#grand-total-actual-btn {
+            font-size: 8px;
         }
+
+        button#grand-total-round-btn {
+            font-size: 8px;
+        }
+
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            row-gap: 10px;
+            column-gap: 10px;
+        }
+
+        .cart-summery.d-flex.flex-row.justify-content-center.align-items-center {
+            display: flex !important;
+            flex-direction: column !important;
+            flex-wrap: wrap;
+        }
+
+        .summery-item.mb-2.row .col-lg-8.col-sm-12 {
+            width: 100%;
+        }
+
+        .cart-summery.d-flex.flex-row.justify-content-center.align-items-center .col-md-8 {
+            width: 100% !important;
+        }
+
+        .position-absolute {
+            position: relative !important;
+        }
+
+        .cart-summery.d-flex.flex-row.justify-content-center.align-items-center .col-md-4 {
+            width: 100% !important;
+        }
+
+        .mt-4 {
+            margin-top: 0.5rem !important;
+        }
+    }
+
+    @media only screen and (max-width: 1360px) {
+        .cart-qty {
+            font-size: 14px;
+            height: 30px;
+            width: 25px;
+        }
+
+        .pos-body .pos-content .cart-item {
+            padding: 5px 10px;
+            margin-top: 15px;
+            height: 85px;
+        }
+
+        .cart-item.box-shadow-3 a#DeleteProduct i {
+            font-size: 25px !important;
+        }
+
+        .cart-item.box-shadow-3 a#DeleteProduct {
+            position: absolute;
+            top: -5px;
+            right: 5px;
+        }
+
+        .font_16 {
+            font-size: 14px;
+        }
+    }
+
+    @media only screen and (max-width: 1188px) {
+        .buttons button.btn-calcu {
+            width: 19%;
+            font-size: 10px;
+            padding: 7px 2px;
+        }
+
+        button.btn-calcu.red-btn,
+        button#grand-total-actual-btn {
+            font-size: 7px;
+        }
+
+        button#grand-total-round-btn {
+            font-size: 8px;
+        }
+
+    }
 
     @media only screen and (max-width: 767px) {
 
