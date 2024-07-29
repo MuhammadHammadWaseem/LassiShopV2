@@ -386,6 +386,29 @@ class PosController extends Controller
 
                 Point::where('user_id', $client_id)->update(['remaining_user_point' => $user_remaining_point, 'total_user_point' => $user_total_point]);
             }
+
+            $notification2 = Notification::create([
+                'messages' => 'New Order Created  Order Number: ' . $order->Ref ,
+            ]);
+            $user = User::where('id', 1)->first();
+            $data2 =  NotificationDetail::create([
+                'notification_id' => $notification2->id,
+                'user_id' => $user->id,
+                'status' => 0,
+                'read_at' => null,
+                'created_at' => Carbon::now()->tz('Asia/Dubai'),
+                'updated_at' => Carbon::now()->tz('Asia/Dubai'),
+            ]);
+            $notifications2 = DB::table('notification')
+                ->select('*')
+                ->join('notification_details', 'notification.id', '=', 'notification_details.notification_id')
+                ->where('notification_details.user_id', 1)
+                ->where('notification_details.status', 0)
+                ->orderBy('notification.id', 'desc')
+                ->get();
+            $unreadNotificationsCount2 = NotificationDetail::where('user_id', 1)->where('status', 0)->count();
+            event(new NotificationCreate($unreadNotificationsCount2, $notifications2));
+            
             $this->broadcastNewOrderEvent($orders);
             return $order->id;
         }, 10);
@@ -419,7 +442,7 @@ class PosController extends Controller
         // }
         // $orders = Order::get();
         // Broadcast the event for the modified or new order
-
+         
         Session::forget('cart');
 
 
