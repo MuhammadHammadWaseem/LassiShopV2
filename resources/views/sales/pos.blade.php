@@ -907,7 +907,7 @@
             console.log(data.countOrderData);
             $("#online-order-count").text(data.countOrderData);
             // update the order in the table
-            $("#online_list").append(`
+            $("#online_list").prepend(`
                 <tr>
                     <th scope="row">${data.orderData.id}</th>
                     <td>${ data.orderData.order_no }</td>
