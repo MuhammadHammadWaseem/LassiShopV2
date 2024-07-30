@@ -15,6 +15,7 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DesignationsController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\OnlineOrdersController;
 
 // use App\Http\Controllers\DesignationController;
 
@@ -246,7 +247,11 @@ if ($installed === false) {
             Route::post('delete-hold-order', 'HoldOrdersController@delete')->name('delete_hold_order');
             // Employee Dashboard
             Route::get('dashboard/employee', 'EmployeeController@dashboard')->name('dasboard.employee');
-
+            
+            //---------------------- Online Orders List ----------------------\\
+            //------------------------------------------------------------------\\
+            Route::get('get-online-order', 'OnlineOrdersController@index')->name('getOnlineOrdersList');
+            Route::post('edit-online-order', 'OnlineOrdersController@edit')->name('edit_online_order');
 
             //---------------------- Order List ----------------------\\
             //------------------------------------------------------------------\\
@@ -258,7 +263,7 @@ if ($installed === false) {
             Route::post('undo-order', 'OrderListController@undoOrder')->name('undo_order');
 
             Route::match (['get', 'post'], 'complete/order/{orderId}/{productId}', 'OrderListController@completedOrder')->name('complete.order.pos');
-            Route::match (['get', 'post'], 'complete/order/{orderId}', 'OrderListController@completedFullOrder')->name('complete.full.order.pos');
+            Route::match (['get', 'post'], 'complete/order', 'OrderListController@completedFullOrder')->name('complete.full.order.pos');
             Route::match (['get', 'post'], 'undo/order/{orderId}/{productId}', 'OrderListController@undoOrder')->name('undo.order.pos');
 
 

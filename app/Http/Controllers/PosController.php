@@ -45,6 +45,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Facades\DB;
+use App\Models\OnlineOrder;
 
 class PosController extends Controller
 {
@@ -182,6 +183,13 @@ class PosController extends Controller
             $order->is_onilne = 0;
 
             $order->save();
+
+            if(!empty($request->OnlineId)){   
+                $onlineOrder = OnlineOrder::where('id',$request->OnlineId)->first();
+                $onlineOrder->sales_id = $order->id;
+                $onlineOrder->save();
+            }
+
             $data = Session::get('cart');
             foreach ($data as $key => $value) {
 

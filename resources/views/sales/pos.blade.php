@@ -132,6 +132,11 @@
                                 style="user-select: none; position: absolute; top: -8px; right: -8px; background-color: rgb(252, 51, 51); color: white; border-radius: 50%; padding-left: 6px; padding-right: 6px;"></span>
                             <button class="btn btn-primary btn-sm ms-3" id="show-hold-order">Hold Orders</button>
                         </div>
+                        <div class="position-relative">
+                            <span id="online-order-count"
+                                style="user-select: none; position: absolute; top: -8px; right: -8px; background-color: rgb(252, 51, 51); color: white; border-radius: 50%; padding-left: 6px; padding-right: 6px;"></span>
+                            <button class="btn btn-primary btn-sm ms-3" id="show-online-order">Online Orders</button>
+                        </div>
                     </div>
 
                     <div class="row pos-card-left">
@@ -545,6 +550,35 @@
                         </div>
                     </div>
 
+                    <!-- Show Online Orders Modal -->
+                    <div class="modal fade" id="Show_Online" tabindex="-1" aria-labelledby="Show_OnlineModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="Show_OnlineModalLabel">Online Orders list</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Order No</th>
+                                                <th scope="col">Customer Name</th>
+                                                <th scope="col">Customer Email</th>
+                                                <th scope="col">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="online_list">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Reset Modal -->
                     <div class="modal fade" style="overflow-y: hidden!important" id="exampleModal1" tabindex="-1"
                         aria-labelledby="exampleModal1Label" aria-hidden="true">
@@ -656,8 +690,7 @@
                                             id="grand-total-round-btn">00.00</button>
                                     </div>
                                     <button type="submit" id="save_pos" class="btn btn-primary">
-                                        <i class="i-Yes me-2 font-weight-bold"></i>
-                                        {{ __('translate.Submit') }}
+                                        <i class="i-Yes me-2 font-weight-bold"></i> Sale
                                     </button>
                                 </div>
                             </div>
@@ -701,7 +734,7 @@
             if ($("#change").text() < 0) {
                 $("#change").text('00.00');
             }
-            
+
             initialValue = null;
 
         }
@@ -876,6 +909,7 @@
         });
     </script>
     <script>
+        var OnlineId = null;
         var data;
         var grandTotal = 0;
         var currentPage = 1;
@@ -1078,6 +1112,54 @@
                 });
             }
 
+            function GetOnlineOrdersList() {
+                $.ajax({
+                    url: "{{ route('getOnlineOrdersList') }}",
+                    type: "GET",
+                    dataType: "json",
+                    headers: {
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    },
+                    success: function(responseData) {
+                        $("#online-order-count").text(responseData.length);
+                        $("#online_list").empty();
+                        responseData.forEach(element => {
+                            $("#online_list").append(`
+                            <tr>
+                                <th scope="row">${element.id}</th>
+                                <td>${ element.order_no }</td>
+                                <td>${ element.name }</td>
+                                <td>${ element.email }</td>
+                                <td>
+                                    <button type="button" class="btn btn-danger btn-sm"
+                                        data-bs-dismiss="modal"
+                                        id="DeleteHoldOrder" data-id="${element.id}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                            height="16" fill="currentColor"
+                                            class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                            <path
+                                                d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
+                                        </svg>
+                                    </button>
+                                    <button type="button" class="btn btn-primary btn-sm"
+                                        data-bs-dismiss="modal" id="editOnlineOrder"
+                                        data-id="${element.id}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                                          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                          <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                            `);
+                        })
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                });
+            }
+
 
 
             $("body").on('click', '#DeleteHoldOrder', function() {
@@ -1112,6 +1194,10 @@
 
             $("body").on('click', '#show-hold-order', function() {
                 $("#Show_Hold").modal("show");
+            });
+
+            $("body").on('click', '#show-online-order', function() {
+                $("#Show_Online").modal("show");
             });
 
             $("body").on("click", "#HoldOrderBtn", function() {
@@ -1272,6 +1358,63 @@
                             },
                             data: {
                                 products: data.data.holdProducts,
+                                warehouse_id: $("#warehouse_id").val()
+                            },
+                            success: function(response) {
+                                if (response.message) {
+                                    toastr.error('Out of stock');
+                                } else {
+                                    updateCartBox(response);
+                                }
+                            },
+                            error: function(data) {
+                                console.log("Error:", data);
+                            }
+                        });
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                })
+
+            });
+
+            $("body").on("click", "#editOnlineOrder", function() {
+                OnlineId = $(this).data("id");
+                $.ajax({
+                    url: "{{ route('edit_online_order') }}",
+                    type: "POST",
+                    token: "{{ csrf_token() }}",
+                    dataType: "json",
+                    headers: {
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    },
+                    data: {
+                        id: OnlineId
+                    },
+                    success: function(data) {
+                        const warehouseId = $("#warehouse_id").val();
+                        const categoryId = $(".category-item.CategorySelected").data("id");
+                        $("#payment_method_id").val(data.data.onlineOrderDetails[0].payment_method_id);
+                        if (data.data.onlineOrderDetails[0] && data.data.onlineOrderDetails[0]
+                            .payment_method == 'Cash') {
+                            $("#cash").prop('checked', true).click();
+                        }
+                        if (data.data.onlineOrderDetails[0] && data.data.onlineOrderDetails[0]
+                            .payment_method == 'Credit card') {
+                            $("#card").prop('checked', true).click();
+                        }
+                        ProductByCategory(categoryId, warehouseId, "Warehouse");
+                        $.ajax({
+                            url: routes.addToCartWithQuantity,
+                            type: "POST",
+                            token: "{{ csrf_token() }}",
+                            dataType: "json",
+                            headers: {
+                                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                            },
+                            data: {
+                                products: data.data.onlineOrderDetails,
                                 warehouse_id: $("#warehouse_id").val()
                             },
                             success: function(response) {
@@ -1493,6 +1636,7 @@
                 fetchAndRenderProducts();
                 checkCartItemsAndEnableWarehouseSelect();
                 GetHoldList();
+                GetOnlineOrdersList();
 
                 // Handle click events
                 elements.productsBox.on("click", ".product-card", function() {
@@ -2035,6 +2179,7 @@
                         payment_method_id: $("#payment_method_id").val(),
                         account_id: $("#account_id").val(),
                         sale_note: $("#sale_note").val(),
+                        OnlineId: OnlineId,
                     },
                     success: function(data) {
                         if (data.success) {
@@ -2080,6 +2225,8 @@
                             $(".sale_note").val('');
                             $("#paying_amount").val('');
                             $("#paying_amount_badge").text('Grand Total:');
+                            OnlineId = null;
+                            GetOnlineOrdersList();
 
                             if ($("#inputGroupSelect02 option[value='percent']").length == 0) {
                                 $("#inputGroupSelect02").append(

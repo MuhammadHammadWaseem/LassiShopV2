@@ -61,9 +61,9 @@ class OrderListController extends Controller
         return response()->json(['error' => 'Order not found']);
     }
 
-    public function completedFullOrder($orderId)
+    public function completedFullOrder(Request $request)
     {
-        $OrderList = Order::where('order_no' , $orderId)->get();
+        $OrderList = Order::where('order_no' , $request->order_id)->get();
         // dd($OrderList);
         foreach($OrderList as $order)
         {

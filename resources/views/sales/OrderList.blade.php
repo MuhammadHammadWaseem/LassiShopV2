@@ -525,7 +525,7 @@
                 const orderId = $(this).data('orderid');
                 $.ajax({
                     type: 'POST',
-                    url: '{{ route('complete.full.order.pos', ['orderId' => '__orderId__']) }}'.replace('__orderId__', orderId),
+                    url: 'complete/order',
                     data: {
                         _token: '{{ csrf_token() }}',
                         order_id: orderId

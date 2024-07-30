@@ -12,8 +12,12 @@ class OnlineOrderDetails extends Model
     protected $fillable = [
         'online_order_id',
         'product_id',
+        'name',
         'price',
-        'quantity'
+        'quantity',
+        'img_path',
+        'payment_method',
+        'payment_method_id',
     ];
 
     public function Orders()

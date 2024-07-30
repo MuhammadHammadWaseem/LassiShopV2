@@ -258,35 +258,12 @@ class GuestController extends Controller
             return response()->json(['status' => 'error', 'message' => 'Please add some items!']);
         }
 
-        $order = new Sale;
-
-        $order->is_pos = 1;
-        $order->date = now();
-        $order->Ref = 'SO-' . date("Ymd") . '-' . date("his");
-        $order->client_id = $onlineUserDetails->id ?? null;
-        $order->warehouse_id = $request->warehouse_id ?? null;
-        $order->tax_rate = $request->tax_rate ?? 0;
-        $order->TaxNet = $request->TaxNet ?? 0;
-        $order->discount = $request->discount ?? 0;
-        $order->discount_type = $request->discount_type ?? 0;
-        $order->discount_percent_total = $request->discount_percent_total ?? 0;
-        $order->shipping = $request->shipping;
-        $order->GrandTotal = $request->GrandTotal;
-        $order->notes = $request->notes ?? '';
-        $order->statut = 'completed';
-        $order->payment_statut = 'unpaid';
-        $order->user_id = Auth::user()->id ?? null;
-        $order->is_onilne = 1;
-        $order->save();
+        $payment_method = PaymentMethod::where('id', '=', $request->payment_method_id)->first();
 
         $online_ordrs = new OnlineOrder();
-        $online_ordrs->sales_id = $order->id;
         $online_ordrs->name = Session::get('guest_order_details')['name'];
         $online_ordrs->email = Session::get('guest_order_details')['email'];
         $online_ordrs->phone = Session::get('guest_order_details')['phone'];
-        // $online_ordrs->city = Session::get('guest_order_details')['city'];
-        // $online_ordrs->country = Session::get('guest_order_details')['country'];
-        // $online_ordrs->address = Session::get('guest_order_details')['address'];
         $online_ordrs->delivery_charges = $request->delivery_charges;
         $online_ordrs->payment_method_id = $request->payment_method_id;
         $online_ordrs->total = $request->GrandTotal;
@@ -300,10 +277,19 @@ class GuestController extends Controller
 
         $order_products = Session::get('guest_cart');
         foreach ($order_products as $order_product) {
+            $full_path = $order_product['img_path'];
+            $base_url = url('/')."/images/products/";
+            // $base_url = "http://127.0.0.1:8000/images/products/";
+            $image_path = str_replace($base_url, '', $full_path);
+
             $OnlineOrderDetails = new OnlineOrderDetails();
             $OnlineOrderDetails->online_order_id = $online_ordrs->id;
             $OnlineOrderDetails->product_id = $order_product['id'];
+            $OnlineOrderDetails->name = $order_product['name'];
             $OnlineOrderDetails->quantity = $order_product['quantity'];
+            $OnlineOrderDetails->img_path = $image_path;
+            $OnlineOrderDetails->payment_method = $payment_method->title;
+            $OnlineOrderDetails->payment_method_id = $payment_method->id;
             $OnlineOrderDetails->price = $order_product['price'];
             $OnlineOrderDetails->save();
         }
@@ -312,28 +298,28 @@ class GuestController extends Controller
         foreach ($data as $key => $value) {
             $newProductDetails = NewProductDetail::where('new_product_id', $value['id'])->get();
 
-            $orders = Order::create([
-                'new_product_id' => $newProductDetails[0]->new_product_id,
-                'user_id' => $onlineUserDetails->id ?? 0,
-                'order_no' => $order->Ref,
-                'quantity' => $value['quantity'],
-                'orignal_quantity' => $value['quantity'],
-                'is_onilne' => 1,
-            ]);
-            $order_no = $orders->order_no;
+            // $orders = Order::create([
+            //     'new_product_id' => $newProductDetails[0]->new_product_id,
+            //     'user_id' => $onlineUserDetails->id ?? 0,
+            //     'order_no' => ,
+            //     'quantity' => $value['quantity'],
+            //     'orignal_quantity' => $value['quantity'],
+            //     'is_onilne' => 1,
+            // ]);
+            // $order_no = $orders->order_no;
             // Send the email
-            $mail =  Mail::to("hw13604@gmail.com")->send(new OrderCreated($order_no));
+
+            // $mail =  Mail::to("hw13604@gmail.com")->send(new OrderCreated($order_no));
+
             // Retrieve the newly created order along with its associated new product
-            $newlyCreatedOrder = Order::with('newProduct')->find($orders->id);
-            // Group the orders by order number
-            $groupedOrders = Order::with('newProduct')
-                ->where('order_no', $newlyCreatedOrder->order_no)
-                ->get()
-                ->groupBy('order_no')
-                ->values()
-                ->all();
-            // $orders = Order::with('newProduct')->get();
-            // event(new OrderList($orders));
+            // $newlyCreatedOrder = Order::with('newProduct')->find($orders->id);
+            // // Group the orders by order number
+            // $groupedOrders = Order::with('newProduct')
+            //     ->where('order_no', $newlyCreatedOrder->order_no)
+            //     ->get()
+            //     ->groupBy('order_no')
+            //     ->values()
+            //     ->all();
 
             foreach ($newProductDetails as $newProductDetail) {
                 $unit = Unit::where('id', $newProductDetail->unit_id)->first();
@@ -399,84 +385,13 @@ class GuestController extends Controller
                     // Tax is not included in the price
                     $total = $Price + ($Price * $product->TaxNet / 100);
                 }
-
-                $orderDetails[] = [
-                    'date' => $order->date,
-                    'sale_id' => $order->id,
-                    'sale_unit_id' => $product->unit_sale_id ? $product->unit_sale_id : NULL,
-                    'quantity' => $value['quantity'],
-                    'product_id' => $product->id,
-                    // 'product_variant_id' => $value['product_variant_id'] ? $value['product_variant_id'] : NULL,
-                    'total' => $total,
-                    'price' => $product->price,
-                    'TaxNet' => $product->TaxNet,
-                    'tax_method' => $product->tax_method,
-                    'discount' => 0,
-                    // 'discount_method'    => $value['discount_Method'],
-                    'imei_number' => '',
-                ];
             }
-        }
-
-        SaleDetail::insert($orderDetails);
-
-        if ($request->paying_amount > 0) {
-
-            $sale = Sale::findOrFail($order->id);
-
-            $total_paid = $sale->paid_amount + $request->paying_amount;
-            $due = $sale->GrandTotal - $total_paid;
-
-            if ($due === 0.0 || $due < 0.0) {
-                $payment_statut = 'paid';
-            } else if ($due != $sale->GrandTotal) {
-                $payment_statut = 'partial';
-            } else if ($due == $sale->GrandTotal) {
-                $payment_statut = 'unpaid';
-            }
-
-            PaymentSale::create([
-                'sale_id' => $order->id,
-                'account_id' => $request->account_id ? $request->account_id : NULL,
-                'Ref' => $this->generate_random_code_payment(),
-                'date' => $request->date,
-                'payment_method_id' => $request->payment_method_id ? $request->payment_method_id : NULL,
-                'montant' => $request->paying_amount,
-                'change' => 0,
-                'notes' => $request->payment_notes ? $request->payment_notes : NULL,
-                'user_id' => Auth::user()->id ?? NULL,
-            ]);
-
-            $account = Account::where('id', $request->account_id)->exists();
-
-            if ($account) {
-                // Account exists, perform the update
-                $account = Account::find($request->account_id);
-                $account->update([
-                    'initial_balance' => $account->initial_balance + $request->paying_amount,
-                ]);
-            }
-
-            $sale->update([
-                'paid_amount' => $total_paid,
-                'payment_statut' => $payment_statut,
-            ]);
-        }
-
-        $cartForSale = Session::get('guest_cart');
-        foreach ($cartForSale as $cart) {
-            PosSaleItems::create([
-                'sale_id' => $order->id,
-                'new_product_id' => $cart['id'],
-                'qty' => $cart['quantity'],
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ]);
         }
 
         $notification2 = Notification::create([
             'messages' => 'New Order Created  Order Number: ' . $online_ordrs->order_no ,
         ]);
+
         $user = User::where('id', 1)->first();
         $data2 =  NotificationDetail::create([
             'notification_id' => $notification2->id,
@@ -500,37 +415,7 @@ class GuestController extends Controller
         $settings = Setting::where('deleted_at', '=', null)->first();
         $client_id = $onlineUserDetails->id ?? null;
 
-        // if ($request->is_points == 1) {
-        //     $userPoints = Point::where('user_id', $client_id)->first();
-
-        //     $pointsValue = $settings->on_purchase_point;
-        //     $discountInDarhum = $request->discount;
-
-        //     $points = $discountInDarhum * $pointsValue;
-
-        //     $points = $userPoints->remaining_user_point -= $points;
-
-        //     $update_remaining = Point::where('user_id', $client_id)->update(['remaining_user_point' => $points]);
-        // }
-
-        // if ($settings->on_purchase == 1) {
-        //     $GrandTotal = $request->GrandTotal;
-        //     $on_purchase_point = $settings->on_purchase_point;
-        //     $on_purchase_value = $settings->on_purchase_value;
-        //     $pointsEarned = floor($GrandTotal / $on_purchase_value) * $on_purchase_point;
-
-        //     // Fetch current remaining points
-        //     $point = Point::where('user_id', $client_id)->first();
-        //     $user_remaining_point = ($point !== null) ? $point->remaining_user_point : 0;
-        //     $user_total_point = ($point !== null) ? $point->total_user_point : 0;
-
-        //     // Add pointsEarned to current remaining points
-        //     $user_remaining_point += $pointsEarned;
-        //     $user_total_point += $pointsEarned;
-
-        //     Point::where('user_id', $client_id)->update(['remaining_user_point' => $user_remaining_point, 'total_user_point' => $user_total_point]);
-        // }
-        $this->broadcastNewOrderEvent($orders);
+        // $this->broadcastNewOrderEvent($orders);
         Session::forget('guest_cart');
         Session::forget('guest_order_details');
         Session::forget('user');
