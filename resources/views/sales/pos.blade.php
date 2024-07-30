@@ -701,6 +701,8 @@
             if ($("#change").text() < 0) {
                 $("#change").text('00.00');
             }
+            
+            initialValue = null;
 
         }
 
@@ -751,6 +753,7 @@
             $("#paid-amount").text('00.00');
             $("#paying_amount").val('00.00');
             $("#change").text('00.00');
+            initialValue = null;
         }
 
         function deleteLast() {
@@ -767,6 +770,7 @@
             if ($("#paid-amount").text() == 0) {
                 $("#change").text('00.00');
             }
+            initialValue = null;
         }
 
         $("#cash").on("change", function() {
@@ -965,6 +969,7 @@
 
             $("body").on("click", "#resetBtn", function() {
                 FlushCart();
+                initialValue = null;
                 $("#reference-number").val('');
                 $("#shipping").val('');
                 $("#discount").val('');
@@ -1166,6 +1171,7 @@
                         if (data1.message === 'success') {
                             toastr.success("Order Hold Successfully");
                             $("#exampleModal").modal("hide");
+                            initialValue = null;
                             GetHoldList();
                             GetUserPoints({{ $settings->client_id }});
                             $("#shipping").val("");
@@ -2050,6 +2056,7 @@
 
                             //Reset Page
                             FlushCart();
+                            initialValue = null;
                             $("#customer_id").val('{{ $settings->client_id }}');
                             GetUserPoints({{ $settings->client_id }});
                             $("#is_points").prop('checked', false);
