@@ -892,6 +892,51 @@
         integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script type="text/javascript">
+
+        Pusher.logToConsole = true;
+        var pusher = new Pusher("96010b48b2b6efb4c0f1", {
+            cluster: "ap2",
+            encrypted: true,
+            useTls: true,
+        });
+        var channel = pusher.subscribe('online-order');
+
+        channel.bind('online-order', function(data) {
+            console.log("Pusher: online-order");
+            console.log(data.orderData);
+            console.log(data.countOrderData);
+            $("#online-order-count").text(data.countOrderData);
+            // update the order in the table
+            $("#online_list").append(`
+                <tr>
+                    <th scope="row">${data.orderData.id}</th>
+                    <td>${ data.orderData.order_no }</td>
+                    <td>${ data.orderData.name }</td>
+                    <td>${ data.orderData.email }</td>
+                    <td>
+                        <button type="button" class="btn btn-danger btn-sm"
+                            data-bs-dismiss="modal"
+                            id="DeleteHoldOrder" data-id="${data.orderData.id}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                height="16" fill="currentColor"
+                                class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
+                            </svg>
+                        </button>
+                        <button type="button" class="btn btn-primary btn-sm"
+                            data-bs-dismiss="modal" id="editOnlineOrder"
+                            data-id="${data.orderData.id}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                              <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                            </svg>
+                        </button>
+                    </td>
+                </tr>
+            `);
+        })
+
         $(function() {
             "use strict";
             $(document).ready(function() {

@@ -30,6 +30,7 @@ use Illuminate\Support\Facades\Session;
 use App\Http\Requests\OrderDetailsRequest;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use App\Models\{Category, NewProduct, Product};
+use App\Events\OnlineOrderCreated;
 
 class GuestController extends Controller
 {
@@ -271,6 +272,9 @@ class GuestController extends Controller
         $online_ordrs->order_no = $this->generate_random_code_payment();
         $online_ordrs->order_status = "pending";
         $online_ordrs->save();
+
+        $countOrderData = OnlineOrder::where('sales_id', '=', null)->count();
+        event(new OnlineOrderCreated($online_ordrs, $countOrderData));
 
         $OrderNumber = $online_ordrs->order_no;
         Session::put('OrderNumber', $OrderNumber);

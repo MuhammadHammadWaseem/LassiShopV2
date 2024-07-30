@@ -22,3 +22,6 @@ Broadcast::channel('order-list', function ($data) {
 Broadcast::channel('notification-show', function ($data) {
     return true;
 });
+Broadcast::channel('online-order', function ($data) {
+    return true;
+});
