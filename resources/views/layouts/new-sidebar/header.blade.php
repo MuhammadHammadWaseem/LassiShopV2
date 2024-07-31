@@ -76,29 +76,31 @@
                 ->count();
         @endphp
         @if (Auth::user()->id == 1)
-        <!-- Notification container -->
-        <div class="notification">
-            <a href="#">
-                <div class="notBtn" href="#" id="notification-container"
-                    data-unread-count="{{ $unreadNotificationsCount }}">
-                    <!-- Number supports double digits and automatically hides itself when there is nothing between divs -->
-                    <i class="fa fa-bell text-dark pt-2 ps-2" id="testing" style="font-size: 20px !important;"></i>
-                    <div class="box">
-                        <a href="javascript:void(0)">
-                            <div class="row">
-                                <div class="col-md-8"></div>
-                                <div class="col-md-4"> <label for="markread" id="markread" class="mt-2">Mark All As
-                                        Read</label></div>
-                            </div>
+            <!-- Notification container -->
+            <div class="notification">
+                <a href="#">
+                    <div class="notBtn" href="#" id="notification-container"
+                        data-unread-count="{{ $unreadNotificationsCount }}">
+                        <!-- Number supports double digits and automatically hides itself when there is nothing between divs -->
+                        <i class="fa fa-bell text-dark pt-2 ps-2" id="testing"
+                            style="font-size: 20px !important;"></i>
+                        <div class="box">
+                            <a href="javascript:void(0)">
+                                <div class="row">
+                                    <div class="col-md-8"></div>
+                                    <div class="col-md-4"> <label for="markread" id="markread" class="mt-2">Mark All
+                                            As
+                                            Read</label></div>
+                                </div>
 
-                        </a>
-                        <div class="display">
-                            <!-- Notification list will be dynamically appended here -->
+                            </a>
+                            <div class="display">
+                                <!-- Notification list will be dynamically appended here -->
+                            </div>
                         </div>
                     </div>
-                </div>
-            </a>
-        </div>
+                </a>
+            </div>
         @endif
 
 
@@ -163,214 +165,85 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
 
-        Pusher.logToConsole = false;
-        var pusher = new Pusher("96010b48b2b6efb4c0f1", {
-            cluster: "ap2",
-            encrypted: false,
-            useTls: false,
-        });
-        var channel = pusher.subscribe('notification-show');
-
-        channel.bind('notification-show', function(unreadNotificationsCount, data) {
-            updateNotifications2(unreadNotificationsCount, data);
-            console.log("notification-show", unreadNotificationsCount, data);
-
-            // Check if sound function is being called
-            console.log("Attempting to play notification sound...");
-            // playNotificationSound();
-        });
-
-         // Function to play notification sound
-        function playNotificationSound() {
-            console.log("Inside playNotificationSound function");
-            var audio = new Audio('/assets/audio/noti.mp3');
-            audio.play();
-        }
-
-        function getNotifications() {
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', '{{ route('fetch-notifications') }}', true);
-            xhr.setRequestHeader('Content-Type', 'application/json');
-            xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
-
-            xhr.onload = function() {
-                if (xhr.status >= 200 && xhr.status < 300) {
-                    var response = JSON.parse(xhr.responseText);
-                    updateNotifications(response.unreadNotificationsCount, response.notifications);
-                } else {
-                    console.error('Error fetching notifications:', xhr.statusText);
-                }
-            };
-
-            xhr.onerror = function() {
-                console.error('Network error while fetching notifications');
-            };
-
-            xhr.send();
-        }
-
-        getNotifications()
-
-        function updateNotifications2(unreadNotificationsCount, notifications) {
-            var notificationContainer = document.getElementById('notification-container');
-            if (unreadNotificationsCount.unreadNotifications.length > 0) {
-                unreadNotificationsCount = 0
-            }
-
-            if (unreadNotificationsCount.unreadNotifications > 0) {
-                notificationContainer.classList.add('notBtn1');
-            }
-
-            if (unreadNotificationsCount.unreadNotifications === 0) {
-                notificationContainer.classList.remove('notBtn1');
-            }
-
-            if (notificationContainer) {
-                var notificationList = document.querySelector('.display');
-                if (notificationList) {
-                    while (notificationList.firstChild) {
-                        notificationList.removeChild(notificationList.firstChild);
-                    }
-
-                    if (unreadNotificationsCount.notifications.length === 0) {
-                        var noNotificationMessage = document.createElement('div');
-                        noNotificationMessage.textContent = 'No Notifications';
-                        noNotificationMessage.classList.add('no-notification');
-                        notificationList.appendChild(noNotificationMessage);
-                    } else {
-                        unreadNotificationsCount.notifications.forEach(function(notification) {
-                            var notificationDiv = document.createElement('div');
-                            notificationDiv.classList.add('sec');
-
-                            if (notification.status == 0) {
-                                notificationDiv.classList.add('new');
-                            }
-
-                            var link = document.createElement('a');
-                            var txtDiv = document.createElement('div');
-                            txtDiv.setAttribute('data-bs-toggle', 'modal');
-                            txtDiv.setAttribute('data-bs-target', '#notificationmodal');
-                            txtDiv.setAttribute('data-id', notification.id);
-                            txtDiv.classList.add('notificationBox');
-
-                            txtDiv.classList.add('txt');
-                            txtDiv.textContent = notification.messages;
-
-                            var subTxtDiv = document.createElement('div');
-                            subTxtDiv.classList.add('txt', 'sub');
-                            subTxtDiv.textContent = moment(notification.created_at).fromNow();
-
-                            if (notification.status == 0) {
-                                txtDiv.classList.add('boldtxt');
-                                subTxtDiv.textContent += ' (unread)';
-                            }
-
-                            link.appendChild(txtDiv);
-                            link.appendChild(subTxtDiv);
-                            notificationDiv.appendChild(link);
-                            notificationList.appendChild(notificationDiv);
-
-                            txtDiv.addEventListener('click', function() {
-                                var id = this.getAttribute('data-id');
-                                document.getElementById('notification_id').value = id;
-
-                                var xhr = new XMLHttpRequest();
-                                var url =
-                                    '{{ route('fetch-notifications-message') }}?id=' +
-                                    id;
-                                xhr.open('GET', url, true);
-                                xhr.setRequestHeader('Content-Type',
-                                    'application/json');
-                                xhr.setRequestHeader('X-CSRF-TOKEN',
-                                    '{{ csrf_token() }}');
-
-                                xhr.onload = function() {
-                                    if (xhr.status >= 200 && xhr.status < 300) {
-                                        var response = JSON.parse(xhr.responseText);
-                                        document.getElementById(
-                                                'notification-details')
-                                            .innerHTML = ' ';
-                                        document.getElementById(
-                                                'notification-details')
-                                            .innerHTML = response
-                                            .notificationDetails
-                                            .notification.messages;
-                                    } else {
-                                        console.error(
-                                            'Error fetching notifications:',
-                                            xhr
-                                            .statusText);
-                                    }
-                                };
-
-                                xhr.onerror = function() {
-                                    console.error(
-                                        'Network error while fetching notifications'
-                                    );
-                                };
-
-                                xhr.send();
-                            });
-                        });
-                    }
-                }
-            }
-        }
-
-
         var markread = document.getElementById('markread');
-        if(markread){
-            document.getElementById('markread').addEventListener('click', function() {
+        if (markread) {
+
+            Pusher.logToConsole = false;
+            var pusher = new Pusher("96010b48b2b6efb4c0f1", {
+                cluster: "ap2",
+                encrypted: false,
+                useTls: false,
+            });
+            var channel = pusher.subscribe('notification-show');
+
+            channel.bind('notification-show', function(unreadNotificationsCount, data) {
+                updateNotifications2(unreadNotificationsCount, data);
+                console.log("notification-show", unreadNotificationsCount, data);
+
+                // Check if sound function is being called
+                console.log("Attempting to play notification sound...");
+                // playNotificationSound();
+            });
+
+            // Function to play notification sound
+            function playNotificationSound() {
+                console.log("Inside playNotificationSound function");
+                var audio = new Audio('/assets/audio/noti.mp3');
+                audio.play();
+            }
+
+            function getNotifications() {
                 var xhr = new XMLHttpRequest();
-                xhr.open('POST', '{{ route('mark-all-as-read') }}', true);
+                xhr.open('GET', '{{ route('fetch-notifications') }}', true);
                 xhr.setRequestHeader('Content-Type', 'application/json');
                 xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
 
                 xhr.onload = function() {
                     if (xhr.status >= 200 && xhr.status < 300) {
-                        getNotifications();
+                        var response = JSON.parse(xhr.responseText);
+                        updateNotifications(response.unreadNotificationsCount, response.notifications);
                     } else {
-                        console.error('Error marking all notifications as read:', xhr.statusText);
+                        console.error('Error fetching notifications:', xhr.statusText);
                     }
                 };
 
                 xhr.onerror = function() {
-                    console.error('Network error while marking all notifications as read');
+                    console.error('Network error while fetching notifications');
                 };
 
                 xhr.send();
-            });
-        } 
-
-        function updateNotifications(unreadNotificationsCount, notifications) {
-            var notificationContainer = document.getElementById('notification-container');
-            if (unreadNotificationsCount.length > 0) {
-                unreadNotificationsCount = 0
             }
 
-            if (unreadNotificationsCount > 0) {
-                notificationContainer.classList.add('notBtn1');
-            }
+            getNotifications()
 
-            if (unreadNotificationsCount === 0) {
-                notificationContainer.classList.remove('notBtn1');
-            }
+            function updateNotifications2(unreadNotificationsCount, notifications) {
+                var notificationContainer = document.getElementById('notification-container');
+                if (unreadNotificationsCount.unreadNotifications.length > 0) {
+                    unreadNotificationsCount = 0
+                }
 
-            if (notificationContainer) {
-                var notificationList = document.querySelector('.display');
-                if (notificationList) {
-                    while (notificationList.firstChild) {
-                        notificationList.removeChild(notificationList.firstChild);
-                    }
+                if (unreadNotificationsCount.unreadNotifications > 0) {
+                    notificationContainer.classList.add('notBtn1');
+                }
 
-                    if (notifications.length === 0) {
-                        var noNotificationMessage = document.createElement('div');
-                        noNotificationMessage.textContent = 'No Notifications';
-                        noNotificationMessage.classList.add('no-notification');
-                        notificationList.appendChild(noNotificationMessage);
-                    } else {
-                        if (notifications.notifications) {
-                            notifications.notifications.forEach(function(notification) {
+                if (unreadNotificationsCount.unreadNotifications === 0) {
+                    notificationContainer.classList.remove('notBtn1');
+                }
+
+                if (notificationContainer) {
+                    var notificationList = document.querySelector('.display');
+                    if (notificationList) {
+                        while (notificationList.firstChild) {
+                            notificationList.removeChild(notificationList.firstChild);
+                        }
+
+                        if (unreadNotificationsCount.notifications.length === 0) {
+                            var noNotificationMessage = document.createElement('div');
+                            noNotificationMessage.textContent = 'No Notifications';
+                            noNotificationMessage.classList.add('no-notification');
+                            notificationList.appendChild(noNotificationMessage);
+                        } else {
+                            unreadNotificationsCount.notifications.forEach(function(notification) {
                                 var notificationDiv = document.createElement('div');
                                 notificationDiv.classList.add('sec');
 
@@ -401,6 +274,7 @@
                                 link.appendChild(subTxtDiv);
                                 notificationDiv.appendChild(link);
                                 notificationList.appendChild(notificationDiv);
+
                                 txtDiv.addEventListener('click', function() {
                                     var id = this.getAttribute('data-id');
                                     document.getElementById('notification_id').value = id;
@@ -410,20 +284,25 @@
                                         '{{ route('fetch-notifications-message') }}?id=' +
                                         id;
                                     xhr.open('GET', url, true);
-                                    xhr.setRequestHeader('Content-Type', 'application/json');
+                                    xhr.setRequestHeader('Content-Type',
+                                        'application/json');
                                     xhr.setRequestHeader('X-CSRF-TOKEN',
                                         '{{ csrf_token() }}');
 
                                     xhr.onload = function() {
                                         if (xhr.status >= 200 && xhr.status < 300) {
                                             var response = JSON.parse(xhr.responseText);
-                                            document.getElementById('notification-details')
+                                            document.getElementById(
+                                                    'notification-details')
                                                 .innerHTML = ' ';
-                                            document.getElementById('notification-details')
-                                                .innerHTML = response.notificationDetails
+                                            document.getElementById(
+                                                    'notification-details')
+                                                .innerHTML = response
+                                                .notificationDetails
                                                 .notification.messages;
                                         } else {
-                                            console.error('Error fetching notifications:',
+                                            console.error(
+                                                'Error fetching notifications:',
                                                 xhr
                                                 .statusText);
                                         }
@@ -438,9 +317,62 @@
                                     xhr.send();
                                 });
                             });
+                        }
+                    }
+                }
+            }
+
+
+            document.getElementById('markread').addEventListener('click', function() {
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '{{ route('mark-all-as-read') }}', true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
+
+                xhr.onload = function() {
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        getNotifications();
+                    } else {
+                        console.error('Error marking all notifications as read:', xhr.statusText);
+                    }
+                };
+
+                xhr.onerror = function() {
+                    console.error('Network error while marking all notifications as read');
+                };
+
+                xhr.send();
+            });
+
+            function updateNotifications(unreadNotificationsCount, notifications) {
+                var notificationContainer = document.getElementById('notification-container');
+                if (unreadNotificationsCount.length > 0) {
+                    unreadNotificationsCount = 0
+                }
+
+                if (unreadNotificationsCount > 0) {
+                    notificationContainer.classList.add('notBtn1');
+                }
+
+                if (unreadNotificationsCount === 0) {
+                    notificationContainer.classList.remove('notBtn1');
+                }
+
+                if (notificationContainer) {
+                    var notificationList = document.querySelector('.display');
+                    if (notificationList) {
+                        while (notificationList.firstChild) {
+                            notificationList.removeChild(notificationList.firstChild);
+                        }
+
+                        if (notifications.length === 0) {
+                            var noNotificationMessage = document.createElement('div');
+                            noNotificationMessage.textContent = 'No Notifications';
+                            noNotificationMessage.classList.add('no-notification');
+                            notificationList.appendChild(noNotificationMessage);
                         } else {
-                            if (notifications.length > 0) {
-                                notifications.forEach(function(notification) {
+                            if (notifications.notifications) {
+                                notifications.notifications.forEach(function(notification) {
                                     var notificationDiv = document.createElement('div');
                                     notificationDiv.classList.add('sec');
 
@@ -471,7 +403,6 @@
                                     link.appendChild(subTxtDiv);
                                     notificationDiv.appendChild(link);
                                     notificationList.appendChild(notificationDiv);
-
                                     txtDiv.addEventListener('click', function() {
                                         var id = this.getAttribute('data-id');
                                         document.getElementById('notification_id').value = id;
@@ -482,7 +413,7 @@
                                             id;
                                         xhr.open('GET', url, true);
                                         xhr.setRequestHeader('Content-Type',
-                                            'application/json');
+                                        'application/json');
                                         xhr.setRequestHeader('X-CSRF-TOKEN',
                                             '{{ csrf_token() }}');
 
@@ -514,11 +445,92 @@
                                         xhr.send();
                                     });
                                 });
+                            } else {
+                                if (notifications.length > 0) {
+                                    notifications.forEach(function(notification) {
+                                        var notificationDiv = document.createElement('div');
+                                        notificationDiv.classList.add('sec');
+
+                                        if (notification.status == 0) {
+                                            notificationDiv.classList.add('new');
+                                        }
+
+                                        var link = document.createElement('a');
+                                        var txtDiv = document.createElement('div');
+                                        txtDiv.setAttribute('data-bs-toggle', 'modal');
+                                        txtDiv.setAttribute('data-bs-target', '#notificationmodal');
+                                        txtDiv.setAttribute('data-id', notification.id);
+                                        txtDiv.classList.add('notificationBox');
+
+                                        txtDiv.classList.add('txt');
+                                        txtDiv.textContent = notification.messages;
+
+                                        var subTxtDiv = document.createElement('div');
+                                        subTxtDiv.classList.add('txt', 'sub');
+                                        subTxtDiv.textContent = moment(notification.created_at)
+                                        .fromNow();
+
+                                        if (notification.status == 0) {
+                                            txtDiv.classList.add('boldtxt');
+                                            subTxtDiv.textContent += ' (unread)';
+                                        }
+
+                                        link.appendChild(txtDiv);
+                                        link.appendChild(subTxtDiv);
+                                        notificationDiv.appendChild(link);
+                                        notificationList.appendChild(notificationDiv);
+
+                                        txtDiv.addEventListener('click', function() {
+                                            var id = this.getAttribute('data-id');
+                                            document.getElementById('notification_id').value =
+                                                id;
+
+                                            var xhr = new XMLHttpRequest();
+                                            var url =
+                                                '{{ route('fetch-notifications-message') }}?id=' +
+                                                id;
+                                            xhr.open('GET', url, true);
+                                            xhr.setRequestHeader('Content-Type',
+                                                'application/json');
+                                            xhr.setRequestHeader('X-CSRF-TOKEN',
+                                                '{{ csrf_token() }}');
+
+                                            xhr.onload = function() {
+                                                if (xhr.status >= 200 && xhr.status < 300) {
+                                                    var response = JSON.parse(xhr
+                                                        .responseText);
+                                                    document.getElementById(
+                                                            'notification-details')
+                                                        .innerHTML = ' ';
+                                                    document.getElementById(
+                                                            'notification-details')
+                                                        .innerHTML = response
+                                                        .notificationDetails
+                                                        .notification.messages;
+                                                } else {
+                                                    console.error(
+                                                        'Error fetching notifications:',
+                                                        xhr
+                                                        .statusText);
+                                                }
+                                            };
+
+                                            xhr.onerror = function() {
+                                                console.error(
+                                                    'Network error while fetching notifications'
+                                                );
+                                            };
+
+                                            xhr.send();
+                                        });
+                                    });
+                                }
                             }
                         }
                     }
                 }
             }
+
         }
 
     });
