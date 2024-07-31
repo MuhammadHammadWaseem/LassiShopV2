@@ -132,7 +132,7 @@
                                 style="user-select: none; position: absolute; top: -8px; right: -8px; background-color: rgb(252, 51, 51); color: white; border-radius: 50%; padding-left: 6px; padding-right: 6px;"></span>
                             <button class="btn btn-primary btn-sm ms-3" id="show-hold-order">Hold Orders</button>
                         </div>
-                        @if (auth()->user()->can('pos_online_orders'))
+                        @if (auth()->user()->can('pos_online_orders') || auth()->user()->id == 1)
                         <div class="position-relative">
                             <span id="online-order-count"
                                 style="user-select: none; position: absolute; top: -8px; right: -8px; background-color: rgb(252, 51, 51); color: white; border-radius: 50%; padding-left: 6px; padding-right: 6px;"></span>
