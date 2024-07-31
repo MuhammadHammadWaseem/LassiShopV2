@@ -249,7 +249,7 @@
 
                                                 <!-- Date -->
                                                 <div class="form-group col-md-6">
-                                                    <label for="Unit_price">Date
+                                                    <label for="date">Date
                                                         <span class="field_required">*</span></label>
                                                     <input type="date" name="date" id="date"
                                                         value="{{ date('Y-m-d') }}" class="form-control">
@@ -258,7 +258,7 @@
 
                                                 <!-- Paying Amount -->
                                                 <div class="form-group col-md-6">
-                                                    <label>Paying Amount <span class="field_required">*</span></label>
+                                                    <label for="paying_amount">Paying Amount <span class="field_required">*</span></label>
                                                     <input type="text" id="paying_amount" name="paying_amount"
                                                         class="form-control">
                                                     <span class="badge badge-danger mt-2"
@@ -268,7 +268,7 @@
 
                                                 <!-- Payment Choice -->
                                                 <div class="form-group col-md-6">
-                                                    <label for="ordertax">Payment Choice
+                                                    <label for="payment_method_id">Payment Choice
                                                         <span class="field_required">*</span></label>
                                                     <select name="payment_method_id" id="payment_method_id"
                                                         class="form-control">
@@ -286,7 +286,7 @@
 
                                                 <!-- Account -->
                                                 <div class="form-group col-md-6">
-                                                    <label>Account <span class="field_required">*</span></label>
+                                                    <label for="account_id">Account <span class="field_required">*</span></label>
                                                     <select name="account_id" id="account_id" class="form-control">
                                                         @foreach ($accounts as $account)
                                                             <option value="">Select Account</option>
@@ -298,7 +298,7 @@
                                                     <span class="error"></span>
                                                 </div>
 
-                                                <!-- Payment Note -->
+                                                {{-- <!-- Payment Note -->
                                                 <div class="form-group col-md-6">
                                                     <label for="note">Payment Note
                                                         <span class="field_required">*</span></label>
@@ -311,7 +311,7 @@
                                                     <label>Sale Note <span class="field_required">*</span></label>
                                                     <textarea class="form-control sale_note" name="note" id="note" cols="30" rows="10"></textarea>
                                                     <span class="error"></span>
-                                                </div>
+                                                </div> --}}
 
                                                 <div class="col-lg-12">
                                                 </div>
@@ -339,7 +339,7 @@
                                                     <label for="username">{{ __('translate.FullName') }} <span
                                                             class="field_required">*</span></label>
                                                     <input type="text" class="form-control" name="username"
-                                                        id="username" placeholder="{{ __('translate.FullName') }}">
+                                                        id="username" placeholder="{{ __('translate.FullName') }}" autocomplete="off">
                                                     <span class="error"> </span>
                                                 </div>
 
@@ -347,7 +347,7 @@
                                                     <label for="Phone">{{ __('translate.Phone') }}</label>
                                                     <input type="text" class="form-control" id="Phone"
                                                         name="phone"
-                                                        placeholder="{{ __('translate.Enter_Phone') }}">
+                                                        placeholder="{{ __('translate.Enter_Phone') }}" autocomplete="off">
                                                     <span class="error"> </span>
                                                 </div>
 
@@ -355,7 +355,7 @@
                                                     <label for="city">{{ __('translate.City') }}</label>
                                                     <input type="text" class="form-control" id="city"
                                                         name="city"
-                                                        placeholder="{{ __('translate.Enter_City') }}">
+                                                        placeholder="{{ __('translate.Enter_City') }}" autocomplete="off">
                                                     <span class="error"> </span>
                                                 </div>
 
@@ -363,7 +363,7 @@
                                                     <label for="email">{{ __('translate.Email') }}</label>
                                                     <input type="text" class="form-control" id="email"
                                                         id="email"
-                                                        placeholder="{{ __('translate.Enter_email_address') }}">
+                                                        placeholder="{{ __('translate.Enter_email_address') }}" autocomplete="off">
                                                     <span class="error"> </span>
                                                 </div>
 
@@ -376,7 +376,7 @@
 
                                                 <div class="form-group col-md-8">
                                                     <label for="address">{{ __('translate.Address') }}</label>
-                                                    <textarea class="form-control" name="address" id="address" placeholder="{{ __('translate.Address') }}"></textarea>
+                                                    <textarea class="form-control" name="address" id="address" placeholder="{{ __('translate.Address') }}" autocomplete="off"></textarea>
                                                 </div>
 
                                             </div>

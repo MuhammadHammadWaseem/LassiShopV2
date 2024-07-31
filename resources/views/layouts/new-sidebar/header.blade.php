@@ -88,7 +88,7 @@
                             <a href="javascript:void(0)">
                                 <div class="row">
                                     <div class="col-md-8"></div>
-                                    <div class="col-md-4"> <label for="markread" id="markread" class="mt-2">Mark All
+                                    <div class="col-md-4"> <label id="markread" class="mt-2">Mark All
                                             As
                                             Read</label></div>
                                 </div>
