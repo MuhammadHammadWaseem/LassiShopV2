@@ -6279,6 +6279,10 @@
                             </div> --}}
                             <input type="hidden" name="latitude" id="latitude">
                             <input type="hidden" name="longitude" id="longitude">
+
+                            <br />
+                            <small class="mt-5 text-danger">Please enable your browser location to checkout!</small><br />
+
                             <button type="button" class="btn btn-danger mt-3" onclick="placeOrder()">Submit</button>
                         </form>
                     </div>
