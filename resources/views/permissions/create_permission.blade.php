@@ -407,6 +407,14 @@
                                                         </label>
                                                     </div>
                                                     <div class="form-check form-check-inline w-100">
+                                                        <label class="checkbox checkbox-primary" for="pos_online_orders">
+                                                            <input type="checkbox" name="permissions[]"
+                                                                id="pos_online_orders"
+                                                                value="pos_online_orders"><span>POS Online Orders</span><span
+                                                                class="checkmark"></span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline w-100">
                                                         <label class="checkbox checkbox-primary" for="view-orderList">
                                                             <input type="checkbox" name="permissions[]"
                                                                 id="view-orderList"

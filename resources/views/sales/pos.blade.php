@@ -132,11 +132,13 @@
                                 style="user-select: none; position: absolute; top: -8px; right: -8px; background-color: rgb(252, 51, 51); color: white; border-radius: 50%; padding-left: 6px; padding-right: 6px;"></span>
                             <button class="btn btn-primary btn-sm ms-3" id="show-hold-order">Hold Orders</button>
                         </div>
+                        @if (auth()->user()->can('pos_online_orders'))
                         <div class="position-relative">
                             <span id="online-order-count"
                                 style="user-select: none; position: absolute; top: -8px; right: -8px; background-color: rgb(252, 51, 51); color: white; border-radius: 50%; padding-left: 6px; padding-right: 6px;"></span>
                             <button class="btn btn-primary btn-sm ms-3" id="show-online-order">Online Orders</button>
                         </div>
+                        @endif
                     </div>
 
                     <div class="row pos-card-left">
@@ -913,17 +915,7 @@
                     <td>${ data.orderData.order_no }</td>
                     <td>${ data.orderData.name }</td>
                     <td>${ data.orderData.email }</td>
-                    <td>
-                        <button type="button" class="btn btn-danger btn-sm"
-                            data-bs-dismiss="modal"
-                            id="DeleteHoldOrder" data-id="${data.orderData.id}">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                height="16" fill="currentColor"
-                                class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                <path
-                                    d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
-                            </svg>
-                        </button>
+                    <td class="text-center">
                         <button type="button" class="btn btn-primary btn-sm"
                             data-bs-dismiss="modal" id="editOnlineOrder"
                             data-id="${data.orderData.id}">
@@ -1175,17 +1167,7 @@
                                 <td>${ element.order_no }</td>
                                 <td>${ element.name }</td>
                                 <td>${ element.email }</td>
-                                <td>
-                                    <button type="button" class="btn btn-danger btn-sm"
-                                        data-bs-dismiss="modal"
-                                        id="DeleteHoldOrder" data-id="${element.id}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                            height="16" fill="currentColor"
-                                            class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                            <path
-                                                d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
-                                        </svg>
-                                    </button>
+                                <td class="text-center">
                                     <button type="button" class="btn btn-primary btn-sm"
                                         data-bs-dismiss="modal" id="editOnlineOrder"
                                         data-id="${element.id}">
