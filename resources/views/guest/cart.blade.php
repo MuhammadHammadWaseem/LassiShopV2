@@ -6595,6 +6595,9 @@
                 });
             });
         }
+        else {
+            alert("Geolocation is not supported by this browser.");
+        }
     }
 
     function displayErrors(errors) {
