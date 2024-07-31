@@ -6303,7 +6303,10 @@ select#payment_method_id {
 <script>
     var route;
     $(document).ready(function() {
+        $("#placeOrder").prop("disabled", true);
+
         $("#payment_method_id").change(function() {
+        $("#placeOrder").prop("disabled", false);
         var selectedValue = $(this).val();
         var selectedOption = $(this).find("option:selected");
         $("#paymentMethod").val(selectedValue);

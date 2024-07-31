@@ -1422,7 +1422,12 @@
                     success: function(data) {
                         const warehouseId = $("#warehouse_id").val();
                         const categoryId = $(".category-item.CategorySelected").data("id");
-                        $("#payment_method_id").val(data.data.onlineOrderDetails[0].payment_method_id);
+                        if (data && data.data && data.data.onlineOrderDetails && data.data.onlineOrderDetails[0]) {
+                            $("#payment_method_id").val(data.data.onlineOrderDetails[0].payment_method_id);
+                        } else {
+                            console.error("Online order details are not available or empty.");
+                        }
+
                         if (data.data.onlineOrderDetails[0] && data.data.onlineOrderDetails[0]
                             .payment_method == 'Cash') {
                             $("#cash").prop('checked', true).click();
