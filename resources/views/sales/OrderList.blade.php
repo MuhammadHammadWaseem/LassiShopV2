@@ -188,14 +188,15 @@
             max-width: 30%;
         } */
 
-        .order-list-sec .pagenations {
-            display: flex;
-            column-gap: 20px;
-            align-items: center;
-            justify-content: flex-start;
-            padding: 50px 0;
-            overflow-x: auto !important;
-        }
+.order-list-sec .pagenations {
+    display: flex;
+    column-gap: 20px;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 50px 0 30px;
+    overflow-x: auto !important;
+    margin-bottom: 30px;
+}
 
 
         .order-list-sec .pagenations::-webkit-scrollbar {
