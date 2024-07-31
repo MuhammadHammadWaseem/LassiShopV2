@@ -48,7 +48,8 @@ class GuestController extends Controller
         $setting = Setting::with('currency')->get();
         $category = Category::find($id);
         if ($category) {
-            $products = NewProduct::where('category_id', $id)->get();
+            // $products = NewProduct::where('category_id', $id)->get();
+            $products = NewProduct::all();
         }
         return view('guest.products', compact('setting', 'category', 'products'));
     }
