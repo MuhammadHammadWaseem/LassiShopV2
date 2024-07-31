@@ -297,7 +297,7 @@
         </div>
 
 
-        <div class="pagenations" id="paginationContainer">
+        <div class="pagenations" style="overflow-x: scroll" id="paginationContainer">
             {{-- <button class="prev-btn" id="prev-pagi">Prev</button> --}}
             <span id="pagination"></span>
             {{-- <button class="next-btn" id="next-pagi">Next</button> --}}
