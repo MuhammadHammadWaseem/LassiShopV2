@@ -190,11 +190,36 @@
 
         .order-list-sec .pagenations {
             display: flex;
-            column-gap: 50px;
+            column-gap: 20px;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             padding: 50px 0;
+            overflow-x: auto !important;
         }
+
+
+        .order-list-sec .pagenations::-webkit-scrollbar {
+            width: 5px;
+            height: 10px;
+        }
+
+        /* Track */
+        .order-list-sec .pagenations::-webkit-scrollbar-track {
+            box-shadow: inset 0 0 5px rgba(128, 128, 128, 0);
+            border-radius: 10px;
+        }
+
+        /* Handle */
+        .order-list-sec .pagenations::-webkit-scrollbar-thumb {
+            background: red;
+            border-radius: 10px;
+        }
+
+        /* Handle on hover */
+        .order-list-sec .pagenations::-webkit-scrollbar-thumb:hover {
+            background: white;
+        }
+
 
         .order-list-sec .pagenations button {
             background-color: #bf1e2e;
@@ -204,6 +229,10 @@
             padding: 5px 15px;
             border-radius: 10px;
             transition: .3s;
+        }
+
+        .order-list-sec .pagenations button.page-btn {
+            width: 25% !important;
         }
 
         .order-list-sec .pagenations a {
@@ -458,7 +487,8 @@
                 type: 'GET',
                 dataType: 'json',
                 success: function(response) {
-                    allOrders = mergeOrders([], response.orders); // Initialize allOrders with the fetched orders
+                    allOrders = mergeOrders([], response
+                        .orders); // Initialize allOrders with the fetched orders
                     renderOrders();
                     renderPagination();
                 },
@@ -484,7 +514,8 @@
                     },
                     dataType: 'json',
                     success: function(response) {
-                        allOrders = mergeOrders([], response.orders); // Update allOrders with the fetched orders
+                        allOrders = mergeOrders([], response
+                            .orders); // Update allOrders with the fetched orders
                         renderOrders();
                         renderPagination();
                     },
@@ -511,7 +542,8 @@
                     },
                     dataType: 'json',
                     success: function(response) {
-                        allOrders = mergeOrders([], response.orders); // Update allOrders with the fetched orders
+                        allOrders = mergeOrders([], response
+                            .orders); // Update allOrders with the fetched orders
                         renderOrders();
                         renderPagination();
                     },
@@ -535,7 +567,8 @@
                     },
                     dataType: 'json',
                     success: function(response) {
-                        allOrders = mergeOrders([], response.orders); // Update allOrders with the fetched orders
+                        allOrders = mergeOrders([], response
+                            .orders); // Update allOrders with the fetched orders
                         renderOrders();
                         renderPagination();
                     },
