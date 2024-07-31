@@ -318,28 +318,27 @@
         }
 
 
-        if({{Auth::user()->id == 1}}){
-            document.getElementById('markread').addEventListener('click', function() {
-                var xhr = new XMLHttpRequest();
-                xhr.open('POST', '{{ route('mark-all-as-read') }}', true);
-                xhr.setRequestHeader('Content-Type', 'application/json');
-                xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
 
-                xhr.onload = function() {
-                    if (xhr.status >= 200 && xhr.status < 300) {
-                        getNotifications();
-                    } else {
-                        console.error('Error marking all notifications as read:', xhr.statusText);
-                    }
-                };
+        document.getElementById('markread').addEventListener('click', function() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '{{ route('mark-all-as-read') }}', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
 
-                xhr.onerror = function() {
-                    console.error('Network error while marking all notifications as read');
-                };
+            xhr.onload = function() {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    getNotifications();
+                } else {
+                    console.error('Error marking all notifications as read:', xhr.statusText);
+                }
+            };
 
-                xhr.send();
-            });
-        }
+            xhr.onerror = function() {
+                console.error('Network error while marking all notifications as read');
+            };
+
+            xhr.send();
+        });
 
         function updateNotifications(unreadNotificationsCount, notifications) {
             var notificationContainer = document.getElementById('notification-container');
