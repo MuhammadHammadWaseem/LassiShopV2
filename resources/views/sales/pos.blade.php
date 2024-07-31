@@ -904,9 +904,6 @@
         var channel = pusher.subscribe('online-order');
 
         channel.bind('online-order', function(data) {
-            console.log("Pusher: online-order");
-            console.log(data.orderData);
-            console.log(data.countOrderData);
             $("#online-order-count").text(data.countOrderData);
             // update the order in the table
             $("#online_list").prepend(`
