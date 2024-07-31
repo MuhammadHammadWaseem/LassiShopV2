@@ -351,29 +351,30 @@ class GuestController extends Controller
                     $productWarehouse->save();
 
                     $productStockCheck = Product::where('id', $newProductDetail->base_product_id)->first();
-                    if ($productStockCheck->stock_alert >= $productWarehouse->qte) {
-                        $notification = Notification::create([
-                            'messages' => 'Product ( ' . $productStockCheck->name . ' ) is low in stock, please restock.',
-                        ]);
-                        $user = User::where('id', 1)->first();
-                        $data =  NotificationDetail::create([
-                            'notification_id' => $notification->id,
-                            'user_id' => $user->id,
-                            'status' => 0,
-                            'read_at' => null,
-                            'created_at' => Carbon::now()->tz('Asia/Dubai'),
-                            'updated_at' => Carbon::now()->tz('Asia/Dubai'),
-                        ]);
-                        $notifications = DB::table('notification')
-                            ->select('*')
-                            ->join('notification_details', 'notification.id', '=', 'notification_details.notification_id')
-                            ->where('notification_details.user_id', Auth::user()->id ?? NULL)
-                            ->where('notification_details.status', 0)
-                            ->orderBy('notification.id', 'desc')
-                            ->get();
-                        $unreadNotificationsCount = NotificationDetail::where('user_id', Auth::user()->id ?? NULL)->where('status', 0)->count();
-                        event(new NotificationCreate($unreadNotificationsCount, $notifications));
-                    }
+                    // WORKING EVENT
+                    // if ($productStockCheck->stock_alert >= $productWarehouse->qte) {
+                    //     $notification = Notification::create([
+                    //         'messages' => 'Product ( ' . $productStockCheck->name . ' ) is low in stock, please restock.',
+                    //     ]);
+                    //     $user = User::where('id', 1)->first();
+                    //     $data =  NotificationDetail::create([
+                    //         'notification_id' => $notification->id,
+                    //         'user_id' => $user->id,
+                    //         'status' => 0,
+                    //         'read_at' => null,
+                    //         'created_at' => Carbon::now()->tz('Asia/Dubai'),
+                    //         'updated_at' => Carbon::now()->tz('Asia/Dubai'),
+                    //     ]);
+                    //     $notifications = DB::table('notification')
+                    //         ->select('*')
+                    //         ->join('notification_details', 'notification.id', '=', 'notification_details.notification_id')
+                    //         ->where('notification_details.user_id', Auth::user()->id ?? NULL)
+                    //         ->where('notification_details.status', 0)
+                    //         ->orderBy('notification.id', 'desc')
+                    //         ->get();
+                    //     $unreadNotificationsCount = NotificationDetail::where('user_id', Auth::user()->id ?? NULL)->where('status', 0)->count();
+                    //     event(new NotificationCreate($unreadNotificationsCount, $notifications));
+                    // }
                 }
             }
 
@@ -397,23 +398,24 @@ class GuestController extends Controller
         ]);
 
         $user = User::where('id', 1)->first();
-        $data2 =  NotificationDetail::create([
-            'notification_id' => $notification2->id,
-            'user_id' => $user->id,
-            'status' => 0,
-            'read_at' => null,
-            'created_at' => Carbon::now()->tz('Asia/Dubai'),
-            'updated_at' => Carbon::now()->tz('Asia/Dubai'),
-        ]);
-        $notifications2 = DB::table('notification')
-            ->select('*')
-            ->join('notification_details', 'notification.id', '=', 'notification_details.notification_id')
-            ->where('notification_details.user_id', 1)
-            ->where('notification_details.status', 0)
-            ->orderBy('notification.id', 'desc')
-            ->get();
-        $unreadNotificationsCount2 = NotificationDetail::where('user_id', 1)->where('status', 0)->count();
-        event(new NotificationCreate($unreadNotificationsCount2, $notifications2));
+        // WORKING EVENT
+        // $data2 =  NotificationDetail::create([
+        //     'notification_id' => $notification2->id,
+        //     'user_id' => $user->id,
+        //     'status' => 0,
+        //     'read_at' => null,
+        //     'created_at' => Carbon::now()->tz('Asia/Dubai'),
+        //     'updated_at' => Carbon::now()->tz('Asia/Dubai'),
+        // ]);
+        // $notifications2 = DB::table('notification')
+        //     ->select('*')
+        //     ->join('notification_details', 'notification.id', '=', 'notification_details.notification_id')
+        //     ->where('notification_details.user_id', 1)
+        //     ->where('notification_details.status', 0)
+        //     ->orderBy('notification.id', 'desc')
+        //     ->get();
+        // $unreadNotificationsCount2 = NotificationDetail::where('user_id', 1)->where('status', 0)->count();
+        // event(new NotificationCreate($unreadNotificationsCount2, $notifications2));
 
         //Points Work
         $settings = Setting::where('deleted_at', '=', null)->first();

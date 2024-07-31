@@ -203,15 +203,15 @@ class PosController extends Controller
                     'orignal_quantity' => $value['quantity'],
                 ]);
 
-                // Retrieve the newly created order along with its associated new product
-                $newlyCreatedOrder = Order::with('newProduct')->find($orders->id);
-                // Group the orders by order number
-                $groupedOrders = Order::with('newProduct')
-                    ->where('order_no', $newlyCreatedOrder->order_no)
-                    ->get()
-                    ->groupBy('order_no')
-                    ->values()
-                    ->all();
+                // // Retrieve the newly created order along with its associated new product
+                // $newlyCreatedOrder = Order::with('newProduct')->find($orders->id);
+                // // Group the orders by order number
+                // $groupedOrders = Order::with('newProduct')
+                //     ->where('order_no', $newlyCreatedOrder->order_no)
+                //     ->get()
+                //     ->groupBy('order_no')
+                //     ->values()
+                //     ->all();
 
                 // $orders = Order::with('newProduct')->get();
                 // event(new OrderList($groupedOrders));
@@ -241,29 +241,31 @@ class PosController extends Controller
                         $productWarehouse->save();
 
                         $productStockCheck = Product::where('id', $newProductDetail->base_product_id)->first();
-                        if ($productStockCheck->stock_alert >= $productWarehouse->qte) {
-                            $notification = Notification::create([
-                                'messages' => 'Product ( ' . $productStockCheck->name . ' ) is low in stock, please restock.',
-                            ]);
-                            $user = User::where('id', 1)->first();
-                            $data =  NotificationDetail::create([
-                                'notification_id' => $notification->id,
-                                'user_id' => $user->id,
-                                'status' => 0,
-                                'read_at' => null,
-                                'created_at' => Carbon::now()->tz('Asia/Dubai'),
-                                'updated_at' => Carbon::now()->tz('Asia/Dubai'),
-                            ]);
-                            $notifications = DB::table('notification')
-                                ->select('*')
-                                ->join('notification_details', 'notification.id', '=', 'notification_details.notification_id')
-                                ->where('notification_details.user_id', Auth::user()->id)
-                                ->where('notification_details.status', 0)
-                                ->orderBy('notification.id', 'desc')
-                                ->get();
-                            $unreadNotificationsCount = NotificationDetail::where('user_id', Auth::user()->id)->where('status', 0)->count();
-                            event(new NotificationCreate($unreadNotificationsCount, $notifications));
-                        }
+                        // WORKING EVENT
+                        // if ($productStockCheck->stock_alert >= $productWarehouse->qte) {
+                        //     $notification = Notification::create([
+                        //         'messages' => 'Product ( ' . $productStockCheck->name . ' ) is low in stock, please restock.',
+                        //     ]);
+                        //     $user = User::where('id', 1)->first();
+                        //     $data =  NotificationDetail::create([
+                        //         'notification_id' => $notification->id,
+                        //         'user_id' => $user->id,
+                        //         'status' => 0,
+                        //         'read_at' => null,
+                        //         'created_at' => Carbon::now()->tz('Asia/Dubai'),
+                        //         'updated_at' => Carbon::now()->tz('Asia/Dubai'),
+                        //     ]);
+                        //     $notifications = DB::table('notification')
+                        //         ->select('*')
+                        //         ->join('notification_details', 'notification.id', '=', 'notification_details.notification_id')
+                        //         ->where('notification_details.user_id', Auth::user()->id)
+                        //         ->where('notification_details.status', 0)
+                        //         ->orderBy('notification.id', 'desc')
+                        //         ->get();
+                        //     $unreadNotificationsCount = NotificationDetail::where('user_id', Auth::user()->id)->where('status', 0)->count();
+                        //     // WORKING EVENT
+                        //     // event(new NotificationCreate($unreadNotificationsCount, $notifications));
+                        // }
                     }
                 }
 
@@ -395,27 +397,29 @@ class PosController extends Controller
                 Point::where('user_id', $client_id)->update(['remaining_user_point' => $user_remaining_point, 'total_user_point' => $user_total_point]);
             }
 
-            $notification2 = Notification::create([
-                'messages' => 'New Order Created  Order Number: ' . $order->Ref ,
-            ]);
-            $user = User::where('id', 1)->first();
-            $data2 =  NotificationDetail::create([
-                'notification_id' => $notification2->id,
-                'user_id' => $user->id,
-                'status' => 0,
-                'read_at' => null,
-                'created_at' => Carbon::now()->tz('Asia/Dubai'),
-                'updated_at' => Carbon::now()->tz('Asia/Dubai'),
-            ]);
-            $notifications2 = DB::table('notification')
-                ->select('*')
-                ->join('notification_details', 'notification.id', '=', 'notification_details.notification_id')
-                ->where('notification_details.user_id', 1)
-                ->where('notification_details.status', 0)
-                ->orderBy('notification.id', 'desc')
-                ->get();
-            $unreadNotificationsCount2 = NotificationDetail::where('user_id', 1)->where('status', 0)->count();
-            event(new NotificationCreate($unreadNotificationsCount2, $notifications2));
+            // WORKING EVENT
+            // $notification2 = Notification::create([
+            //     'messages' => 'New Order Created  Order Number: ' . $order->Ref ,
+            // ]);
+            // $user = User::where('id', 1)->first();
+            // $data2 =  NotificationDetail::create([
+            //     'notification_id' => $notification2->id,
+            //     'user_id' => $user->id,
+            //     'status' => 0,
+            //     'read_at' => null,
+            //     'created_at' => Carbon::now()->tz('Asia/Dubai'),
+            //     'updated_at' => Carbon::now()->tz('Asia/Dubai'),
+            // ]);
+            // $notifications2 = DB::table('notification')
+            //     ->select('*')
+            //     ->join('notification_details', 'notification.id', '=', 'notification_details.notification_id')
+            //     ->where('notification_details.user_id', 1)
+            //     ->where('notification_details.status', 0)
+            //     ->orderBy('notification.id', 'desc')
+            //     ->get();
+            // $unreadNotificationsCount2 = NotificationDetail::where('user_id', 1)->where('status', 0)->count();
+            // WORKING EVENT
+            // event(new NotificationCreate($unreadNotificationsCount2, $notifications2));
             
             $this->broadcastNewOrderEvent($orders);
             return $order->id;
