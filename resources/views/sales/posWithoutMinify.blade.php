@@ -5,9 +5,14 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ $settings->CompanyName }}</title>
+    <title>{{ $settings->CompanyName }} - Ultimate Inventory Management System with POS</title>
+    <script src="{{ asset('/assets/js/vue.js') }}"></script>
+    <script src="{{ asset('/assets/js/jquery.min.js') }}"></script>
+    <!-- Favicon icon -->
     <link rel=icon href={{ asset('images/' . $settings->logo) }}>
-    
+    <!-- Base Styling  -->
+
+    <link rel="stylesheet" href="{{ asset('assets/pos/main/css/fonts.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/pos/main/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/styles/css/themes/lite-purple.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/fonts/iconsmind/iconsmind.css') }}">
@@ -18,14 +23,35 @@
         integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ asset('assets/styles/vendor/bootstrap-vue.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/styles/vendor/toastr.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/styles/vendor/vue-select.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/styles/vendor/sweetalert2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/styles/vendor/nprogress.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/styles/vendor/autocomplete.css') }}">
+
+    <script src="{{ asset('assets/js/axios.js') }}"></script>
+    <script src="{{ asset('assets/js/vue-select.js') }}"></script>
     <script src="{{ asset('assets/pos/plugins/jquery/jquery.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('assets/styles/vendor/flatpickr.min.css') }}">
+
+    {{-- Alpine Js --}}
+    <script defer src="{{ asset('js/plugin-core/alpine-collapse.js') }}"></script>
+    <script defer src="{{ asset('js/plugin-core/alpine.js') }}"></script>
+    <script src="{{ asset('js/plugin-script/alpine-data.js') }}"></script>
+    <script src="{{ asset('js/plugin-script/alpine-store.js') }}"></script>
 
     <style>
+        /* Customize Select2 dropdown appearance */
         .select2-container {
             width: 100%;
+            /* Make it responsive */
             max-width: 800px !important;
+            /* Set a maximum width if needed */
         }
+
+        /* Customize Select2 dropdown appearance when closed */
         .select2-container--default .select2-selection--single {
             height: auto;
             font-size: 14px;
@@ -37,6 +63,8 @@
             color: #2B3445;
             transition: all 0.2s ease-in-out, color 0.2s ease-in-out;
         }
+
+        /* Customize Select2 dropdown appearance when open */
         .select2-container--default.select2-container--open .select2-selection--single {
             height: auto;
             border: 1px solid #ced4da;
@@ -47,11 +75,16 @@
             outline: 0;
             box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.16);
         }
+
+        /* Customize Select2 dropdown arrow when open */
         .select2-container--default .select2-selection__arrow {
             top: 25% !important;
         }
+
+        /* Customize Select2 dropdown arrow icon when open */
         .select2-container--default.select2-container--open .select2-selection__arrow b {
             border-color: #6c757d transparent transparent;
+            /* Bootstrap 5 default arrow color */
             border-width: 6px 6px 0;
         }
 
@@ -80,6 +113,20 @@
             <div class="content-section" id="main-pos">
                 <section class="pos-content">
                     <div class="d-flex align-items-end">
+                        {{-- <div class="w-50 text-gray-600 position-relative">
+                            <div id="autocomplete" class="autocomplete">
+                                <input type="text" class="form-control border border-gray-300 py-3 pr-3"
+                                    placeholder="{{ __('translate.Scan_Search_Product_by_Code_Name') }}" />
+                                <ul class="autocomplete-result-list">
+                                    <li></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="w-50 text-gray-600 position-relative">
+                            <div id="autocomplete" class="autocomplete">
+                                <ul id="CategoryUl"></ul>
+                            </div>
+                        </div> --}}
                         <div class="position-relative">
                             <span id="hold-order-count"
                                 style="user-select: none; position: absolute; top: -8px; right: -8px; background-color: rgb(252, 51, 51); color: white; border-radius: 50%; padding-left: 6px; padding-right: 6px;"></span>
@@ -97,13 +144,36 @@
                     <div class="row pos-card-left">
                         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
                             <form>
+
+                                <!-- warehouse -->
+                                {{-- <div class="filter-box">
+                                    <label>Warehouse <span class="field_required">*</span></label>
+                                    <select name="warehouse_id" class="form-control" id="warehouse_id">
+                                        <option value="">Select Warehouse</option>
+                                        @foreach ($warehouses as $warehouse)
+                                            <option value="{{ $warehouse->id }}"
+                                                {{ $warehouse->id == $settings->warehouse_id ? 'selected' : '' }}>
+                                                {{ $warehouse->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div> --}}
+
                                 <input type="hidden" name="warehouse_id" id="warehouse_id"
                                     value="{{ $settings->warehouse_id }}">
+
+                                <!-- Customer -->
                                 <div class="filter-box d-flex justify-content-between align-items-center">
                                     <label for="customer_id" style="z-index: 1">{{ __('translate.Customer') }} <span
                                             class="field_required">*</span></label>
                                     <select name="customer_id" class="form-control" id="customer_id">
                                         <option value="">Select Customer</option>
+                                        {{-- @foreach ($clients as $client)
+                                            <option value="{{ $client->id }}"
+                                                {{ $client->id == $settings->client_id ? 'selected' : '' }}>
+                                                {{ $client->username }}|{{ $client->phone }}
+                                            </option>
+                                        @endforeach --}}
                                     </select>
                                     <button class="btn btn-primary btn-sm" id="addCustomer">Add</button>
                                 </div>
@@ -116,6 +186,7 @@
                                     </div>
 
                                     <div class="card-items" id="cart-items">
+                                        {{-- Products will be displayed here using ajax --}}
                                     </div>
 
                                     <div class="cart-summery d-flex flex-row justify-content-center align-items-center">
@@ -123,8 +194,19 @@
                                         <div class="col-md-8">
                                             <div class="summery-item mb-2 row">
                                                 <span class="title mr-2 col-lg-12 col-sm-12">
+                                                    {{-- {{ __('translate.Shipping') }} --}}
                                                     Delivery Charge
                                                 </span>
+
+                                                {{-- <div class="col-lg-8 col-sm-12">
+                                                    <div class="input-group text-right">
+                                                        <input type="text" class="no-focus form-control pos-shipping"
+                                                            id="shipping">
+                                                        <span class="input-group-text cursor-pointer"
+                                                            id="basic-addon3">{{ $currency }}</span>
+                                                    </div>
+                                                    <span class="error"></span>
+                                                </div> --}}
                                             </div>
 
                                             <div class="summery-item mb-2 row">
@@ -210,6 +292,11 @@
                                                 <span>{{ __('translate.Total') }}</span>
                                                 <span id="GrandTotal"></span>
                                                 <input type="hidden" name="GrandTotal1" id="GrandTotal1">
+                                                {{-- @if ($symbol_placement == 'before')
+                                                    <span></span>
+                                                @else
+                                                    <span></span>
+                                                @endif --}}
                                             </h5>
                                         </div>
                                     </div>
@@ -225,6 +312,11 @@
                                                 id="ResetPos">Reset &nbsp;<i
                                                     class="fa-solid fa-arrow-rotate-right"></i></button>
                                         </div>
+                                        {{-- <div class="col-md-4">
+                                            <button class="cart-btn btn btn-primary" id="PayNow">
+                                                {{ __('translate.Pay_Now') }} <i class="fa-solid fa-money-bill"></i>
+                                            </button>
+                                        </div> --}}
                                     </div>
 
                                 </div>
@@ -314,6 +406,10 @@
                                                 </div>
 
                                                 <div class="col-lg-12">
+                                                    {{-- <button type="submit" id="save_pos" class="btn btn-primary">
+                                                        <i class="i-Yes me-2 font-weight-bold"></i>
+                                                        {{ __('translate.Submit') }}
+                                                    </button> --}}
                                                 </div>
                                             </div>
                                         </form>
@@ -528,6 +624,10 @@
                                                 <p>Items Total</p>
                                                 <h6 id="items-total">00.00</h6>
                                             </div>
+                                            {{-- <div class="input-output-value">
+                                                <p>Qty</p>
+                                                <h6>00.00</h6>
+                                            </div> --}}
                                             <div class="input-output-value">
                                                 <p>To Pay</p>
                                                 <h6 id="to-pay">00.00</h6>
@@ -540,6 +640,11 @@
                                                 <p>Paid Amount</p>
                                                 <h6 id="paid-amount">00.00</h6>
                                             </div>
+
+                                            {{-- <div class="input-output-value">
+                                                <p>Balance</p>
+                                                <h6 id="balance">00.00</h6>
+                                            </div> --}}
                                             <div class="input-output-value">
                                                 <p>Change</p>
                                                 <h6 id="change">00.00</h6>
@@ -591,6 +696,19 @@
                                     </button>
                                 </div>
                             </div>
+
+
+                            {{-- <div class="d-md-block col-12 col-lg-4">
+                                <div class="card category-card">
+                                    <div class="category-head">
+                                        <h5 class="fw-semibold m-0">{{ __('translate.All_Category') }}</h5>
+                                    </div>
+                                    <ul class="p-0" id="CategoryUl">
+                                        Category Print Here Using Ajax
+                                    </ul>
+                                </div>
+                            </div> --}}
+
                         </div>
                     </div>
             </div>
@@ -602,54 +720,192 @@
 
     {{-- --------------------------------------------------------------------------------------------- --}}
 
+    <script>
+        function appendNumber(number) {
+            const display = document.getElementById('display');
+            display.value += number;
+            $("#paid-amount").text(display.value);
+            $("#paying_amount").val(display.value);
+
+            if ($("#GrandTotal").text() > 0) {
+                if ($("#paid-amount").text() > $("#GrandTotal").text()) {
+                    $("#change").text(parseFloat($("#paid-amount").text()) - parseFloat($("#GrandTotal").text()));
+                }
+            }
+
+            if ($("#change").text() < 0) {
+                $("#change").text('00.00');
+            }
+
+            initialValue = null;
+
+        }
+
+        //function calculateGrandTotal() {
+        //    var currentValue = $("#grand-total-round-btn").text();
+        //    const display = document.getElementById('display');
+        //    display.value += currentValue;
+        //    $("#paid-amount").text(display.value);
+        //    $("#paying_amount").val(display.value);
+        //}
+
+        let initialValue = null; // Variable to store the initial value
+
+        function calculateGrandTotal() {
+            const display = document.getElementById('display');
+            const paidAmount = $("#paid-amount");
+            const payingAmount = $("#paying_amount");
+            const buttonValue = parseFloat($("#grand-total-round-btn").text());
+
+            if (initialValue === null) {
+                // First click: set initial value and update the display
+                initialValue = buttonValue;
+                display.value = initialValue;
+            } else {
+                // Subsequent clicks: double the value
+                initialValue *= 2;
+                display.value = initialValue;
+            }
+
+            // Update other elements with the new value
+            paidAmount.text(display.value);
+            payingAmount.val(display.value);
+
+            $("#change").text(parseFloat($("#paid-amount").text()) - parseFloat($("#GrandTotal").text()));
+
+            if ($("#change").text() < 0) {
+                $("#change").text('00.00');
+            }
+            if ($("#paid-amount").text() == 0) {
+                $("#change").text('00.00');
+            }
+        }
+
+
+        function clearDisplay() {
+            const display = document.getElementById('display');
+            display.value = '';
+            $("#paid-amount").text('00.00');
+            $("#paying_amount").val('00.00');
+            $("#change").text('00.00');
+            initialValue = null;
+        }
+
+        function deleteLast() {
+            const display = document.getElementById('display');
+            display.value = display.value.slice(0, -1);
+            $("#paid-amount").text(display.value || '00.00');
+            $("#paying_amount").val(display.value || '00.00');
+
+            $("#change").text(parseFloat($("#paid-amount").text()) - parseFloat($("#GrandTotal").text()));
+
+            if ($("#change").text() < 0) {
+                $("#change").text('00.00');
+            }
+            if ($("#paid-amount").text() == 0) {
+                $("#change").text('00.00');
+            }
+            initialValue = null;
+        }
+
+        $("#cash").on("change", function() {
+            if ($(this).is(':checked')) {
+                var cashOptionValue = null;
+
+                // Find the value associated with the "Cash" option
+                $("#payment_method_id option").each(function() {
+                    if ($(this).text().trim() === 'Cash') {
+                        cashOptionValue = $(this).val();
+                        return false; // Break out of the loop
+                    }
+                });
+
+                // Set the select box to the "Cash" option if found
+                if (cashOptionValue !== null) {
+                    $("#payment_method_id").val(cashOptionValue).trigger("change");
+                }
+            }
+        });
+
+        $("#card").on("change", function() {
+            if ($(this).is(':checked')) {
+                var cashOptionValue = null;
+
+                // Find the value associated with the "Cash" option
+                $("#payment_method_id option").each(function() {
+                    if ($(this).text().trim() === 'Credit card') {
+                        cashOptionValue = $(this).val();
+                        return false; // Break out of the loop
+                    }
+                });
+
+                // Set the select box to the "Cash" option if found
+                if (cashOptionValue !== null) {
+                    $("#payment_method_id").val(cashOptionValue).trigger("change");
+                }
+            }
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(window).on('load', function() {
+            jQuery("#loader").fadeOut(); // will fade out the whole DIV that covers the website.
+            jQuery("#preloader").delay(800).fadeOut("slow");
+            jQuery("pos-layout").show(); // will fade out the whole DIV that covers the website.
+
+        });
+    </script>
+
+    {{-- vue js --}}
     <script src="{{ asset('assets/js/vue.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap-vue.min.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
+
+    <script src="{{ asset('assets/js/vee-validate.min.js') }}"></script>
+    <script src="{{ asset('assets/js/vee-validate-rules.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/moment.min.js') }}"></script>
+
+    {{-- sweetalert2 --}}
+    <script src="{{ asset('assets/js/vendor/sweetalert2.min.js') }}"></script>
+
+
+    {{-- common js --}}
+    <script src="{{ asset('assets/js/common-bundle-script.js') }}"></script>
+    {{-- page specific javascript --}}
     @yield('page-js')
+
+    <script src="{{ asset('assets/js/script.js') }}"></script>
+
     <script src="{{ asset('assets/js/vendor/toastr.min.js') }}"></script>
     <script src="{{ asset('assets/js/toastr.script.js') }}"></script>
+
+    <script src="{{ asset('assets/js/customizer.script.js') }}"></script>
+    <script src="{{ asset('assets/js/nprogress.js') }}"></script>
+
+
+    <script src="{{ asset('assets/js/tooltip.script.js') }}"></script>
+    <script src="{{ asset('assets/js/script_2.js') }}"></script>
+    <script src="{{ asset('assets/js/vendor/feather.min.js') }}"></script>
     <script src="{{ asset('assets/js/flatpickr.min.js') }}"></script>
+
+
     <script src="{{ asset('assets/js/compact-layout.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"
         integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        
-    <script>
-        var OnlineId = null;
-        var data;
-        var grandTotal = 0;
-        var currentPage = 1;
-        var pointsValue = {{ $settings->ponit_value }};
-        var UserPointsValue = 0;
-        var initialValue = null;
+    <script type="text/javascript">
 
-        const routes = {
-            getProducts: "{{ route('get_products') }}",
-            addToCart: "{{ route('add_to_cart') }}",
-            addToCartWithQuantity: "{{ route('add_to_cart_with_quantity') }}",
-            deleteProductFromCart: "{{ route('delete_product_from_cart') }}",
-            addQuantity: "{{ route('add_qty') }}",
-            removeQuantity: "{{ route('remove_qty') }}",
-            getUserPoints: "{{ route('getUserPoints') }}",
-            getClients: "{{ route('getClients') }}",
-        };
-
-        const elements = {
-            productsBox: $("#products-box"),
-            cartItems: $("#cart-items"),
-            discountInput: $("#discount"),
-            discountSelect: $("#inputGroupSelect02"),
-        };
-
-        Pusher.logToConsole = false;
+        Pusher.logToConsole = true;
         var pusher = new Pusher("96010b48b2b6efb4c0f1", {
             cluster: "ap2",
             encrypted: true,
             useTls: true,
         });
         var channel = pusher.subscribe('online-order');
+
         channel.bind('online-order', function(data) {
             $("#online-order-count").text(data.countOrderData);
+            // update the order in the table
             $("#online_list").prepend(`
                 <tr>
                     <th scope="row">${data.orderData.id}</th>
@@ -668,14 +924,7 @@
                     </td>
                 </tr>
             `);
-        });
-
-        $(window).on('load', function() {
-            jQuery("#loader").fadeOut(); // will fade out the whole DIV that covers the website.
-            jQuery("#preloader").delay(800).fadeOut("slow");
-            jQuery("pos-layout").show(); // will fade out the whole DIV that covers the website.
-
-        });
+        })
 
         $(function() {
             "use strict";
@@ -683,110 +932,44 @@
                 $("#customer_id").select2();
             });
             $(document).ready(function() {
+
                 flatpickr("#datetimepicker", {
                     enableTime: true,
                     dateFormat: "Y-m-d H:i"
                 });
+
             });
+
         });
+    </script>
+    <script>
+        var OnlineId = null;
+        var data;
+        var grandTotal = 0;
+        var currentPage = 1;
+        var pointsValue = {{ $settings->ponit_value }};
+        var UserPointsValue = 0;
+        // Define routes and elements
+        const routes = {
+            getProducts: "{{ route('get_products') }}",
+            addToCart: "{{ route('add_to_cart') }}",
+            addToCartWithQuantity: "{{ route('add_to_cart_with_quantity') }}",
+            deleteProductFromCart: "{{ route('delete_product_from_cart') }}",
+            addQuantity: "{{ route('add_qty') }}",
+            removeQuantity: "{{ route('remove_qty') }}",
+            getUserPoints: "{{ route('getUserPoints') }}",
+            getClients: "{{ route('getClients') }}",
+        };
 
-
-        function appendNumber(number) {
-            const display = document.getElementById('display');
-            display.value += number;
-            $("#paid-amount").text(display.value);
-            $("#paying_amount").val(display.value);
-            if ($("#GrandTotal").text() > 0) {
-                if ($("#paid-amount").text() > $("#GrandTotal").text()) {
-                    $("#change").text(parseFloat($("#paid-amount").text()) - parseFloat($("#GrandTotal").text()));
-                }
-            }
-            if ($("#change").text() < 0) {
-                $("#change").text('00.00');
-            }
-            initialValue = null;
-        }
-
-        function calculateGrandTotal() {
-            const display = document.getElementById('display');
-            const paidAmount = $("#paid-amount");
-            const payingAmount = $("#paying_amount");
-            const buttonValue = parseFloat($("#grand-total-round-btn").text());
-
-            if (initialValue === null) {
-                initialValue = buttonValue;
-                display.value = initialValue;
-            } else {
-                initialValue *= 2;
-                display.value = initialValue;
-            }
-            paidAmount.text(display.value);
-            payingAmount.val(display.value);
-            $("#change").text(parseFloat($("#paid-amount").text()) - parseFloat($("#GrandTotal").text()));
-            if ($("#change").text() < 0) {
-                $("#change").text('00.00');
-            }
-            if ($("#paid-amount").text() == 0) {
-                $("#change").text('00.00');
-            }
-        }
-
-        function clearDisplay() {
-            const display = document.getElementById('display');
-            display.value = '';
-            $("#paid-amount").text('00.00');
-            $("#paying_amount").val('00.00');
-            $("#change").text('00.00');
-            initialValue = null;
-        }
-
-        function deleteLast() {
-            const display = document.getElementById('display');
-            display.value = display.value.slice(0, -1);
-            $("#paid-amount").text(display.value || '00.00');
-            $("#paying_amount").val(display.value || '00.00');
-            $("#change").text(parseFloat($("#paid-amount").text()) - parseFloat($("#GrandTotal").text()));
-            if ($("#change").text() < 0) {
-                $("#change").text('00.00');
-            }
-            if ($("#paid-amount").text() == 0) {
-                $("#change").text('00.00');
-            }
-            initialValue = null;
-        }
-
-        $("#cash").on("change", function() {
-            if ($(this).is(':checked')) {
-                var cashOptionValue = null;
-                $("#payment_method_id option").each(function() {
-                    if ($(this).text().trim() === 'Cash') {
-                        cashOptionValue = $(this).val();
-                        return false;
-                    }
-                });
-                if (cashOptionValue !== null) {
-                    $("#payment_method_id").val(cashOptionValue).trigger("change");
-                }
-            }
-        });
-
-        $("#card").on("change", function() {
-            if ($(this).is(':checked')) {
-                var cashOptionValue = null;
-                $("#payment_method_id option").each(function() {
-                    if ($(this).text().trim() === 'Credit card') {
-                        cashOptionValue = $(this).val();
-                        return false;
-                    }
-                });
-                if (cashOptionValue !== null) {
-                    $("#payment_method_id").val(cashOptionValue).trigger("change");
-                }
-            }
-        });
-
+        const elements = {
+            productsBox: $("#products-box"),
+            cartItems: $("#cart-items"),
+            discountInput: $("#discount"),
+            discountSelect: $("#inputGroupSelect02"),
+        };
         $(document).ready(function() {
             data = null;
+
             $("#is_points").on("change", function() {
                 var value = this.value = this.checked ? 1 : 0
                 $("#is_points").val(value);
@@ -2148,4 +2331,425 @@
 
 </html>
 
+<style>
+    .CategorySelected {
+        background-color: #f5f5f5;
+        color: #4E97FD;
+        border-radius: 5px;
+    }
 
+    .autocomplete-result-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: none;
+        /* Start with display: none; */
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        position: absolute;
+        width: 100%;
+        background-color: #fff;
+        z-index: 1;
+        transition: opacity 0.3s ease-in-out;
+        /* Apply transition on opacity */
+    }
+
+    .autocomplete-result-list li {
+        padding: 10px;
+        cursor: pointer;
+        transition: background-color 0.3s ease-in-out;
+        /* Apply transition on background-color */
+    }
+
+    .autocomplete-result-list li:hover {
+        background-color: #f2f2f2;
+    }
+
+    .discount-select-type {
+        width: 125px !important;
+    }
+
+    ul#CategoryUl {
+        position: absolute;
+        top: -30px;
+        background-color: white;
+        border-radius: 10px;
+        border: 1px solid #ff000040;
+        z-index: 99999;
+        padding: 10px;
+        left: 50px;
+        max-width: 250px;
+        width: 200px;
+        transition: .3s;
+        box-shadow: 5px 5px 20px 5px #00000014;
+    }
+
+    ul#CategoryUl li#Category {
+        display: none;
+        cursor: pointer;
+        font-size: 16px;
+        color: black;
+    }
+
+    ul#CategoryUl li#Category:nth-child(1) {
+        display: block;
+    }
+
+    ul#CategoryUl:hover li#Category {
+        display: block !important;
+        transition: .3s;
+    }
+
+    ul#CategoryUl li#Category i {
+        color: red;
+        margin-right: 5px;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    ul#CategoryUl li#Category:hover {
+        background-color: whitesmoke;
+    }
+
+    ul#CategoryUl .category-item.CategorySelected {
+        color: red !important;
+    }
+
+    .calculator {
+        border: 2px solid #333;
+        border-radius: 10px;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    #display {
+        width: 100%;
+        height: 50px;
+        font-size: 24px;
+        text-align: right;
+        margin-bottom: 10px;
+        padding-right: 10px;
+        border: 1px solid #f00;
+        border-radius: 5px;
+        color: black;
+        font-size: 14px;
+    }
+
+    .buttons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        row-gap: 10px;
+        column-gap: 10px;
+    }
+
+    .btn-calcu {
+        font-size: 24px;
+        padding: 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #f1f1f1;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .btn-calcu:hover {
+        background-color: #ddd;
+    }
+
+    .calculator .input-calu-box {
+        display: flex;
+    }
+
+    .calculator .input-calu-box .calu-box-main {
+        width: 50%;
+    }
+
+    .calculator .input-calu-box .calu-box-main .input-output-value {
+        display: flex;
+        align-items: center;
+        column-gap: 10px;
+        margin: 5px;
+        flex-direction: column;
+        margin-bottom: 15px;
+        row-gap: 2px;
+    }
+
+    .calculator .input-calu-box .calu-box-main .input-output-value p,
+    .calculator .input-calu-box .calu-box-main .input-output-value h6 {
+        font-size: 12px;
+        margin: 0;
+        padding: 0;
+        font-weight: 700;
+        width: 100%;
+    }
+
+    .calculator .input-calu-box .calu-box-main .input-output-value h6 {
+        text-align: center !important;
+        border: 1px solid red;
+        font-size: 15px;
+        font-weight: 800;
+        padding: 5px;
+        border-radius: 5px;
+    }
+
+    .buttons button.btn-calcu {
+        width: 22%;
+        background-color: black;
+        color: white;
+        transition: .3s;
+        font-size: 14px;
+        padding: 10px 5px;
+    }
+
+    .buttons button.btn-calcu:hover {
+        background-color: red;
+    }
+
+    button.btn-calcu.grand-total-btn {
+        background-color: green;
+        font-size: 10px;
+    }
+
+    button.btn-calcu.red-btn {
+        background-color: red;
+        font-size: 10px;
+    }
+
+    .calculator .two-input-box-radio {
+        display: flex;
+        flex-direction: column;
+        margin: 10px 0;
+        row-gap: 10px;
+    }
+
+    .calculator .two-input-box-radio .radio-box-main {
+        position: relative;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .calculator .two-input-box-radio .radio-box-main input {
+        width: 100%;
+        height: 100%;
+        -webkit-appearance: none;
+    }
+
+    .calculator .two-input-box-radio .radio-box-main label {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        position: absolute;
+        color: black;
+        border: 1px solid black;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        cursor: pointer;
+        font-weight: 800;
+        font-size: 16px;
+    }
+
+    .calculator .two-input-box-radio .radio-box-main input[type="radio"]+label::after {
+        color: black;
+    }
+
+
+    .calculator .two-input-box-radio .radio-box-main input[type="radio"]:checked+label::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        margin: 0;
+        color: white;
+        line-height: 2.4em;
+        border-radius: 10px;
+    }
+
+
+    .calculator .two-input-box-radio .radio-box-main input[type="radio"]:checked+label {
+        background-color: black;
+        color: white;
+    }
+
+    .calculator .two-input-box-radio .radio-box-main input[type="radio"]:checked+label {
+        color: white !important;
+    }
+
+    .calculator button#save_pos {
+        width: 100%;
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        column-gap: 5px;
+        line-height: 0;
+        padding: 10px 0;
+        transition: .3s;
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+    .calculator button#save_pos i {
+        margin: 0 !important;
+    }
+
+    .calculator button#save_pos:hover {
+        background-color: black;
+        box-shadow: none;
+        border: 1px solid black;
+    }
+
+    .cart-item.box-shadow-3 {
+        position: relative;
+    }
+
+    .cart-item.box-shadow-3 a#DeleteProduct {
+        position: absolute;
+        top: -10px;
+        right: 10px;
+    }
+
+    .cart-item.box-shadow-3 a#DeleteProduct i {
+        font-size: 30px !important;
+    }
+
+    .summery-item.mb-3.row.d-flex.justify-content-center.align-items-center {
+        display: flex !important;
+        justify-content: flex-start !important;
+    }
+
+    .calculator button#save_pos i {
+        font-size: 18px;
+        font-weight: 700;
+    }
+
+    @media only screen and (max-width: 1470px) {
+
+        .buttons button.btn-calcu {
+            width: 21%;
+            font-size: 12px;
+        }
+
+        button.btn-calcu.red-btn,
+        button#grand-total-actual-btn {
+            font-size: 8px;
+        }
+
+        button#grand-total-round-btn {
+            font-size: 8px;
+        }
+
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            row-gap: 10px;
+            column-gap: 10px;
+        }
+
+        .cart-summery.d-flex.flex-row.justify-content-center.align-items-center {
+            display: flex !important;
+            flex-direction: column !important;
+            flex-wrap: wrap;
+        }
+
+        .summery-item.mb-2.row .col-lg-8.col-sm-12 {
+            width: 100%;
+        }
+
+        .cart-summery.d-flex.flex-row.justify-content-center.align-items-center .col-md-8 {
+            width: 100% !important;
+        }
+
+        .position-absolute {
+            position: relative !important;
+        }
+
+        .cart-summery.d-flex.flex-row.justify-content-center.align-items-center .col-md-4 {
+            width: 100% !important;
+        }
+
+        .mt-4 {
+            margin-top: 0.5rem !important;
+        }
+    }
+
+    @media only screen and (max-width: 1360px) {
+        .cart-qty {
+            font-size: 14px;
+            height: 30px;
+            width: 25px;
+        }
+
+        .pos-body .pos-content .cart-item {
+            padding: 5px 10px;
+            margin-top: 15px;
+            height: 85px;
+        }
+
+        .cart-item.box-shadow-3 a#DeleteProduct i {
+            font-size: 25px !important;
+        }
+
+        .cart-item.box-shadow-3 a#DeleteProduct {
+            position: absolute;
+            top: -5px;
+            right: 5px;
+        }
+
+        .font_16 {
+            font-size: 14px;
+        }
+    }
+
+    @media only screen and (max-width: 1188px) {
+        .buttons button.btn-calcu {
+            width: 19%;
+            font-size: 10px;
+            padding: 7px 2px;
+        }
+
+        button.btn-calcu.red-btn,
+        button#grand-total-actual-btn {
+            font-size: 7px;
+        }
+
+        button#grand-total-round-btn {
+            font-size: 8px;
+        }
+
+    }
+
+    @media only screen and (max-width: 767px) {
+
+        ul#CategoryUl li#Category {
+            font-size: 9px;
+        }
+
+        ul#CategoryUl {
+            top: -30px;
+            padding: 5px;
+            left: 5px;
+            max-width: 100px;
+            width: 100px;
+        }
+
+        ul#CategoryUl li#Category i {
+            margin-right: 1px;
+            font-size: 8px;
+        }
+    }
+</style>
