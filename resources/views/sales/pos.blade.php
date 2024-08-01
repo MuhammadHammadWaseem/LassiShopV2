@@ -1795,7 +1795,7 @@
                 elements.cartItems.append(`
                 <div class="cart-item box-shadow-3">
                     <div class="d-flex align-items-center">
-                        <img src="/images/products/${detail.img_path}" alt="">
+                        <img src="/images/products/${detail.img_path}" style="width:40px;" alt="Product Image">
                         <div>
                             <p class="text-gray-600 m-0 font_12">${detail.name}</p>
                             <h6 class="fw-semibold m-0 font_16">{{ $currency }} ${detail.price * detail.quantity}</h6>
