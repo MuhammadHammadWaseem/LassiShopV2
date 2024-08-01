@@ -144,11 +144,10 @@
         }
     
         .calculator {
-            border: 2px solid #333;
             border-radius: 10px;
             padding: 20px;
             background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 40px rgba(8, 21, 66, 0.05) !important;
         }
     
         #display {
