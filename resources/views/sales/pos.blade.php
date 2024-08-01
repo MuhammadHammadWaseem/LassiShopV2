@@ -2078,19 +2078,15 @@
                                 $("#inputGroupSelect02").append(
                                     '<option value="percent">%</option>');
                             }
-
-                            // window.open("{{ url('invoice_pos') }}/" + data.id, "_blank");
-                            // window.location.reload();
-
+                            
                             // Print the document
                             var printUrl = "{{ url('invoice_pos') }}/" + data.id;
-                            var a = window.open(printUrl, "", "height=1000, width=1000");
+                            var a = window.open("", "", "height=1000, width=1000");
                             a.document.write(
-                                '<link rel="stylesheet"  href="/assets/styles/vendor/pos_print.css"><html>'
+                                '<html><head><link rel="stylesheet" href="/assets/styles/vendor/pos_print.css"></head><body>'
                             );
-                            a.document.write("<body>");
                             a.document.write("<iframe src='" + printUrl +
-                                "' onload='this.contentWindow.print();'></iframe>");
+                                "' style='width: 100%; height: 100%; border: none;' onload='this.contentWindow.print();'></iframe>");
                             a.document.write("</body></html>");
                             a.document.close();
 
