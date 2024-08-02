@@ -23,11 +23,11 @@
 
     <style>
         .select2-container {
-            width: 100%;
+            width: 75% !important;
             max-width: 800px !important;
         }
         .select2-container--default .select2-selection--single {
-            height: auto;
+            height: 50px !important;
             font-size: 14px;
             border: initial;
             outline: initial !important;
@@ -519,13 +519,13 @@
                             <form>
                                 <input type="hidden" name="warehouse_id" id="warehouse_id"
                                     value="{{ $settings->warehouse_id }}">
-                                <div class="filter-box d-flex justify-content-between align-items-center">
+                                <div class="filter-box d-flex justify-content-between align-items-center mb-3 mt-3">
                                     <label for="customer_id" style="z-index: 1">{{ __('translate.Customer') }} <span
                                             class="field_required">*</span></label>
                                     <select name="customer_id" class="form-control" id="customer_id">
                                         <option value="">Select Customer</option>
                                     </select>
-                                    <button class="btn btn-primary btn-sm" id="addCustomer">Add</button>
+                                    <button class="btn btn-primary" id="addCustomer">Add</button>
                                 </div>
 
 
