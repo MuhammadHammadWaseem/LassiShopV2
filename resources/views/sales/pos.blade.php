@@ -1722,6 +1722,16 @@
                         id: id
                     },
                     success: function(data) {
+                        $("#is_points").prop('checked', false);
+                        $("#discount").val(0);
+                        $("#orderTax").val(0);
+                        
+                        if ($("#inputGroupSelect02 option[value='percent']").length == 0) {
+                            $("#inputGroupSelect02").append('<option value="percent">%</option>');
+                        }
+
+                        updateGrandTotalWithShippingAndTax();
+
                         if (!data || data.length === 0 || !data[0].clients) {
                             $("#customer-points-details").empty();
                             $("#customer-points-details").append(`
@@ -2468,7 +2478,7 @@
                             //Reset Page
                             FlushCart();
                             initialValue = null;
-                            $("#customer_id").val('{{ $settings->client_id }}');
+                            $('#customer_id').val('{{ $settings->client_id }}').trigger('change');
                             GetUserPoints({{ $settings->client_id }});
                             $("#is_points").prop('checked', false);
                             $("#warehouse_id").attr("disabled", false);
@@ -2486,7 +2496,6 @@
                             $("#change").text('00.00');
                             $("#paid-amount").text('00.00');
                             $("#display").val('');
-
                             $("#note").val('');
                             $(".sale_note").val('');
                             $("#paying_amount").val('');

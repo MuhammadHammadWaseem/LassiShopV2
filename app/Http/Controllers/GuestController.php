@@ -284,7 +284,6 @@ class GuestController extends Controller
         foreach ($order_products as $order_product) {
             $full_path = $order_product['img_path'];
             $base_url = url('/')."/images/products/";
-            // $base_url = "http://127.0.0.1:8000/images/products/";
             $image_path = str_replace($base_url, '', $full_path);
 
             $OnlineOrderDetails = new OnlineOrderDetails();
@@ -299,130 +298,6 @@ class GuestController extends Controller
             $OnlineOrderDetails->save();
         }
 
-        $data = Session::get('guest_cart');
-        foreach ($data as $key => $value) {
-            $newProductDetails = NewProductDetail::where('new_product_id', $value['id'])->get();
-
-            // $orders = Order::create([
-            //     'new_product_id' => $newProductDetails[0]->new_product_id,
-            //     'user_id' => $onlineUserDetails->id ?? 0,
-            //     'order_no' => ,
-            //     'quantity' => $value['quantity'],
-            //     'orignal_quantity' => $value['quantity'],
-            //     'is_onilne' => 1,
-            // ]);
-            // $order_no = $orders->order_no;
-            // Send the email
-
-            // $mail =  Mail::to("hw13604@gmail.com")->send(new OrderCreated($order_no));
-
-            // Retrieve the newly created order along with its associated new product
-            // $newlyCreatedOrder = Order::with('newProduct')->find($orders->id);
-            // // Group the orders by order number
-            // $groupedOrders = Order::with('newProduct')
-            //     ->where('order_no', $newlyCreatedOrder->order_no)
-            //     ->get()
-            //     ->groupBy('order_no')
-            //     ->values()
-            //     ->all();
-
-            foreach ($newProductDetails as $newProductDetail) {
-                $unit = Unit::where('id', $newProductDetail->unit_id)->first();
-                $productWarehouse = \App\Models\product_warehouse::where('product_id', $newProductDetail->base_product_id)
-                    ->where('warehouse_id', $request->warehouse_id)
-                    ->first();
-
-                if ($unit && $productWarehouse) {
-                    $quantityInBaseUnit = $newProductDetail->qty * $value['quantity'];
-
-                    // Check if the conversion is needed
-                    if ($unit->name !== 'Units') {
-                        // Check if the conversion is supported
-                        if ($unit->operator === '/' && $unit->operator_value !== 0) {
-                            $quantityInBaseUnit = $quantityInBaseUnit / $unit->operator_value;
-                        } elseif ($unit->operator === '*' && $unit->operator_value !== 0) {
-                            $quantityInBaseUnit = $quantityInBaseUnit * $unit->operator_value;
-                        } else {
-                            throw new \Exception('Invalid conversion for unit: ' . $unit->name);
-                        }
-                    }
-
-                    // Update product warehouse quantity based on the purchase and sale units
-                    $productWarehouse->qte -= $quantityInBaseUnit;
-                    $productWarehouse->save();
-
-                    $productStockCheck = Product::where('id', $newProductDetail->base_product_id)->first();
-                    // WORKING EVENT
-                    // if ($productStockCheck->stock_alert >= $productWarehouse->qte) {
-                    //     $notification = Notification::create([
-                    //         'messages' => 'Product ( ' . $productStockCheck->name . ' ) is low in stock, please restock.',
-                    //     ]);
-                    //     $user = User::where('id', 1)->first();
-                    //     $data =  NotificationDetail::create([
-                    //         'notification_id' => $notification->id,
-                    //         'user_id' => $user->id,
-                    //         'status' => 0,
-                    //         'read_at' => null,
-                    //         'created_at' => Carbon::now()->tz('Asia/Dubai'),
-                    //         'updated_at' => Carbon::now()->tz('Asia/Dubai'),
-                    //     ]);
-                    //     $notifications = DB::table('notification')
-                    //         ->select('*')
-                    //         ->join('notification_details', 'notification.id', '=', 'notification_details.notification_id')
-                    //         ->where('notification_details.user_id', Auth::user()->id ?? NULL)
-                    //         ->where('notification_details.status', 0)
-                    //         ->orderBy('notification.id', 'desc')
-                    //         ->get();
-                    //     $unreadNotificationsCount = NotificationDetail::where('user_id', Auth::user()->id ?? NULL)->where('status', 0)->count();
-                    //     event(new NotificationCreate($unreadNotificationsCount, $notifications));
-                    // }
-                }
-            }
-
-
-
-            foreach ($newProductDetails as $newProductDetail) {
-                $product = Product::where('id', $newProductDetail->base_product_id)->first();
-                $Price = ($value['price'] * $value['quantity']);
-                if ($product->tax_method == 1) {
-                    // Tax included in the price
-                    $total = $Price;
-                } else {
-                    // Tax is not included in the price
-                    $total = $Price + ($Price * $product->TaxNet / 100);
-                }
-            }
-        }
-
-        $notification2 = Notification::create([
-            'messages' => 'New Order Created  Order Number: ' . $online_ordrs->order_no ,
-        ]);
-
-        $user = User::where('id', 1)->first();
-        // WORKING EVENT
-        // $data2 =  NotificationDetail::create([
-        //     'notification_id' => $notification2->id,
-        //     'user_id' => $user->id,
-        //     'status' => 0,
-        //     'read_at' => null,
-        //     'created_at' => Carbon::now()->tz('Asia/Dubai'),
-        //     'updated_at' => Carbon::now()->tz('Asia/Dubai'),
-        // ]);
-        // $notifications2 = DB::table('notification')
-        //     ->select('*')
-        //     ->join('notification_details', 'notification.id', '=', 'notification_details.notification_id')
-        //     ->where('notification_details.user_id', 1)
-        //     ->where('notification_details.status', 0)
-        //     ->orderBy('notification.id', 'desc')
-        //     ->get();
-        // $unreadNotificationsCount2 = NotificationDetail::where('user_id', 1)->where('status', 0)->count();
-        // event(new NotificationCreate($unreadNotificationsCount2, $notifications2));
-
-        //Points Work
-        $settings = Setting::where('deleted_at', '=', null)->first();
-        $client_id = $onlineUserDetails->id ?? null;
-
-        // $this->broadcastNewOrderEvent($orders);
         Session::forget('guest_cart');
         Session::forget('guest_order_details');
         Session::forget('user');
