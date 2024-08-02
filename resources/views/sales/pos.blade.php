@@ -514,7 +514,7 @@
                         @endif
                     </div>
 
-                    <div class="row pos-card-left">
+                    <div class="row pos-card-left mt-1">
                         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
                             <form>
                                 <input type="hidden" name="warehouse_id" id="warehouse_id"
