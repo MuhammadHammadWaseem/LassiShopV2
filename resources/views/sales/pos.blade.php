@@ -2473,7 +2473,7 @@
 
                             $("#form_Update_Detail").modal("hide");
                             $("#form_Update_Detail").trigger("reset");
-                            toastr.success(data.message);
+                            toastr.success("Pos Created Successfully!");
 
                             //Reset Page
                             FlushCart();
