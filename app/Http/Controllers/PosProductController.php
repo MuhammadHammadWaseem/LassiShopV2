@@ -30,7 +30,13 @@ class PosProductController extends Controller
 
     public function getPosProducts(Request $request)
     {
-        $products = NewProduct::with('category')->where('warehouse_id', $request->id)->with('Product_Deatils')->get();
+        $setting = Setting::where('deleted_at', '=', null)->first();
+        if($request->id){
+            $products = NewProduct::with('category')->where('warehouse_id', $request->id)->with('Product_Deatils')->get();
+        }
+        else{
+            $products = NewProduct::with('category')->where('warehouse_id', $setting->warehouse_id)->with('Product_Deatils')->get();
+        }
         return response()->json($products);
     }
 
