@@ -33,7 +33,8 @@
             <img src="{{ asset('images/'.$settings->logo) }}" class="img-fluid img-thumbnail" style="width: 100px;" alt="">
             <h1 class="text-center" style="">@{{setting.CompanyName}}</h1>
             <span class="text-center" style="margin-bottom: 10px">Ntn # 28159432-4</span>
-            <span class="text-center">@{{setting.CompanyAdress}}</span>
+            <span class="text-center">@{{setting.CompanyAdress}} <br></span>
+            <h2 class="text-center text-uppercase" style="font-size: 20px !important">Token #: @{{sale.token_no}} <br></h2>
           </div>
           <hr>
 
@@ -41,7 +42,6 @@
           <p> 
             <span>{{ __('translate.date') }} : @{{sale.date}} <br></span>
             <span>{{ __('translate.Sale') }}: @{{sale.Ref}} <br></span>
-            <span>Token #: @{{sale.token_no}} <br></span>
             {{-- <span v-show="pos_settings.show_address">{{ __('translate.Address') }} : @{{setting.CompanyAdress}}
               <br></span> --}}
             <span v-show="pos_settings.show_email">{{ __('translate.Email') }} : @{{setting.email}} <br></span>
