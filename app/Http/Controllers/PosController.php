@@ -163,10 +163,15 @@ class PosController extends Controller
         }
 
         $item = \DB::transaction(function () use ($request) {
+            $tokenCounter = DB::table('token_counters')->lockForUpdate()->first();
+            $tokenNo = $tokenCounter->current_token_no + 1;
+            DB::table('token_counters')->update(['current_token_no' => $tokenNo]);
+
             $order = new Sale([
                 'is_pos' => 1,
                 'date' => $request->date,
                 'Ref' => 'SO-' . now()->format('Ymd-His'),
+                'token_no' => $tokenNo,
                 'client_id' => $request->client_id,
                 'warehouse_id' => $request->warehouse_id,
                 'tax_rate' => $request->tax_rate,
@@ -845,6 +850,7 @@ class PosController extends Controller
             $item['GrandTotal'] = $this->render_price_with_symbol_placement(number_format($sale->GrandTotal, 2, '.', ','));
             $item['paid_amount'] = $this->render_price_with_symbol_placement(number_format($sale->paid_amount, 2, '.', ','));
             $item['due'] = $this->render_price_with_symbol_placement(number_format($sale->GrandTotal - $sale->paid_amount, 2, '.', ','));
+            $item['token_no'] = $sale->token_no;
             foreach ($sale['details'] as $detail) {
 
                 $unit = Unit::where('id', $detail->sale_unit_id)->first();
@@ -940,4 +946,11 @@ class PosController extends Controller
         }
         return response()->json($points);
     }
+
+    public function resetTokenNumber()
+    {
+        DB::table('token_counters')->update(['current_token_no' => 0]);
+        return response()->json(['status' => 'success', 'message' => 'Token number reset successfully']);
+    }
+
 }

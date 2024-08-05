@@ -256,6 +256,15 @@
                     </span>
                   </div>
 
+              <h4 class="m-4">Reset POS Token #</h4>
+              <div class="form-group col-md-4">
+                <label for="km">
+                  <span class="field_required">Reset POS Token #</span></label>
+                  <br>
+                    <button type="button" onclick="resetToken()" class="btn btn-secondary">Reset</button>
+                  </span>
+              </div>
+
 
                    {{-- kilometre in  Setting--}}
               <h4 class="m-4">Set Radius In KM</h4>
@@ -470,6 +479,26 @@
 @section('page-js')
 
 <script>
+  function resetToken() {
+    $.ajax({
+        url: '/reset-token-number',  // Ensure the URL matches the route
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(data) {
+            if (data.status === 'success') {
+                location.reload();
+            } else {
+                alert('Error resetting token number');
+            }
+        },
+        error: function() {
+            alert('Error resetting token number');
+        }
+    });
+}
+
   Vue.component('v-select', VueSelect.VueSelect)
 
         var app = new Vue({

@@ -238,6 +238,7 @@ if ($installed === false) {
             Route::post('flushCart', 'PosController@flushCart')->name('flushCart');
             Route::post('getUserPoints', 'PosController@getUserPoints')->name('getUserPoints');
             Route::get('getClients', 'PosController@getClients')->name('getClients');
+            Route::post('reset-token-number', 'PosController@resetTokenNumber')->name('reset.token.number');
 
             //---------------------- Hold Order ----------------------\\
             //------------------------------------------------------------------\\
