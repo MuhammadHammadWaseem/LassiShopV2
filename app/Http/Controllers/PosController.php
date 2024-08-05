@@ -147,53 +147,50 @@ class PosController extends Controller
 
     public function CreatePOS(Request $request)
     {
-        // dd($request->all());
         $validator = Validator::make($request->all(), [
             'client_id' => 'required',
             'warehouse_id' => 'required',
             'payment_method_id' => 'required',
         ]);
+
         if ($validator->fails()) {
             return response()->json(['status' => 'error', 'message' => $validator->errors()->first()]);
         }
-        if (Session::get('cart') == null) {
+
+        $sessioncart = Session::get('cart');
+        if (is_null($sessioncart)) {
             return response()->json(['status' => 'error', 'message' => 'Please add some items!']);
         }
 
         $item = \DB::transaction(function () use ($request) {
-            $helpers = new helpers();
-            $order = new Sale;
-
-            $order->is_pos = 1;
-            $order->date = $request->date;
-            $order->Ref = 'SO-' . date("Ymd") . '-' . date("his");
-            $order->client_id = $request->client_id;
-            $order->warehouse_id = $request->warehouse_id;
-            $order->tax_rate = $request->tax_rate;
-            $order->TaxNet = $request->TaxNet;
-            $order->discount = $request->discount;
-            $order->discount_type = $request->discount_type;
-            $order->discount_percent_total = $request->discount_percent_total;
-            $order->shipping = $request->shipping;
-            $order->GrandTotal = $request->GrandTotal;
-            $order->notes = $request->notes;
-            $order->statut = 'completed';
-            $order->payment_statut = 'unpaid';
-            $order->user_id = Auth::user()->id;
-            $order->is_onilne = 0;
-
+            $order = new Sale([
+                'is_pos' => 1,
+                'date' => $request->date,
+                'Ref' => 'SO-' . now()->format('Ymd-His'),
+                'client_id' => $request->client_id,
+                'warehouse_id' => $request->warehouse_id,
+                'tax_rate' => $request->tax_rate,
+                'TaxNet' => $request->TaxNet,
+                'discount' => $request->discount,
+                'discount_type' => $request->discount_type,
+                'discount_percent_total' => $request->discount_percent_total,
+                'shipping' => $request->shipping,
+                'GrandTotal' => $request->GrandTotal,
+                'notes' => $request->notes,
+                'statut' => 'completed',
+                'payment_statut' => 'unpaid',
+                'user_id' => Auth::id(),
+                'is_onilne' => 0,
+            ]);
+    
             $order->save();
 
-            if(!empty($request->OnlineId)){   
-                $onlineOrder = OnlineOrder::where('id',$request->OnlineId)->first();
-                $onlineOrder->sales_id = $order->id;
-                $onlineOrder->save();
+            if(!empty($request->OnlineId)){
+                OnlineOrder::where('id',$request->OnlineId)->update(['sales_id' => $order->id]);
             }
 
             $data = Session::get('cart');
             foreach ($data as $key => $value) {
-
-                //Order Details
                 $newProductDetails = NewProductDetail::where('new_product_id', $value['id'])->get();
                 $orders = Order::create([
                     'new_product_id' => $newProductDetails[0]->new_product_id,
@@ -203,34 +200,21 @@ class PosController extends Controller
                     'orignal_quantity' => $value['quantity'],
                 ]);
 
-                // // Retrieve the newly created order along with its associated new product
-                // $newlyCreatedOrder = Order::with('newProduct')->find($orders->id);
-                // // Group the orders by order number
-                // $groupedOrders = Order::with('newProduct')
-                //     ->where('order_no', $newlyCreatedOrder->order_no)
-                //     ->get()
-                //     ->groupBy('order_no')
-                //     ->values()
-                //     ->all();
-
-                // $orders = Order::with('newProduct')->get();
-                // event(new OrderList($groupedOrders));
                 foreach ($newProductDetails as $newProductDetail) {
-                    $unit = Unit::where('id', $newProductDetail->unit_id)->first();
+                    $unit = Unit::findOrFail($newProductDetail->unit_id);
                     $productWarehouse = product_warehouse::where('product_id', $newProductDetail->base_product_id)
                         ->where('warehouse_id', $request->warehouse_id)
                         ->first();
 
                     if ($unit && $productWarehouse) {
                         $quantityInBaseUnit = $newProductDetail->qty * $value['quantity'];
-
                         // Check if the conversion is needed
                         if ($unit->name !== 'Units') {
                             // Check if the conversion is supported
                             if ($unit->operator === '/' && $unit->operator_value !== 0) {
-                                $quantityInBaseUnit = $quantityInBaseUnit / $unit->operator_value;
+                                $quantityInBaseUnit /= $unit->operator_value;
                             } elseif ($unit->operator === '*' && $unit->operator_value !== 0) {
-                                $quantityInBaseUnit = $quantityInBaseUnit * $unit->operator_value;
+                                $quantityInBaseUnit *= $unit->operator_value;
                             } else {
                                 throw new \Exception('Invalid conversion for unit: ' . $unit->name);
                             }
@@ -242,39 +226,25 @@ class PosController extends Controller
 
                         $productStockCheck = Product::where('id', $newProductDetail->base_product_id)->first();
                         // WORKING EVENT
-                        // if ($productStockCheck->stock_alert >= $productWarehouse->qte) {
-                        //     $notification = Notification::create([
-                        //         'messages' => 'Product ( ' . $productStockCheck->name . ' ) is low in stock, please restock.',
-                        //     ]);
-                        //     $user = User::where('id', 1)->first();
-                        //     $data =  NotificationDetail::create([
-                        //         'notification_id' => $notification->id,
-                        //         'user_id' => $user->id,
-                        //         'status' => 0,
-                        //         'read_at' => null,
-                        //         'created_at' => Carbon::now()->tz('Asia/Dubai'),
-                        //         'updated_at' => Carbon::now()->tz('Asia/Dubai'),
-                        //     ]);
-                        //     $notifications = DB::table('notification')
-                        //         ->select('*')
-                        //         ->join('notification_details', 'notification.id', '=', 'notification_details.notification_id')
-                        //         ->where('notification_details.user_id', Auth::user()->id)
-                        //         ->where('notification_details.status', 0)
-                        //         ->orderBy('notification.id', 'desc')
-                        //         ->get();
-                        //     $unreadNotificationsCount = NotificationDetail::where('user_id', Auth::user()->id)->where('status', 0)->count();
-                        //     // WORKING EVENT
-                        //     // event(new NotificationCreate($unreadNotificationsCount, $notifications));
-                        // }
+                        if ($productStockCheck->stock_alert >= $productWarehouse->qte) {
+                            $notification = Notification::create([
+                                'messages' => "Product ({$productStockCheck->name}) is low in stock, please restock.",
+                            ]);
+                            $data =  NotificationDetail::create([
+                                'notification_id' => $notification->id,
+                                'user_id' => 1,
+                                'status' => 0,
+                                'read_at' => null,
+                                'created_at' => Carbon::now()->tz('Asia/Dubai'),
+                                'updated_at' => Carbon::now()->tz('Asia/Dubai'),
+                            ]);
+                        }
                     }
                 }
 
-
-
                 foreach ($newProductDetails as $newProductDetail) {
-                    $product = Product::where('id', $newProductDetail->base_product_id)->first();
-                    // dd($product);
-                    $Price = ($value['price'] * $value['quantity']);
+                    $product = Product::findOrFail($newProductDetail->base_product_id);
+                    $Price = $value['price'] * $value['quantity'];
 
                     if ($product->tax_method == 1) {
                         // Tax included in the price
@@ -290,20 +260,17 @@ class PosController extends Controller
                         'sale_unit_id' => $product->unit_sale_id ? $product->unit_sale_id : NULL,
                         'quantity' => $value['quantity'],
                         'product_id' => $product->id,
-                        // 'product_variant_id' => $value['product_variant_id'] ? $value['product_variant_id'] : NULL,
                         'total' => $total,
                         'price' => $product->price,
                         'TaxNet' => $product->TaxNet,
                         'tax_method' => $product->tax_method,
                         'discount' => 0,
-                        // 'discount_method'    => $value['discount_Method'],
                         'imei_number' => '',
                     ];
                 }
             }
 
             SaleDetail::insert($orderDetails);
-
 
             if ($request->paying_amount > 0) {
 
@@ -335,7 +302,6 @@ class PosController extends Controller
                 $account = Account::where('id', $request->account_id)->exists();
 
                 if ($account) {
-                    // Account exists, perform the update
                     $account = Account::find($request->account_id);
                     $account->update([
                         'initial_balance' => $account->initial_balance + $request->paying_amount,
@@ -425,38 +391,8 @@ class PosController extends Controller
             return $order->id;
         }, 10);
 
-        $cartData = Session::get('cart');
-        // $orderList = Session::get('OrderList') ?? [];
-
-        // foreach ($cartData as $orderId => $order) {
-        //     $sessionKey = 'OrderList_' . $orderId;
-
-        //     // Check if the product already exists in OrderList
-        //     if (isset($orderList[$orderId])) {
-        //         // Update the quantity if the product exists
-        //         $orderList[$orderId]['quantity'] += $order['quantity'];
-
-        //         // Store the updated original quantity in the session
-        //         Session::put('originalQuantity_' . $orderId, $orderList[$orderId]['quantity']);
-        //         // Update the orderList with the original quantity
-        //         $orderList[$orderId]['originalQuantity'] = $orderList[$orderId]['quantity'];
-        //     } else {
-        //         // Add a new entry if the product doesn't exist
-        //         $orderList[$orderId] = $order;
-        //         // Store the original quantity in the session
-        //         Session::put('originalQuantity_' . $orderId, $order['quantity']);
-        //         // Update the orderList with the original quantity
-        //         $orderList[$orderId]['originalQuantity'] = $order['quantity'];
-        //     }
-
-        //     // Update the session with the modified OrderList
-        //     Session::put($sessionKey, $orderList[$orderId]);
-        // }
-        // $orders = Order::get();
-        // Broadcast the event for the modified or new order
-         
+        $cartData = Session::get('cart');         
         Session::forget('cart');
-
 
         return response()->json(['success' => true, 'id' => $item]);
     }
