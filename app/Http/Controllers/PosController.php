@@ -205,6 +205,10 @@ class PosController extends Controller
                     'orignal_quantity' => $value['quantity'],
                 ]);
 
+                if(!empty($request->OnlineId)){
+                    $orders->update(['is_onilne' => 1]);
+                }
+
                 foreach ($newProductDetails as $newProductDetail) {
                     $unit = Unit::findOrFail($newProductDetail->unit_id);
                     $productWarehouse = product_warehouse::where('product_id', $newProductDetail->base_product_id)
