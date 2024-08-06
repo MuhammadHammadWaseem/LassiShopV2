@@ -209,6 +209,7 @@ class PosController extends Controller
                     $unit = Unit::findOrFail($newProductDetail->unit_id);
                     $productWarehouse = product_warehouse::where('product_id', $newProductDetail->base_product_id)
                         ->where('warehouse_id', $request->warehouse_id)
+                        ->lockForUpdate()
                         ->first();
 
                     if ($unit && $productWarehouse) {
