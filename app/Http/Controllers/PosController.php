@@ -173,6 +173,7 @@ class PosController extends Controller
                 'Ref' => 'SO-' . now()->format('Ymd-His'),
                 'token_no' => $tokenNo,
                 'client_id' => $request->client_id,
+                'vat' => $request->vat,
                 'warehouse_id' => $request->warehouse_id,
                 'tax_rate' => $request->tax_rate,
                 'TaxNet' => $request->TaxNet,
@@ -856,6 +857,7 @@ class PosController extends Controller
             $item['paid_amount'] = $this->render_price_with_symbol_placement(number_format($sale->paid_amount, 2, '.', ','));
             $item['due'] = $this->render_price_with_symbol_placement(number_format($sale->GrandTotal - $sale->paid_amount, 2, '.', ','));
             $item['token_no'] = $sale->token_no;
+            $item['vat'] = $sale->vat;
             foreach ($sale['details'] as $detail) {
 
                 $unit = Unit::where('id', $detail->sale_unit_id)->first();

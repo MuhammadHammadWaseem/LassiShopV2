@@ -949,6 +949,10 @@
                                                 <h6 id="items-total">00.00</h6>
                                             </div>
                                             <div class="input-output-value">
+                                                <p>VAT</p>
+                                                <h6 id="vat-amount">00.00</h6>
+                                            </div>
+                                            <div class="input-output-value">
                                                 <p>To Pay</p>
                                                 <h6 id="to-pay">00.00</h6>
                                             </div>
@@ -998,12 +1002,12 @@
                                         <button class="btn-calcu" onclick="appendNumber(1)">1</button>
                                         <button class="btn-calcu" onclick="appendNumber(2)">2</button>
                                         <button class="btn-calcu" onclick="appendNumber(3)">3</button>
-                                        <button class="btn-calcu grand-total-btn" onclick="calculateGrandTotal()"
+                                        <button class="btn-calcu grand-total-btn" onclick="calculateGrandTotalActual()"
                                             id="grand-total-actual-btn">00.00</button>
                                         <button class="btn-calcu" onclick="appendNumber(0)">0</button>
                                         <button class="btn-calcu" onclick="appendNumber(`00`)">00</button>
                                         <button class="btn-calcu" onclick="appendNumber(`.`)">.</button>
-                                        <button class="btn-calcu grand-total-btn" onclick="calculateGrandTotal()"
+                                        <button class="btn-calcu grand-total-btn" onclick="calculateGrandTotalRound()"
                                             id="grand-total-round-btn">00.00</button>
                                     </div>
                                     <button type="submit" id="save_pos" class="btn btn-primary">
@@ -1036,6 +1040,7 @@
         
     <script>
         var OnlineId = null;
+        var vat = 0;
         var data;
         var grandTotal = 0;
         var currentPage = 1;
@@ -1127,12 +1132,11 @@
             initialValue = null;
         }
 
-        function calculateGrandTotal() {
+        function calculateGrandTotalActual() {
             const display = document.getElementById('display');
             const paidAmount = $("#paid-amount");
             const payingAmount = $("#paying_amount");
-            const buttonValue = parseFloat($("#grand-total-round-btn").text());
-
+            const buttonValue = parseFloat($("#grand-total-actual-btn").text());
             if (initialValue === null) {
                 initialValue = buttonValue;
                 display.value = initialValue;
@@ -1142,7 +1146,31 @@
             }
             paidAmount.text(display.value);
             payingAmount.val(display.value);
-            $("#change").text(parseFloat($("#paid-amount").text()) - parseFloat($("#GrandTotal").text()));
+            let change = parseFloat($("#paid-amount").text()) - parseFloat($("#GrandTotal").text());
+            $("#change").text(parseFloat(change).toFixed(2));
+            if ($("#change").text() < 0) {
+                $("#change").text('00.00');
+            }
+            if ($("#paid-amount").text() == 0) {
+                $("#change").text('00.00');
+            }
+        }
+        function calculateGrandTotalRound() {
+            const display = document.getElementById('display');
+            const paidAmount = $("#paid-amount");
+            const payingAmount = $("#paying_amount");
+            const buttonValue = parseFloat($("#grand-total-round-btn").text());
+            if (initialValue === null) {
+                initialValue = buttonValue;
+                display.value = initialValue;
+            } else {
+                initialValue *= 2;
+                display.value = initialValue;
+            }
+            paidAmount.text(display.value);
+            payingAmount.val(display.value);
+            let change = parseFloat($("#paid-amount").text()) - parseFloat($("#GrandTotal").text());
+            $("#change").text(parseFloat(change).toFixed(2));
             if ($("#change").text() < 0) {
                 $("#change").text('00.00');
             }
@@ -1283,6 +1311,7 @@
                 $("#grand-total-actual-btn").text('00.001');
                 $("#grand-total-round-btn").text('00.001');
                 $("#items-total").text('00.00');
+                $("#vat-amount").text('00.00');
                 $("#balance").text('00.00');
                 $("#paid-amount").text('00.00');
                 $("#to-pay").text('00.00');
@@ -1530,6 +1559,7 @@
                             $("#grand-total-actual-btn").text('00.00');
                             $("#grand-total-round-btn").text('00.00');
                             $("#items-total").text('00.00');
+                            $("#vat-amount").text('00.00');
                             $("#balance").text('00.00');
                             $("#to-pay").text('00.00');
                             $("#change").text('00.00');
@@ -1934,6 +1964,7 @@
                     $("#grand-total-actual-btn").text(0);
                     $("#grand-total-round-btn").text(0);
                     $("#items-total").text(0);
+                    $("#vat-amount").text(0);
                     $("#balance").text(0);
                     $("#to-pay").text(0);
                     $("#change").text(0);
@@ -2204,10 +2235,13 @@
             function updateGrandTotal(total, taxNet) {
                 // Update grand total without changing previous calculation
                 total = total.toFixed(2);
+                vat = (total *5) / 100;
+                total = parseFloat(total) + parseFloat(vat);
                 $("#GrandTotal").text(total);
                 $("#grand-total-actual-btn").text(total);
                 $("#grand-total-round-btn").text(Math.ceil(total));
-                $("#items-total").text(total);
+                $("#items-total").text(total-parseFloat(vat));
+                $("#vat-amount").text(parseFloat(vat));
                 $("#balance").text(total);
                 $("#to-pay").text(total);
 
@@ -2292,6 +2326,7 @@
                     $("#grand-total-actual-btn").text("00.00");
                     $("#grand-total-round-btn").text("00.00");
                     $("#items-total").text("0");
+                    $("#vat-amount").text("0");
                     $("#balance").text("0");
                     $("#to-pay").text("0");
                     $("#change").text("0");
@@ -2456,6 +2491,7 @@
                         account_id: $("#account_id").val(),
                         sale_note: $("#sale_note").val(),
                         OnlineId: OnlineId,
+                        vat: $("#vat-amount").text(),
                     },
                     success: function(data) {
                         if (data.success) {
@@ -2481,7 +2517,7 @@
                             $("#is_points").prop('checked', false);
                             $("#warehouse_id").attr("disabled", false).css("cursor", "pointer");
                             $("#shipping, #discount, #orderTax, #payment_method_id, #GrandTotal, #display, #note, .sale_note, #paying_amount").val('');
-                            $("#grand-total-actual-btn, #grand-total-round-btn, #balance, #items-total, #to-pay, #change, #paid-amount").text('00.00');
+                            $("#grand-total-actual-btn, #grand-total-round-btn, #balance, #items-total, #vat-amount, #to-pay, #change, #paid-amount").text('00.00');
                             $("#paying_amount_badge").text('Grand Total:');
                             OnlineId = null;
                             GetOnlineOrdersList();

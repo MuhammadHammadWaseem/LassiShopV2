@@ -126,6 +126,11 @@
             </tr>
 
             <tr class="mt-10">
+              <td colspan="3" class="total">VAT (5%)</td>
+              <td  class="total text-right">
+                @{{sale.vat}}</td>
+            </tr>
+            <tr class="mt-10">
               <td colspan="3" class="total">{{ __('translate.Total') }}</td>
               <td  class="total text-right">
                 @{{sale.GrandTotal}}</td>
