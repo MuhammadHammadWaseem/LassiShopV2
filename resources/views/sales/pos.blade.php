@@ -2462,17 +2462,15 @@
 
                             if ($("#cash").is(':checked')) {
                                 $("#cash").prop('checked', false);
-                                $("#cash").css('color', 'black');
-                                $("#cash").css('background', 'white');
+                                $("#cash").css({ 'color': 'black', 'background': 'white' });
+
                             }
                             if ($("#card").is(':checked')) {
                                 $("#card").prop('checked', false);
-                                $("#card").css('color', 'black');
-                                $("#card").css('background', 'white');
+                                $("#card").css({ 'color': 'black', 'background': 'white' });
                             }
 
-                            $("#form_Update_Detail").modal("hide");
-                            $("#form_Update_Detail").trigger("reset");
+                            $("#form_Update_Detail").modal("hide").trigger("reset");
                             toastr.success("Pos Created Successfully!");
 
                             //Reset Page
@@ -2481,42 +2479,30 @@
                             $('#customer_id').val('{{ $settings->client_id }}').trigger('change');
                             GetUserPoints({{ $settings->client_id }});
                             $("#is_points").prop('checked', false);
-                            $("#warehouse_id").attr("disabled", false);
-                            $("#warehouse_id").css("cursor", "pointer");
-                            $("#shipping").val('');
-                            $("#discount").val('');
-                            $("#orderTax").val('');
-                            $("#payment_method_id").val('');
-                            $("#GrandTotal").text('');
-                            $("#grand-total-actual-btn").text('00.00');
-                            $("#grand-total-round-btn").text('00.00');
-                            $("#balance").text('00.00');
-                            $("#items-total").text('00.00');
-                            $("#to-pay").text('00.00');
-                            $("#change").text('00.00');
-                            $("#paid-amount").text('00.00');
-                            $("#display").val('');
-                            $("#note").val('');
-                            $(".sale_note").val('');
-                            $("#paying_amount").val('');
+                            $("#warehouse_id").attr("disabled", false).css("cursor", "pointer");
+                            $("#shipping, #discount, #orderTax, #payment_method_id, #GrandTotal, #display, #note, .sale_note, #paying_amount").val('');
+                            $("#grand-total-actual-btn, #grand-total-round-btn, #balance, #items-total, #to-pay, #change, #paid-amount").text('00.00');
                             $("#paying_amount_badge").text('Grand Total:');
                             OnlineId = null;
                             GetOnlineOrdersList();
 
                             if ($("#inputGroupSelect02 option[value='percent']").length == 0) {
-                                $("#inputGroupSelect02").append(
-                                    '<option value="percent">%</option>');
+                                $("#inputGroupSelect02").append('<option value="percent">%</option>');
                             }
                             
                             // Print the document
                             var printUrl = "{{ url('invoice_pos') }}/" + data.id;
                             var a = window.open("", "", "height=1000, width=1000");
-                            a.document.write(
-                                '<html><head><link rel="stylesheet" href="/assets/styles/vendor/pos_print.css"></head><body>'
-                            );
-                            a.document.write("<iframe src='" + printUrl +
-                                "' style='width: 100%; height: 100%; border: none;' onload='this.contentWindow.print();'></iframe>");
-                            a.document.write("</body></html>");
+                            a.document.write(`
+                                <html>
+                                    <head>
+                                        <link rel="stylesheet" href="/assets/styles/vendor/pos_print.css">
+                                    </head>
+                                    <body>
+                                        <iframe src="${printUrl}" style="width: 100%; height: 100%; border: none;" onload="this.contentWindow.print();"></iframe>
+                                    </body>
+                                </html>
+                            `);
                             a.document.close();
 
                         } else {
