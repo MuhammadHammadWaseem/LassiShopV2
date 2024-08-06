@@ -446,13 +446,13 @@
                         currentOrderNo = item.order_no;
                     }
 
-                    var imgPath = item.new_product.img_path ? item.new_product.img_path : 'no_image.jpg';
+                    var imgPath = item.new_product ? item.new_product.img_path : 'no_image.jpg';
                     const itemHtml = `
                         <div class="main-oder-box">
                             <div class="main-img-box">
                                 <img src="{{ asset('images/products') }}/${imgPath}" class="img-fluid" alt="">
                                 <div class="content">
-                                    <h6>${item.new_product.name}</h6>
+                                    <h6>${item.new_product? item.new_product.name : 'No Product'}</h6>
                                     <p class="count">${item.quantity}</p>
 
                                     <p class="counter mt-3"></p>
