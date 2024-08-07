@@ -2535,7 +2535,7 @@
                                         <link rel="stylesheet" href="/assets/styles/vendor/pos_print.css">
                                     </head>
                                     <body>
-                                        <iframe src="${printUrl}" style="width: 100%; height: 100%; border: none;" onload="this.contentWindow.print();"></iframe>
+                                        <iframe src="${printUrl}" style="width: 100%; height: 100%; border: none;" onload="this.contentWindow.print(); this.contentWindow.onafterprint = function() { setTimeout(function() { window.close(); }, 1000); }"></iframe>
                                     </body>
                                 </html>
                             `);
