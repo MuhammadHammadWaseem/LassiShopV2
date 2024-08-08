@@ -268,6 +268,7 @@ if ($installed === false) {
             Route::match (['get', 'post'], 'complete/order/{orderId}/{productId}', 'OrderListController@completedOrder')->name('complete.order.pos');
             Route::match (['get', 'post'], 'complete/order', 'OrderListController@completedFullOrder')->name('complete.full.order.pos');
             Route::match (['get', 'post'], 'undo/order/{orderId}/{productId}', 'OrderListController@undoOrder')->name('undo.order.pos');
+            Route::match (['get', 'post'], 'clear/order', 'OrderListController@clearOrder')->name('clear.order.pos');
 
 
             Route::get('OrderShow', 'OrderListController@Order')->name('OrderShow');

@@ -72,6 +72,16 @@ class OrderListController extends Controller
         $orders = Order::with('newProduct')->get()->groupBy('order_no')->values()->all();
         return response()->json(['orders' => $orders]);
     }
+    public function clearOrder(Request $request)
+    {
+        $OrderList = Order::all();
+        foreach($OrderList as $order)   
+        {
+            $order->delete();
+        }
+        $orders = Order::with('newProduct')->get()->groupBy('order_no')->values()->all();
+        return response()->json(['orders' => $orders]);
+    }
     public function undoOrder($orderId,$productId)
     {
         $OrderList = Order::where('new_product_id' , $productId)->where('id' , $orderId)->first();

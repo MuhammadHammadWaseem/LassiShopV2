@@ -320,6 +320,10 @@
                 <a href="#"><img src="{{ asset('images/') }}/{{ $settings->logo }}" class="img-fluid"
                         width="120px" alt=""></a>
             </div>
+
+            <div class="col-md-12 text-end">
+                <button id="clearAllBtn" class="btn btn-danger">Clear All</button>
+            </div>
         </div>
         <div class="new-align-boxes">
             <div class="main-align-orders-box" id="orderListContainer">
@@ -334,6 +338,27 @@
         </div>
 
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="clearModal" tabindex="-1" role="dialog" aria-labelledby="clearModal"
+        aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Are you sure!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to clear all orders?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-danger" id="clearBtn">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="{{ asset('assets/js/vue.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap-vue.min.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
@@ -583,6 +608,35 @@
                 currentPage = $(this).data('page');
                 renderOrders();
                 renderPagination();
+            });
+
+            $("body").on('click', '#clearAllBtn', function() {
+                $("#clearModal").modal('show');
+            });
+
+            $("body").on('click', '#clearBtn', function() {
+                $.ajax({
+                    type: 'POST',
+                    url: 'clear/order',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        allOrders = mergeOrders([], response
+                        .orders); // Update allOrders with the fetched orders
+                        renderOrders();
+                        renderPagination();
+                        $("#clearModal").modal('hide');
+                        toastr.success("All Orders Cleared Successfully!");
+                    },
+                    error: function(error) {
+                        console.error('Error fetching OrderList:', error);
+                    }
+                });
             });
         });
     </script>
