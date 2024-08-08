@@ -31,7 +31,7 @@ class AddToCartController extends Controller
         // $simulatedOrderList = $OrderList;
         if (array_key_exists($productId, $simulatedCart)) {
             $simulatedCart[$productId]['quantity'] += 1;
-            $simulatedCart[$productId]['naem'] = $productName;
+            $simulatedCart[$productId]['name'] = $productName;
 
         } else {
             $simulatedCart[$productId] = [
