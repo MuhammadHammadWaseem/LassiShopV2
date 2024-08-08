@@ -6224,8 +6224,12 @@ select#payment_method_id {
                                     <div class="col-md-12 d-flex justify-content-space-between align-items-center mt-2 flex-md-row flex-column">
                                         <div class="col-md-6">
                                             <p style="margin: 0; padding: 0; margin-top: 5px;">Items total: <span>{{ $total }} {{ $setting[0]->Currency->symbol }}</span></p>
-                                            <p style="margin: 0; padding: 0; margin-top: 5px;">Delivery fee: <span>{{ $setting[0]->delivery_charge }} {{ $setting[0]->Currency->symbol }}</span></p>
-                                            <p style="margin: 0; padding: 0; margin-top: 5px;">Total Payment: <span id="total">{{ $total + $setting[0]->delivery_charge }}</span> <span>{{ $setting[0]->Currency->symbol }}</span></p>
+                                            <p style="margin: 0; padding: 0; margin-top: 5px;">VAT (5%): <span>{{ $total * 5 / 100 }} </span></p>
+                                            @php
+                                                $vat = $total * 5 / 100;
+                                                $tot = $total + $vat;
+                                            @endphp
+                                            <p style="margin: 0; padding: 0; margin-top: 5px;">Total Payment: <span id="total">{{ $tot + $setting[0]->delivery_charge }}</span> <span>{{ $setting[0]->Currency->symbol }}</span></p>
                                         </div>
                                         <div class="col-md-6 d-flex justify-content-end align-items-end">
                                             {{-- <button class="btn btn-danger d-none me-2" id="placeOrder" onclick="confirmOrder()">Place Order</button> --}}
@@ -6315,7 +6319,7 @@ select#payment_method_id {
         $('#name').val('{{ $order['name'] }}');
         $('#email').val('{{ $order['email'] }}');
         $('#phone').val('{{ $order['phone'] }}');
-       
+
 
         $('#edit').click(function() {
             $('#checkoutModal').modal('show');

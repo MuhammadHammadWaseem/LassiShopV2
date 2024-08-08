@@ -3073,6 +3073,14 @@
                 pointer-events: none;
                 z-index: -1
             }
+
+            .customModal{
+                backdrop-filter: blur(3px);
+                border-radius: 15px;
+                padding: 25px 25px;
+                background: #ff182f54;
+                box-shadow: 0px 0px 20px 0px #3a3a3a73;
+            }
         </style>
         <style type="text/css">
             .base-modal {
@@ -6124,6 +6132,16 @@ body {
     background-size: cover !important;
     background-repeat: no-repeat !important;
 }
+.modal-content.text-center.p-3.customModal .main-table-modal-box {
+    box-shadow: 5px 5px 10px 0px #00000033;
+}
+
+.modal-content.text-center.p-3.customModal .main-table-modal-box table.table.table-bordered th,.modal-content.text-center.p-3.customModal .main-table-modal-box table.table.table-bordered td {
+    background-color: #ff000033;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
         </style>
 
     </head>
@@ -6181,9 +6199,6 @@ body {
                                                 <div class="base-scrollbar">
                                                     <div class="menu-list__item">
                                                         <div class="menu _selected">
-                                                            <button class="menu__button focus">
-                                                                <a href="{{ url('guest') }}"><span>Main menu</span></a>
-                                                            </button>
                                                             <!---->
                                                         </div> <!---->
                                                     </div> <!---->
@@ -6191,15 +6206,6 @@ body {
                                             </div>
                                             <div class="menu-category-page">
                                                 <div class="place-nav">
-                                                    <div class="place-nav__inner wrapper"><button
-                                                            class="back-button focus">
-                                                            <a href="{{ url('guest') }}"><svg width="24"
-                                                                    height="24" viewBox="0 0 24 24" fill="none"
-                                                                    xmlns="http://www.w3.org/2000/svg">
-                                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                                        d="M6.41412 13L12.707 19.2929L11.2928 20.7071L2.58569 12L11.2928 3.29289L12.707 4.70711L6.41412 11H20.9999V13H6.41412Z"
-                                                                        fill="var(--color-black)"></path>
-                                                                </svg></a></button></div>
                                                 </div>
                                                 <section class="menu-item-list">
                                                     <div class="div">
@@ -6293,23 +6299,25 @@ body {
             <div class="modal fade" style="overflow-y: hidden!important" id="flavorModal" tabindex="-1"
                 aria-labelledby="flavorModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-sm">
-                    <div class="modal-content text-center p-3">
+                    <div class="modal-content text-center p-3 customModal">
                         <div class="modal-body text-center">
-                            <h4 class="text-center my-3">Choose Flavor</h4>
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Select</th>
-                                        <th scope="col">Flavor</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="flavorTable">
-                                </tbody>
-                            </table>
+                            <h4 class="text-center my-3 text-white">Choose Flavor</h4>
+                                <div class="main-table-modal-box">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Select</th>
+                                                <th scope="col">Flavor</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="flavorTable">
+                                        </tbody>
+                                    </table>
+                                </div>
                         </div>
                         <div class="modal-footer d-flex justify-content-center">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-primary" id="flavorBtn" data-bs-dismiss="modal">Ok</button>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-success" id="flavorBtn" data-bs-dismiss="modal">Ok</button>
                         </div>
                     </div>
                 </div>
@@ -6544,7 +6552,7 @@ body {
                         });
 
                         $("#flavorModal").modal("show");
-                    
+
                         // Attach change event listener to the radio buttons
                         $('input[name="flavor"]').change(function() {
                             selectedFlavorName = $('input[name="flavor"]:checked').data('name');

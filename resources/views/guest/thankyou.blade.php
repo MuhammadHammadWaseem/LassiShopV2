@@ -67,17 +67,20 @@
                 row-gap: 15px;
             }
         }
+        .main-sec img.check-img {
+            filter: hue-rotate(135deg);
+        }
     </style>
 </head>
 
 <body>
     <section class="main-sec" style="background-image: url({{ asset('images/OnlineSite/main-bg.png') }})">
         <img src="{{ asset('images/' . $settings->logo) }}" alt="" width="100px" height="100px">
-        <h1 class="place-title"><span>{{ $setting[0]->app_name }}</span> </h1>
+        {{-- <h1 class="place-title"><span>{{ $setting[0]->app_name }}</span> </h1> --}}
         <h2 class="thanks-title">Thank You For Shopping</h2>
-        <img src="{{ asset('images/check.png') }}" class="check-img" width="200px" height="200px">
+        <img src="{{ asset('images/check.png') }}" class="check-img" width="200px" height="200px"  >
         <h2 class="place-title"><span>Order No:{{ $OrderNumber ?? '' }}</span></h2>
-        <a href="{{ route('guest.index') }}" target="_blank" class="btn btn-danger text-center">Back To Home</a>
+        {{-- <a href="{{ route('guest.index') }}" target="_blank" class="btn btn-danger text-center">Back To Home</a> --}}
     </section>
 
 </body>

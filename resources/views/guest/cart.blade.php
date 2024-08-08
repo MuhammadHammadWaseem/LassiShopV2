@@ -6208,7 +6208,7 @@
                                 <div class="container mt-5 border-top pt-3">
                                     <div class="row">
                                         <div class="col-12 d-flex justify-content-center align-items-start flex-column">
-                                            <div class="order-total-price"><span style="font-size: 12px">Delivery: </span>
+                                            {{-- <div class="order-total-price"><span style="font-size: 12px">Delivery: </span>
                                                 <div class="menu-item-price menu-item-price--regular"><span
                                                         class="menu-item-price__current"><b id="delivery_price"
                                                             style="font-size: 12px"></b>
@@ -6216,8 +6216,24 @@
                                                             style="font-size: 12px">{{ $setting[0]->Currency->symbol }}</span></span>
                                                     <!---->
                                                 </div>
+                                            </div> --}}
+                                            <div class="order-total-price"><span style="font-size: 12px">Item Total: </span>
+                                                <div class="menu-item-price menu-item-price--regular"><span
+                                                    class="menu-item-price__current"><b id="item_total_price"
+                                                    style="font-size: 12px"></b>
+                                                    <span>{{ $setting[0]->Currency->symbol }}</span></span>
+                                                </div>
                                             </div>
-                                            <div class="order-total-price"><span>Total: </span>
+                                                <div class="order-total-price"><span style="font-size: 12px">VAT: (5%)</span>
+                                                    <div class="menu-item-price menu-item-price--regular"><span
+                                                            class="menu-item-price__current"><b id="vat_price"
+                                                                style="font-size: 12px"></b>
+                                                            <span
+                                                                style="font-size: 12px"></span></span>
+                                                        <!---->
+                                                    </div>
+                                                </div>
+                                            <div class="order-total-price"><span>Grand Total: </span>
                                                 <div class="menu-item-price menu-item-price--regular"><span
                                                         class="menu-item-price__current"> <b id="total_price"></b>
                                                         <span>{{ $setting[0]->Currency->symbol }}</span></span>
@@ -6277,12 +6293,10 @@
                                 <input type="text" required class="form-control" name="address" id="address">
                                 <div id="address-error" class="text-danger"></div>
                             </div> --}}
-                            <input type="hidden" name="latitude" id="latitude">
-                            <input type="hidden" name="longitude" id="longitude">
+                            {{-- <input type="hidden" name="latitude" id="latitude">
+                            <input type="hidden" name="longitude" id="longitude"> --}}
 
                             <br />
-                            <small class="mt-5 text-danger">Please enable your browser location to checkout!</small><br />
-
                             <button type="button" class="btn btn-danger mt-3" onclick="placeOrder()">Submit</button>
                         </form>
                     </div>
@@ -6381,8 +6395,11 @@
                     }
                 }
                 price += delivery_price;
+                let vat = price * 5 / 100;
+                $("#vat_price").text(vat);
                 $("#delivery_price").text(delivery_price);
-                $("#total_price").text(price);
+                $("#item_total_price").text(price);
+                $("#total_price").text(price+vat);
             },
             error: function(error) {
                 console.log(error);
@@ -6542,66 +6559,33 @@
 
     function placeOrder() {
 
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                document.getElementById('latitude').value = position.coords.latitude;
-                document.getElementById('longitude').value = position.coords.longitude;
-                $.ajax({
-                    url: '/locations/search',
-                    type: "GET",
-                    token: "{{ csrf_token() }}",
-                    dataType: "json",
-                    headers: {
-                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                    },
-                    data: {
-                        latitude: position.coords.latitude,
-                        longitude: position.coords.longitude
-                    },
-                    success: function(response) {
-                        console.log(response.data.length);
-                        if (response.data.length > 0) {
-                            console.log("success");
-                            $.ajax({
-                                url: '/guest/placeOrder',
-                                type: "POST",
-                                token: "{{ csrf_token() }}",
-                                dataType: "json",
-                                headers: {
-                                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                                },
-                                data: {
-                                    name: $("#name").val(),
-                                    email: $("#email").val(),
-                                    phone: $("#phone").val(),
-                                },
-                                success: function(response) {
-                                    $(".error-message").remove();
-                                    $("#checkoutModal").modal('hide');
-                                    $("#name").val('');
-                                    $("#email").val('');
-                                    $("#phone").val('');
-                                    window.location.href =
-                                        '{{ url('/guest/checkout') }}';
-                                },
-                                error: function(data) {
-                                    console.log(data.responseText);
-                                    displayErrors(JSON.parse(data.responseText));
-                                }
-                            });
-                        } else {
-                            toastr.error(`Sorry, we don't deliver to your area.`);
-                        }
-                    },
-                    error: function(data) {
-                        console.log(data);
-                    }
-                });
-            });
-        }
-        else {
-            alert("Geolocation is not supported by this browser.");
-        }
+        $.ajax({
+            url: '/guest/placeOrder',
+            type: "POST",
+            token: "{{ csrf_token() }}",
+            dataType: "json",
+            headers: {
+                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+            },
+            data: {
+                name: $("#name").val(),
+                email: $("#email").val(),
+                phone: $("#phone").val(),
+            },
+            success: function(response) {
+                $(".error-message").remove();
+                $("#checkoutModal").modal('hide');
+                $("#name").val('');
+                $("#email").val('');
+                $("#phone").val('');
+                window.location.href =
+                    '{{ url('/guest/checkout') }}';
+            },
+            error: function(data) {
+                console.log(data.responseText);
+                displayErrors(JSON.parse(data.responseText));
+            }
+        });
     }
 
     function displayErrors(errors) {
