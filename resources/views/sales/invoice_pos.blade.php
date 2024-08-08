@@ -32,8 +32,9 @@
           <div class="box" style="margin-bottom:20px!important; display: flex!important; align-items: center; justify-content: center; flex-direction: column">
             <img src="{{ asset('images/'.$settings->logo) }}" class="img-fluid img-thumbnail" style="width: 100px;" alt="">
             <h1 class="text-center" style="">@{{setting.CompanyName}}</h1>
-            <span class="text-center" style="margin-bottom: 10px">TRA # 28159432-4</span>
             <span class="text-center" style="text-align: center !important">@{{setting.CompanyAdress}} <br></span>
+            <span class="text-center" style="">{{ __('translate.Phone') }} : @{{setting.CompanyPhone}} <br></span>
+            <span class="text-center" style="margin-bottom: 10px">TRA # : 28159432-4</span>
             <h2 class="text-center text-uppercase" style="font-size: 20px !important">Token #: @{{sale.token_no}} <br></h2>
           </div>
           <hr>
@@ -44,8 +45,6 @@
             <span>{{ __('translate.Sale') }}: @{{sale.Ref}} <br></span>
             {{-- <span v-show="pos_settings.show_address">{{ __('translate.Address') }} : @{{setting.CompanyAdress}}
               <br></span> --}}
-            <span v-show="pos_settings.show_phone">{{ __('translate.Phone') }} : @{{setting.CompanyPhone}}
-              <br></span>
           </p>
         </div>
 

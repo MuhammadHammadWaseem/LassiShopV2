@@ -21,6 +21,10 @@
     <link rel="stylesheet" href="{{ asset('assets/styles/vendor/toastr.css') }}">
     <script src="{{ asset('assets/pos/plugins/jquery/jquery.min.js') }}"></script>
 
+    {{-- Alpine Js --}}
+    <script defer src="{{ asset('js/plugin-core/alpine-collapse.js') }}"></script>
+    <script defer src="{{ asset('js/plugin-core/alpine.js') }}"></script>
+    <script src="{{ asset('js/plugin-script/alpine-data.js') }}"></script>
     <style>
         .select2-container {
             width: 75% !important;
@@ -1051,9 +1055,7 @@
     </div>
 
     <audio id="clickSound" src="{{ asset('assets/audio/Beep.wav') }}"></audio>
-
     {{-- --------------------------------------------------------------------------------------------- --}}
-
     <script src="{{ asset('assets/js/vue.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap-vue.min.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
@@ -1065,6 +1067,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"
         integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{{ asset('assets/js/script.js') }}"></script>
 
     <script>
         var OnlineId = null;

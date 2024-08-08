@@ -148,6 +148,7 @@ class PosController extends Controller
 
     public function CreatePOS(Request $request)
     {
+        date_default_timezone_set('Asia/Dubai');
         $validator = Validator::make($request->all(), [
             'client_id' => 'required',
             'warehouse_id' => 'required',
@@ -170,7 +171,7 @@ class PosController extends Controller
 
             $order = new Sale([
                 'is_pos' => 1,
-                'date' => $request->date,
+                'date' => Carbon::now(),
                 'Ref' => 'SO-' . now()->format('Ymd-His'),
                 'token_no' => $tokenNo,
                 'client_id' => $request->client_id,
@@ -843,7 +844,7 @@ class PosController extends Controller
 
             $item['id'] = $sale->id;
             $item['Ref'] = $sale->Ref;
-            $item['date'] = Carbon::parse($sale->date)->format('d-m-Y H:i');
+            $item['date'] = Carbon::parse($sale->date)->format('d-m-Y h:i A');
 
             if ($sale->discount_type == 'fixed') {
                 $item['discount'] = $this->render_price_with_symbol_placement(number_format($sale->discount, 2, '.', ','));
