@@ -6255,7 +6255,7 @@ body {
                                                                                     <button
                                                                                         class="order-action-button _add ripple focus"
                                                                                         id="add_{{ $product->id }}"
-                                                                                        onclick="addToCart({{ $product->id }}, {{ $product->online_product_price }}, '{{ $product->name }}', '{{ asset('images/products/' . $product->img_path) }}')">
+                                                                                        onclick="addToCart({{ $product->id }}, {{ $product->online_product_price }}, '{{ $product->name }}', '{{ asset('images/products/' . $product->img_path) }}','{{ $product->selection_required }}')">
                                                                                         +
                                                                                     </button>
                                                                                 </div>
@@ -6288,6 +6288,33 @@ body {
                 </main>
             </div>
         </div>
+
+         <!-- Flavors Modal -->
+            <div class="modal fade" style="overflow-y: hidden!important" id="flavorModal" tabindex="-1"
+                aria-labelledby="flavorModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-sm">
+                    <div class="modal-content text-center p-3">
+                        <div class="modal-body text-center">
+                            <h4 class="text-center my-3">Choose Flavor</h4>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Select</th>
+                                        <th scope="col">Flavor</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="flavorTable">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-center">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary" id="flavorBtn" data-bs-dismiss="modal">Ok</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
     </body>
 @endsection
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -6448,8 +6475,11 @@ body {
          });
      }
 
-     function addToCart(id, price, name, img_path) {
-         $.ajax({
+     newArr = {};
+     let updatedName = '';
+
+     function sendAddToCartRequest (id, price, name, img_path) {
+        $.ajax({
              url: '/guest/addToCart',
              type: "POST",
              token: "{{ csrf_token() }}",
@@ -6466,27 +6496,82 @@ body {
              },
              success: function(response) {
                  checkCart();
-                 if (response.message) {
-                     toastr.error('Out of stock');
-                 } else {
-                     $("#count_" + id).css('visibility', 'visible');
-                     $("#count_" + id).css('opacity', '1');
-                     $("#add_" + id).css('opacity', '1');
-                     $("#add_" + id).css('visibility', 'visible');
-                     $("#remove_" + id).css('opacity', '1');
-                     $("#remove_" + id).css('visibility', 'visible');
-                     for (var productId in response.guest_cart) {
-                         if (response.guest_cart.hasOwnProperty(productId)) {
-                             var quantity = response.guest_cart[productId].quantity;
-                             $("#count_" + productId).text(quantity);
-                         }
-                     }
-                 }
+                if (response.message) {
+                    toastr.error('Out of stock');
+                } else {
+                    $("#count_" + id).css('visibility', 'visible');
+                    $("#count_" + id).css('opacity', '1');
+                    $("#add_" + id).css('opacity', '1');
+                    $("#add_" + id).css('visibility', 'visible');
+                    $("#remove_" + id).css('opacity', '1');
+                    $("#remove_" + id).css('visibility', 'visible');
+                    for (var productId in response.guest_cart) {
+                        if (response.guest_cart.hasOwnProperty(productId)) {
+                            var quantity = response.guest_cart[productId].quantity;
+                            $("#count_" + productId).text(quantity);
+                        }
+                    }
+                }
+                console.log(newArr);
              },
              error: function(data) {
                  console.log("Error:", data);
              }
          });
+     }
+
+     function addToCart(id, price, name, img_path, selection_required) {
+        if(selection_required == 0){
+            sendAddToCartRequest(id, price, name, img_path);
+        }else{
+            if(!newArr.hasOwnProperty(id)) {
+                $.ajax({
+                    type: "GET",
+                    url: "/getFlavorsforUser",
+                    data: {
+                        id: id
+                    },
+                    success: function(data) {
+                        $("#flavorTable").empty();
+
+                        data.forEach(function(flavor) {
+                            $("#flavorTable").append(`
+                                <tr>
+                                    <td><input type="radio" class="form-check-input" id="flavor_${flavor.id}" name="flavor" data-name="${flavor.name}" value="${flavor.id}"></td>
+                                    <td>${flavor.name}</td>
+                                </tr>
+                            `);
+                        });
+
+                        $("#flavorModal").modal("show");
+                    
+                        // Attach change event listener to the radio buttons
+                        $('input[name="flavor"]').change(function() {
+                            selectedFlavorName = $('input[name="flavor"]:checked').data('name');
+                            $("#flavorBtn").prop("disabled", false);
+                        });
+
+                         // Remove any previous click event handlers to avoid multiple bindings
+                        $("#flavorBtn").off("click");
+                        $("#flavorBtn").on("click", function() {
+                            updatedName = name + " - " + "(" + selectedFlavorName + ")";
+                            //Add to cart Run
+                            sendAddToCartRequest(id, price, updatedName, img_path);
+                            //Add to cart Run
+                            $("#flavorModal").modal("hide");
+                            if(!newArr[id]){
+                                newArr[id] = {'id': id, 'price': price, 'name': name, 'img_path': img_path, 'flavor': 1};
+                            }
+                        });
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                });
+            }else{
+                sendAddToCartRequest(id, price, updatedName, img_path);
+            }
+        }
      }
 
      function updateQuantity(id) {

@@ -14,6 +14,7 @@ class NewProduct extends Model
     protected $fillable = [
         'category_id',
         'warehouse_id',
+        'selection_required',
         'name',
         'img_path',
         'price',

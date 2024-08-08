@@ -1022,6 +1022,34 @@
         </div>
     </div>
     </div>
+
+    <!-- Flavors Modal -->
+    <div class="modal fade" style="overflow-y: hidden!important" id="flavorModal" tabindex="-1"
+        aria-labelledby="flavorModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content text-center p-3">
+
+                <div class="modal-body text-center">
+                    <h4 class="text-center my-3">Choose Flavor</h4>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">Select</th>
+                                <th scope="col">Flavor</th>
+                            </tr>
+                        </thead>
+                        <tbody id="flavorTable">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="flavorBtn" data-bs-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <audio id="clickSound" src="{{ asset('assets/audio/Beep.wav') }}"></audio>
 
     {{-- --------------------------------------------------------------------------------------------- --}}
@@ -1057,6 +1085,7 @@
             removeQuantity: "{{ route('remove_qty') }}",
             getUserPoints: "{{ route('getUserPoints') }}",
             getClients: "{{ route('getClients') }}",
+            getFlavors: "{{ route('getFlavors') }}",
         };
 
         const elements = {
@@ -1943,17 +1972,65 @@
                 checkCartItemsAndEnableWarehouseSelect();
                 GetHoldList();
                 GetOnlineOrdersList();
-
+                
                 // Handle click events
                 elements.productsBox.on("click", ".product-card", function() {
-                    const {
+                    $("#flavorBtn").prop("disabled", true);
+
+                    let {
                         id,
                         price,
                         name,
-                        img_path
+                        img_path,
+                        selection_required
                     } = $(this).data();
-                    addToCart(id, price, name, img_path);
-                    playClickSound();
+                    
+                    let selectedFlavorName = '';
+
+                    if(selection_required == 0){
+                        addToCart(id, price, name, img_path);
+                        playClickSound();
+                    }else{
+                        $.ajax({
+                            type: "GET",
+                            url: routes.getFlavors,
+                            data: {
+                                id: id
+                            },
+                            success: function(data) {
+                                $("#flavorTable").empty();
+
+                                data.forEach(function(flavor) {
+                                    $("#flavorTable").append(`
+                                        <tr>
+                                            <td><input type="radio" id="flavor_${flavor.id}" name="flavor" data-name="${flavor.name}" value="${flavor.id}"></td>
+                                            <td>${flavor.name}</td>
+                                        </tr>
+                                    `);
+                                });
+
+                                $("#flavorModal").modal("show");
+                            
+                                // Attach change event listener to the radio buttons
+                                $('input[name="flavor"]').change(function() {
+                                    selectedFlavorName = $('input[name="flavor"]:checked').data('name');
+                                    $("#flavorBtn").prop("disabled", false);
+                                });
+
+                                 // Remove any previous click event handlers to avoid multiple bindings
+                                $("#flavorBtn").off("click");
+                                $("#flavorBtn").on("click", function() {
+                                    let updatedName = name + " - " + "(" + selectedFlavorName + ")";
+                                    addToCart(id, price, updatedName, img_path);
+                                    playClickSound();
+                                    $("#flavorModal").modal("hide");
+                                });
+                            },
+                            error: function(data) {
+                                console.log(data);
+                            }
+                        });
+                    }
                 });
 
                 $("body").on("click", "#DeleteProduct", function() {
@@ -2092,7 +2169,7 @@
                     imgPath = "no_image.jpg";
                 }
                 elements.productsBox.append(`
-                <div class="col-lg-4 col-md-6 col-sm-6 product-card" data-id="${element.id}" data-price="${element.price}" data-name="${element.name}" data-img_path="${element.img_path}">
+                <div class="col-lg-4 col-md-6 col-sm-6 product-card" data-id="${element.id}" data-price="${element.price}" data-name="${element.name}" data-img_path="${element.img_path}" data-selection_required="${element.selection_required}">
                     <div class="card cursor-pointer">
                         <img src="/images/products/${imgPath}" class="card-img-top" alt="">
                         <div class="card-body pos-card-product">

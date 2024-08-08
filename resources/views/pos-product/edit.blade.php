@@ -105,6 +105,14 @@
                             <div class="error-message" id="price-error"></div>
 
                         </div>
+                        <div class="form-group col-md-4">
+                            <label for="selection_required">{{ __('User can select Flavors?') }}
+                                <span class="field_required">*</span>
+                            </label>
+                            <input type="checkbox" class="form-check-input" name="selection_required" {{ $product->selection_required == 1 ? 'checked' : '' }}>
+                            <div class="error-message" id="price-error"></div>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productsModal">Show Products</button>
+                        </div>
                     </div>
                     <div class="row mb-4">
                         <div class="col-md-12 d-flex justify-content-between align-items-center">
@@ -175,6 +183,42 @@
                     <div class="row mt-3">
                         <div class="col-md-6">
                             <button type="submit" class="btn btn-primary">Update</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="productsModal" tabindex="-1" role="dialog"
+                    aria-labelledby="productsModal" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Select Products</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <table id="products_table" class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Select</th>
+                                            <th>Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($baseProduct as $product)
+                                            <tr>
+                                                <td>
+                                                    <input type="checkbox" class="form-check-input product_checkbox"
+                                                        name="product_id[]" value="{{ $product->id }}"
+                                                        {{ in_array($product->id, $newProductForUserSelect) ? 'checked' : '' }}>
+                                                </td>
+                                                <td>{{ $product->name }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

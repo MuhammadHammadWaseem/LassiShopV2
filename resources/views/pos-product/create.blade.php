@@ -98,6 +98,18 @@
                                     class="help-block text-danger">{{ $errors->first('online_product_price') }}</span>
                             @endif
                         </div>
+                        <div class="form-group col-md-4 {{ $errors->has('selection_required') ? 'has-error' : '' }}">
+                            <label for="price">{{ __('User can select Flavors?') }}
+                                <span class="field_required">*</span>
+                            </label>
+                            <input type="checkbox" id="selection_required" class="form-check-input"
+                                name="selection_required" value="1">
+                            <div class="error-message" id="price-error"></div>
+                            @if ($errors->has('selection_required'))
+                                <span class="help-block text-danger">{{ $errors->first('selection_required') }}</span>
+                            @endif
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productsModal">Show Products</button>
+                        </div>
                     </div>
                     <hr>
                     <div class="row mb-4">
@@ -129,6 +141,43 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="productsModal" tabindex="-1" role="dialog"
+                    aria-labelledby="productsModal" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Select Products</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <table id="products_table" class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Select</th>
+                                            <th>Name</th>
+                                            {{-- <th>Quantity</th> --}}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($baseProduct as $product)
+                                            <tr>
+                                                <td>
+                                                    <input type="checkbox" class="form-check-input product_checkbox"
+                                                        name="product_id[]" value="{{ $product->id }}">
+                                                </td>
+                                                <td>{{ $product->name }}</td>
+                                                {{-- <td><input type="text" class="form-control product_quantity" name="quantity[]"></td> --}}
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
@@ -146,6 +195,15 @@
         $('#form').on('submit', function(e) {
             e.preventDefault();
             Create_Product();
+        });
+
+        $("body").on("change", "#selection_required", function() {
+            if ($(this).is(':checked')) {
+                $("#productsModal").modal("show");
+            } else {
+                $(".product_checkbox").prop("checked", false);
+                $(".product_quantity").val("");
+            }
         });
 
         function Create_Product() {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\NewProductForUserSelect;
 use App\Models\Unit;
 use App\Models\Brand;
 use App\Models\Point;
@@ -59,6 +60,7 @@ class PosProductController extends Controller
             'price' => 'required|min:1',
             'online_product_price' => 'required|min:1',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'selection_required' => 'required',
             'ingredient_id' => 'required',
             'ingredient_id.*' => [
                 'required',
@@ -93,6 +95,7 @@ class PosProductController extends Controller
         $product->warehouse_id = $request->warehouse;
         $product->price = $request->price;
         $product->online_product_price = $request->online_product_price;
+        $product->selection_required = $request->selection_required;
         if ($request->image != null) {
             $image = $request->file('image');
             $filename = time() . '.' . $image->extension();
@@ -114,6 +117,13 @@ class PosProductController extends Controller
             $productDetail->save();
         }
 
+        foreach($request->product_id as $productId){
+         NewProductForUserSelect::create([
+            'product_id' => $productId,
+            'new_product_id' => $product->id,
+         ]);
+        }
+
         return response()->json(['status' => 'success', 'message' => 'Product created successfully']);
     }
 
@@ -124,7 +134,8 @@ class PosProductController extends Controller
         $warehouses = Warehouse::all();
         $baseProduct = Product::all();
         $units = Unit::all();
-        return view('pos-product.edit', compact('product', 'categories', 'warehouses', 'baseProduct', 'units'));
+        $newProductForUserSelect = NewProductForUserSelect::where('new_product_id', $id)->pluck('product_id')->all();
+        return view('pos-product.edit', compact('product', 'categories', 'warehouses', 'baseProduct', 'units', 'newProductForUserSelect'));
     }
 
     public function product_ingredients()
@@ -135,7 +146,6 @@ class PosProductController extends Controller
 
     public function update(Request $request, $id)
     {
-        // dd($request->all());
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
             'category' => 'required',
@@ -172,15 +182,17 @@ class PosProductController extends Controller
             return redirect()->back()->withErrors($validator)->withInput()->with('errors', $errors);
         }
 
+        $request->selection_required = ($request->selection_required == "on") ? 1 : 0;
+
         $product = NewProduct::find($id);
         $product->name = $request->name;
         $product->category_id = $request->category;
         $product->warehouse_id = $request->warehouse;
         $product->price = $request->price;
         $product->online_product_price = $request->online_product_price;
+        $product->selection_required = $request->selection_required;
         if ($request->new_image != null) {
             $image = $request->file('image');
-            // dd($image);
             $filename = time() . '.' . $image->extension();
             $image->move(public_path('/images/products'), $filename);
             $product->img_path = $filename;
@@ -210,6 +222,16 @@ class PosProductController extends Controller
             $productDetail->unit_id = $request->unit_id[$key];
             $productDetail->qty = $request->quantity[$key];
             $productDetail->save();
+        }
+
+        if($request->product_id){
+            NewProductForUserSelect::where('new_product_id', $id)->delete();
+            foreach ($request->product_id as $key => $productId) {
+                $productDetail = new NewProductForUserSelect();
+                $productDetail->new_product_id = $product->id;
+                $productDetail->product_id = $productId;
+                $productDetail->save();
+            }
         }
 
         // return response()->json(['status' => 'success', 'message' => 'Product updated successfully']);

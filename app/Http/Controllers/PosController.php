@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\NewProductForUserSelect;
 use App\Models\Order;
 use PDF;
 use Config;
@@ -200,6 +201,7 @@ class PosController extends Controller
                 $newProductDetails = NewProductDetail::where('new_product_id', $value['id'])->get();
                 $orders = Order::create([
                     'new_product_id' => $newProductDetails[0]->new_product_id,
+                    'name' => $value['name'],
                     'user_id' => auth()->user()->id,
                     'order_no' => $order->Ref,
                     'quantity' => $value['quantity'],
@@ -330,6 +332,7 @@ class PosController extends Controller
                 PosSaleItems::create([
                     'sale_id' => $order->id,
                     'new_product_id' => $cart['id'],
+                    'name' => $cart['name'],
                     'qty' => $cart['quantity'],
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
@@ -958,6 +961,14 @@ class PosController extends Controller
     {
         DB::table('token_counters')->update(['current_token_no' => 0]);
         return response()->json(['status' => 'success', 'message' => 'Token number reset successfully']);
+    }
+
+    public function getFlavors(Request $request)
+    {
+        $newProduct = NewProductForUserSelect::where('new_product_id', $request->id)->get();
+        $selectedProductIds = $newProduct->pluck('product_id')->toArray();
+        $flavors = Product::whereIn('id', $selectedProductIds)->get();
+        return response()->json($flavors);
     }
 
 }

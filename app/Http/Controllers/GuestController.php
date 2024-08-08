@@ -74,6 +74,7 @@ class GuestController extends Controller
         // $simulatedOrderList = $OrderList;
         if (array_key_exists($productId, $simulatedCart)) {
             $simulatedCart[$productId]['quantity'] += 1;
+            $simulatedCart[$productId]['name'] = $productName;
         } else {
             $simulatedCart[$productId] = [
                 'id' => $productId,
@@ -135,6 +136,7 @@ class GuestController extends Controller
         // Update the actual cart if the stock check passes
         if (array_key_exists($productId, $cart)) {
             $cart[$productId]['quantity'] += 1;
+            $cart[$productId]['name'] = $productName;
             Session::put('guest_cart', $cart);
         } else {
             $cart[$productId] = [

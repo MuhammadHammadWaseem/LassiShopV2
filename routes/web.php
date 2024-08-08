@@ -66,6 +66,7 @@ Route::middleware('guest')->group(function () {
     Route::get('/success/shopping', 'GuestController@successShopping')->name('success.shopping');
     Route::match(['get', 'post'], '/checkCart', 'GuestController@checkCart')->name('checkCart.session');
     Route::get('/locations/search', 'LocationController@search');
+    Route::get('getFlavorsforUser', 'PosController@getFlavors')->name('getFlavors');
 });
 
 
@@ -239,6 +240,7 @@ if ($installed === false) {
             Route::post('getUserPoints', 'PosController@getUserPoints')->name('getUserPoints');
             Route::get('getClients', 'PosController@getClients')->name('getClients');
             Route::post('reset-token-number', 'PosController@resetTokenNumber')->name('reset.token.number');
+            Route::get('getFlavors', 'PosController@getFlavors')->name('getFlavors');
 
             //---------------------- Hold Order ----------------------\\
             //------------------------------------------------------------------\\

@@ -86,7 +86,8 @@
             @foreach ($posProduct as $product)
             <tr>
               <td colspan="3">
-                {{$product->newProduct->name}}
+                {{-- {{$product->newProduct->name}} --}}
+                {{$product->name}}
                 <br>
                 <span>{{$product->qty}} x {{$product->newProduct->price}}</span>
               </td>
