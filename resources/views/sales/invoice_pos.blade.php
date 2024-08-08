@@ -32,24 +32,19 @@
           <div class="box" style="margin-bottom:20px!important; display: flex!important; align-items: center; justify-content: center; flex-direction: column">
             <img src="{{ asset('images/'.$settings->logo) }}" class="img-fluid img-thumbnail" style="width: 100px;" alt="">
             <h1 class="text-center" style="">@{{setting.CompanyName}}</h1>
-            <span class="text-center" style="margin-bottom: 10px">Ntn # 28159432-4</span>
-            <span class="text-center">@{{setting.CompanyAdress}} <br></span>
+            <span class="text-center" style="margin-bottom: 10px">TRA # 28159432-4</span>
+            <span class="text-center" style="text-align: center !important">@{{setting.CompanyAdress}} <br></span>
             <h2 class="text-center text-uppercase" style="font-size: 20px !important">Token #: @{{sale.token_no}} <br></h2>
           </div>
           <hr>
 
           {{-- <p dir="{{ $languageDirection }}">  --}}
-          <p> 
+          <p>
             <span>{{ __('translate.date') }} : @{{sale.date}} <br></span>
             <span>{{ __('translate.Sale') }}: @{{sale.Ref}} <br></span>
             {{-- <span v-show="pos_settings.show_address">{{ __('translate.Address') }} : @{{setting.CompanyAdress}}
               <br></span> --}}
-            <span v-show="pos_settings.show_email">{{ __('translate.Email') }} : @{{setting.email}} <br></span>
             <span v-show="pos_settings.show_phone">{{ __('translate.Phone') }} : @{{setting.CompanyPhone}}
-              <br></span>
-            <span v-show="pos_settings.show_customer">{{ __('translate.Customer') }} : @{{sale.client_name}}
-              <br></span>
-              <span v-show="pos_settings.show_Warehouse">{{ __('translate.warehouse') }} : @{{sale.warehouse_name}}
               <br></span>
           </p>
         </div>
@@ -99,32 +94,32 @@
             <tr>
               <td colspan="4" style="text-align: center; background-color: #ff894e; color:white;">Proceed to Transaction</td>
             </tr>
-          
 
-            <tr class="mt-10" v-show="pos_settings.show_discount">
+
+            {{-- <tr class="mt-10" v-show="pos_settings.show_discount">
               <td colspan="3" class="total">{{ __('translate.Tax') }}</td>
               <td class="total text-right">
                 @{{sale.taxe}} (@{{formatNumber(sale.tax_rate,2)}} %)
               </td>
-            </tr>
+            </tr> --}}
 
             {{-- Discount --}}
-            <tr class="mt-10" v-show="pos_settings.show_discount">
+            {{-- <tr class="mt-10" v-show="pos_settings.show_discount">
               <td colspan="3" class="total">{{ __('translate.Discount') }}</td>
               <td class="total text-right">
                 <span>@{{sale.discount}}</span>
               </td>
-          
-            </tr>
 
-            <tr class="mt-10" v-show="pos_settings.show_discount">
+            </tr> --}}
+
+            {{-- <tr class="mt-10" v-show="pos_settings.show_discount">
               <td colspan="3" class="total">
                 {{-- {{ __('translate.Shipping') }} --}}
-                Delivery Charge
+                {{-- Delivery Charge
               </td>
               <td class="total text-right">
                 @{{sale.shipping}}</td>
-            </tr>
+            </tr> --}}
 
             <tr class="mt-10">
               <td colspan="3" class="total">VAT (5%)</td>
@@ -189,13 +184,13 @@
         el: '#in_pos',
 
         data: {
-           
+
             payments: @json($payments),
             details: @json($details),
             pos_settings:@json($pos_settings),
             sale: @json($sale),
             setting: @json($setting),
-         
+
         },
 
         mounted() {
@@ -213,7 +208,7 @@
           isPaidLessThanTotal() {
           return parseFloat(this.sale.paid_amount) < parseFloat(this.sale.GrandTotal);
         },
-          
+
         //------------------------------Formetted Numbers -------------------------\\
         formatNumber(number, dec) {
             const value = (typeof number === "string"
@@ -244,10 +239,10 @@
               a.print();
             }, 1000);
 
-            
+
 
           },
-        
+
         },
         //-----------------------------Autoload function-------------------
         created() {
@@ -255,7 +250,7 @@
         }
 
       })
-  
+
   </script>
 
 

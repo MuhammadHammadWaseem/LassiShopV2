@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $settings->CompanyName }}</title>
     <link rel=icon href={{ asset('images/' . $settings->logo) }}>
-    
+
     <link rel="stylesheet" href="{{ asset('assets/pos/main/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/styles/css/themes/lite-purple.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/fonts/iconsmind/iconsmind.css') }}">
@@ -58,13 +58,13 @@
         .select2-selection--single {
             height: auto;
         }
-        
+
         .CategorySelected {
             background-color: #f5f5f5;
             color: #4E97FD;
             border-radius: 5px;
         }
-    
+
         .autocomplete-result-list {
             list-style: none;
             padding: 0;
@@ -81,22 +81,22 @@
             transition: opacity 0.3s ease-in-out;
             /* Apply transition on opacity */
         }
-    
+
         .autocomplete-result-list li {
             padding: 10px;
             cursor: pointer;
             transition: background-color 0.3s ease-in-out;
             /* Apply transition on background-color */
         }
-    
+
         .autocomplete-result-list li:hover {
             background-color: #f2f2f2;
         }
-    
+
         .discount-select-type {
             width: 125px !important;
         }
-    
+
         ul#CategoryUl {
             position: absolute;
             top: -30px;
@@ -111,45 +111,45 @@
             transition: .3s;
             box-shadow: 5px 5px 20px 5px #00000014;
         }
-    
+
         ul#CategoryUl li#Category {
             display: none;
             cursor: pointer;
             font-size: 16px;
             color: black;
         }
-    
+
         ul#CategoryUl li#Category:nth-child(1) {
             display: block;
         }
-    
+
         ul#CategoryUl:hover li#Category {
             display: block !important;
             transition: .3s;
         }
-    
+
         ul#CategoryUl li#Category i {
             color: red;
             margin-right: 5px;
             font-size: 14px;
             font-weight: 600;
         }
-    
+
         ul#CategoryUl li#Category:hover {
             background-color: whitesmoke;
         }
-    
+
         ul#CategoryUl .category-item.CategorySelected {
             color: red !important;
         }
-    
+
         .calculator {
             border-radius: 10px;
             padding: 20px;
             background-color: #fff;
             box-shadow: 0 0 40px rgba(8, 21, 66, 0.05) !important;
         }
-    
+
         #display {
             width: 100%;
             height: 50px;
@@ -162,7 +162,7 @@
             color: black;
             font-size: 14px;
         }
-    
+
         .buttons {
             display: flex;
             flex-wrap: wrap;
@@ -170,7 +170,7 @@
             row-gap: 10px;
             column-gap: 10px;
         }
-    
+
         .btn-calcu {
             font-size: 24px;
             padding: 20px;
@@ -180,19 +180,19 @@
             cursor: pointer;
             transition: background-color 0.3s;
         }
-    
+
         .btn-calcu:hover {
             background-color: #ddd;
         }
-    
+
         .calculator .input-calu-box {
             display: flex;
         }
-    
+
         .calculator .input-calu-box .calu-box-main {
             width: 50%;
         }
-    
+
         .calculator .input-calu-box .calu-box-main .input-output-value {
             display: flex;
             align-items: center;
@@ -202,7 +202,7 @@
             margin-bottom: 15px;
             row-gap: 2px;
         }
-    
+
         .calculator .input-calu-box .calu-box-main .input-output-value p,
         .calculator .input-calu-box .calu-box-main .input-output-value h6 {
             font-size: 12px;
@@ -211,7 +211,7 @@
             font-weight: 700;
             width: 100%;
         }
-    
+
         .calculator .input-calu-box .calu-box-main .input-output-value h6 {
             text-align: center !important;
             border: 1px solid red;
@@ -220,7 +220,7 @@
             padding: 5px;
             border-radius: 5px;
         }
-    
+
         .buttons button.btn-calcu {
             width: 22%;
             background-color: black;
@@ -229,28 +229,28 @@
             font-size: 14px;
             padding: 10px 5px;
         }
-    
+
         .buttons button.btn-calcu:hover {
             background-color: red;
         }
-    
+
         button.btn-calcu.grand-total-btn {
             background-color: green;
             font-size: 10px;
         }
-    
+
         button.btn-calcu.red-btn {
             background-color: red;
             font-size: 10px;
         }
-    
+
         .calculator .two-input-box-radio {
             display: flex;
             flex-direction: column;
             margin: 10px 0;
             row-gap: 10px;
         }
-    
+
         .calculator .two-input-box-radio .radio-box-main {
             position: relative;
             height: 30px;
@@ -258,13 +258,13 @@
             align-items: center;
             justify-content: center;
         }
-    
+
         .calculator .two-input-box-radio .radio-box-main input {
             width: 100%;
             height: 100%;
             -webkit-appearance: none;
         }
-    
+
         .calculator .two-input-box-radio .radio-box-main label {
             position: relative;
             width: 100%;
@@ -282,12 +282,12 @@
             font-weight: 800;
             font-size: 16px;
         }
-    
+
         .calculator .two-input-box-radio .radio-box-main input[type="radio"]+label::after {
             color: black;
         }
-    
-    
+
+
         .calculator .two-input-box-radio .radio-box-main input[type="radio"]:checked+label::after {
             content: "";
             position: absolute;
@@ -303,17 +303,17 @@
             line-height: 2.4em;
             border-radius: 10px;
         }
-    
-    
+
+
         .calculator .two-input-box-radio .radio-box-main input[type="radio"]:checked+label {
             background-color: black;
             color: white;
         }
-    
+
         .calculator .two-input-box-radio .radio-box-main input[type="radio"]:checked+label {
             color: white !important;
         }
-    
+
         .calculator button#save_pos {
             width: 100%;
             margin-top: 20px;
@@ -327,57 +327,57 @@
             font-size: 16px;
             font-weight: 700;
         }
-    
+
         .calculator button#save_pos i {
             margin: 0 !important;
         }
-    
+
         .calculator button#save_pos:hover {
             background-color: black;
             box-shadow: none;
             border: 1px solid black;
         }
-    
+
         .cart-item.box-shadow-3 {
             position: relative;
         }
-    
+
         .cart-item.box-shadow-3 a#DeleteProduct {
             position: absolute;
             top: -10px;
             right: 10px;
         }
-    
+
         .cart-item.box-shadow-3 a#DeleteProduct i {
             font-size: 30px !important;
         }
-    
+
         .summery-item.mb-3.row.d-flex.justify-content-center.align-items-center {
             display: flex !important;
             justify-content: flex-start !important;
         }
-    
+
         .calculator button#save_pos i {
             font-size: 18px;
             font-weight: 700;
         }
-    
+
         @media only screen and (max-width: 1470px) {
-    
+
             .buttons button.btn-calcu {
                 width: 21%;
                 font-size: 12px;
             }
-    
+
             button.btn-calcu.red-btn,
             button#grand-total-actual-btn {
                 font-size: 8px;
             }
-    
+
             button#grand-total-round-btn {
                 font-size: 8px;
             }
-    
+
             .buttons {
                 display: flex;
                 flex-wrap: wrap;
@@ -385,86 +385,86 @@
                 row-gap: 10px;
                 column-gap: 10px;
             }
-    
+
             .cart-summery.d-flex.flex-row.justify-content-center.align-items-center {
                 display: flex !important;
                 flex-direction: column !important;
                 flex-wrap: wrap;
             }
-    
+
             .summery-item.mb-2.row .col-lg-8.col-sm-12 {
                 width: 100%;
             }
-    
+
             .cart-summery.d-flex.flex-row.justify-content-center.align-items-center .col-md-8 {
                 width: 100% !important;
             }
-    
+
             .position-absolute {
                 position: relative !important;
             }
-    
+
             .cart-summery.d-flex.flex-row.justify-content-center.align-items-center .col-md-4 {
                 width: 100% !important;
             }
-    
+
             .mt-4 {
                 margin-top: 0.5rem !important;
             }
         }
-    
+
         @media only screen and (max-width: 1360px) {
             .cart-qty {
                 font-size: 14px;
                 height: 30px;
                 width: 25px;
             }
-    
+
             .pos-body .pos-content .cart-item {
                 padding: 5px 10px;
                 margin-top: 15px;
                 height: 85px;
             }
-    
+
             .cart-item.box-shadow-3 a#DeleteProduct i {
                 font-size: 25px !important;
             }
-    
+
             .cart-item.box-shadow-3 a#DeleteProduct {
                 position: absolute;
                 top: -5px;
                 right: 5px;
             }
-    
+
             .font_16 {
                 font-size: 14px;
             }
         }
-    
+
         @media only screen and (max-width: 1188px) {
             .buttons button.btn-calcu {
                 width: 19%;
                 font-size: 10px;
                 padding: 7px 2px;
             }
-    
+
             button.btn-calcu.red-btn,
             button#grand-total-actual-btn {
                 font-size: 7px;
             }
-    
+
             button#grand-total-round-btn {
                 font-size: 8px;
             }
-    
+
         }
-    
+
         @media only screen and (max-width: 767px) {
-    
+
             ul#CategoryUl li#Category {
                 font-size: 9px;
             }
-    
+
             ul#CategoryUl {
                 top: -30px;
                 padding: 5px;
@@ -472,7 +472,7 @@
                 max-width: 100px;
                 width: 100px;
             }
-    
+
             ul#CategoryUl li#Category i {
                 margin-right: 1px;
                 font-size: 8px;
@@ -1065,7 +1065,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"
         integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        
+
     <script>
         var OnlineId = null;
         var vat = 0;
@@ -1784,7 +1784,7 @@
                         $("#is_points").prop('checked', false);
                         $("#discount").val(0);
                         $("#orderTax").val(0);
-                        
+
                         if ($("#inputGroupSelect02 option[value='percent']").length == 0) {
                             $("#inputGroupSelect02").append('<option value="percent">%</option>');
                         }
@@ -1972,7 +1972,7 @@
                 checkCartItemsAndEnableWarehouseSelect();
                 GetHoldList();
                 GetOnlineOrdersList();
-                
+
                 // Handle click events
                 elements.productsBox.on("click", ".product-card", function() {
                     $("#flavorBtn").prop("disabled", true);
@@ -1984,7 +1984,7 @@
                         img_path,
                         selection_required
                     } = $(this).data();
-                    
+
                     let selectedFlavorName = '';
 
                     if(selection_required == 0){
@@ -2010,7 +2010,7 @@
                                 });
 
                                 $("#flavorModal").modal("show");
-                            
+
                                 // Attach change event listener to the radio buttons
                                 $('input[name="flavor"]').change(function() {
                                     selectedFlavorName = $('input[name="flavor"]:checked').data('name');
@@ -2602,7 +2602,7 @@
                             if ($("#inputGroupSelect02 option[value='percent']").length == 0) {
                                 $("#inputGroupSelect02").append('<option value="percent">%</option>');
                             }
-                            
+
                             // Print the document
                             var printUrl = "{{ url('invoice_pos') }}/" + data.id;
                             var a = window.open("", "", "height=1000, width=1000");
