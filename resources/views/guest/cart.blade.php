@@ -6108,7 +6108,7 @@
                 justify-content: center;
                 background-color: #ff000000;
                 margin-bottom: 30px;
-                z-index: 99;
+              
             }
 
             .place-content.wrapper {
@@ -6126,9 +6126,13 @@
                     style="--color-primary: #bf1e2e; --color-primary-1: #bf1e2e; --color-primary-4: rgba(76,214,198,0.15); --color-primary-5: rgba(76,214,198,0.1);">
                     <div itemscope="itemscope" itemtype="https://schema.org/LocalBusiness" class="place-body">
                         <div class="main-site-logo">
-                            <img src="{{ asset('images/' . $settings->logo) }}" alt="" width="100px"
+                            
+                            <a  style="z-index: 99" href="{{ url('/guest/getProductByCategory/1') }}">
+                                <img  src="{{ asset('images/' . $settings->logo) }}" alt="" width="100px"
                                 height="100px">
-                        </div>
+                            </a>
+                          
+                            </div>
                         <div class="place-content wrapper">
                             <h1 class="place-title"><span>{{ $setting[0]->app_name }}</span> <!----></h1>
                             <div class="place-info">
@@ -6160,7 +6164,7 @@
                             <div class="order" selected-menu="[object Object]">
                                 <div class="place-nav">
                                     <div class="place-nav__inner wrapper">
-                                        <a href="{{ url('/guest') }}">
+                                        <a href="{{ url('/guest/getProductByCategory/1') }}">
                                             <button class="back-button focus">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                                     xmlns="http://www.w3.org/2000/svg">

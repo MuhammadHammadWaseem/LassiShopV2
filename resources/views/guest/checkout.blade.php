@@ -6101,7 +6101,7 @@ main.place {
     justify-content: center;
     background-color: #ff000000;
     margin-bottom: 30px;
-    z-index: 99;
+   
 }
 .place-content.wrapper {
     background: rgb(191 30 46 / 6%);
@@ -6127,7 +6127,7 @@ select#payment_method_id {
                     style="--color-primary: #bf1e2e; --color-primary-1: #bf1e2e; --color-primary-4: rgba(76,214,198,0.15); --color-primary-5: rgba(76,214,198,0.1);">
                     <div itemscope="itemscope" itemtype="https://schema.org/LocalBusiness" class="place-body">
                         <div class="main-site-logo">
-                            <img src="{{ asset('images/' . $settings->logo) }}" alt="" width="100px" height="100px">
+                            <img style="z-index: 99" src="{{ asset('images/' . $settings->logo) }}" alt="" width="100px" height="100px">
                         </div>
                         <div class="place-content wrapper">
                             <h1 class="place-title"><span>{{ $setting[0]->app_name }}</span> <!----></h1>
@@ -6159,13 +6159,16 @@ select#payment_method_id {
                             </div>
                             <div class="order" selected-menu="[object Object]">
                                 <div class="place-nav">
-                                    <div class="place-nav__inner wrapper"><button class="back-button focus"><svg
-                                                width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                                    d="M6.41412 13L12.707 19.2929L11.2928 20.7071L2.58569 12L11.2928 3.29289L12.707 4.70711L6.41412 11H20.9999V13H6.41412Z"
-                                                    fill="var(--color-black)"></path>
-                                            </svg></button></div>
+                                    <a href="{{ url('/guest/cart') }}">
+
+                                        <div class="place-nav__inner wrapper"><button class="back-button focus"><svg
+                                            width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M6.41412 13L12.707 19.2929L11.2928 20.7071L2.58569 12L11.2928 3.29289L12.707 4.70711L6.41412 11H20.9999V13H6.41412Z"
+                                            fill="var(--color-black)"></path>
+                                        </svg></button></div>
+                                    </a>
                                 </div>
                                 <h2 class="h2"><span>Your order:</span></h2>
                                 <p style="margin-bottom: 10px !important; font-size: 14px; color: #707070">Ship & Bill to</p>
