@@ -6142,6 +6142,21 @@ body {
     padding: 10px;
     text-align: center;
 }
+
+.place-order span#cart-count {
+    position: absolute;
+    color: #f90000;
+    right: 20px;
+    top: -10px;
+    background-color: #ffffff;
+    width: 35px;
+    height: 35px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 0px 10px 5px #e3000052;
+}
         </style>
 
     </head>
@@ -6281,7 +6296,10 @@ body {
                                                 </section>
                                             </div>
                                             <a class="place-order focus" id="showCartsLink"
-                                                onclick="checkCart()" data-name="Disabled" href="{{ url('guest/cart') }}">Show carts</a>
+                                                onclick="checkCart()" data-name="Disabled" href="{{ url('guest/cart') }}">
+                                                Show carts
+                                                <span id="cart-count">0</span>
+                                            </a>
                                         </div>
                                         {{-- <div class="place-content__footer"><a href="/"
                                             href="{{ url('guest/cart') }}"
@@ -6322,124 +6340,18 @@ body {
                     </div>
                 </div>
             </div>
+            
 
     </body>
 @endsection
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="{{ asset('assets/js/vendor/toastr.min.js') }}"></script>
 <script src="{{ asset('assets/js/toastr.script.js') }}"></script>
-{{-- <script>
-   $(document).ready(function() {
-        checkCart();
-    });
 
-    function checkCart() {
-        $.ajax({
-            url: '/checkCart',
-            type: "POST",
-            token: "{{ csrf_token() }}",
-            dataType: "json",
-            headers: {
-                "X-CSRF-TOKEN": "{{ csrf_token() }}"
-            },
-            data: {
-                warehouse_id: {{ $setting[0]->warehouse_id }}
-            },
-            success: function(response) {
-            if (Object.keys(response.data).length > 0) {
-                    $("#showCartsLink").attr('href', '{{ url('guest/cart') }}');
-                } else {
-                    $("#showCartsLink").removeAttr('href');
-                    // toastr.error('Cart is empty');
-                }
-            },
-
-            error: function(data) {
-                console.log("Error:", data);
-            }
-        });
-    }
-    function addToCart(id, price, name, img_path) {
-        $.ajax({
-            url: '/guest/addToCart',
-            type: "POST",
-            token: "{{ csrf_token() }}",
-            dataType: "json",
-            headers: {
-                "X-CSRF-TOKEN": "{{ csrf_token() }}"
-            },
-            data: {
-                id,
-                price,
-                name,
-                img_path,
-                warehouse_id: {{ $setting[0]->warehouse_id }}
-            },
-            success: function(response) {
-                checkCart();
-                if (response.message) {
-                    toastr.error('Out of stock');
-                } else {
-                    $("#count_" + id).css('visibility', 'visible');
-                    $("#count_" + id).css('opacity', '1');
-                    $("#add_" + id).css('opacity', '1');
-                    $("#add_" + id).css('visibility', 'visible');
-                    $("#remove_" + id).css('opacity', '1');
-                    $("#remove_" + id).css('visibility', 'visible');
-                    for (var productId in response.guest_cart) {
-                        if (response.guest_cart.hasOwnProperty(productId)) {
-                            var quantity = response.guest_cart[productId].quantity;
-                            $("#count_" + productId).text(quantity);
-                        }
-                    }
-                }
-            },
-            error: function(data) {
-                console.log("Error:", data);
-            }
-        });
-    }
-
-
-
-
-
-    function updateQuantity(id) {
-        $.ajax({
-            url: '/guest/updateQuantity',
-            type: "POST",
-            token: "{{ csrf_token() }}",
-            dataType: "json",
-            headers: {
-                "X-CSRF-TOKEN": "{{ csrf_token() }}"
-            },
-            data: {
-                id: id,
-                warehouse_id: {{ $setting[0]->warehouse_id }}
-            },
-            success: function(responseData) {
-                checkCart();
-                if (responseData.message === 'Out of stock') {
-                    toastr.error('Out of stock');
-                }
-                for (var productId in responseData.guest_cart) {
-                    if (responseData.guest_cart.hasOwnProperty(productId)) {
-                        var quantity = responseData.guest_cart[productId].quantity;
-                        $("#count_" + productId).text(quantity);
-                    }
-                }
-                if (Object.keys(responseData.guest_cart).length === 0) {
-                    $("#count_" + id).text(0);
-                }
-            },
-            error: function(data) {
-                console.log(data);
-            }
-        });
-    }
-</script> --}}
 <script>
     $(document).ready(function() {
+        $("#flavorBtn").prop("disabled", true);
+
          checkCart();
          $('#showCartsLink').click(function(event) {
             event.preventDefault();
@@ -6465,12 +6377,30 @@ body {
                  warehouse_id: {{ $setting[0]->warehouse_id }}
              },
              success: function(response) {
+                const uniqueProductCount = Object.keys(response.data).length;
+                $("#cart-count").text(uniqueProductCount);
+
                  if (Object.keys(response.data).length > 0) {
                      $("#showCartsLink").attr('href', '{{ url('guest/cart') }}');
                      $("#showCartsLink").removeAttr('disabled');
                      $("#checkoutBtn").removeAttr('disabled');
                      $('#showCartsLink').data('name', 'Enabled').attr('data-name', 'Enabled');
+
+                     // Iterate through each product in the cart
+                for (let productId in response.data) {
+                    if (response.data.hasOwnProperty(productId)) {
+                        let quantity = response.data[productId].quantity;
+
+                        // Show the count, add, and remove buttons for the product
+                        $("#count_" + productId).text(quantity);
+                        $("#count_" + productId).css('visibility', 'visible').css('opacity', '1');
+                        $("#remove_" + productId).css('visibility', 'visible').css('opacity', '1');
+                        $("#add_" + productId).css('visibility', 'visible').css('opacity', '1');
+                    }
+                }
+
                  } else {
+                     $("#cart-count").text(0);
                      $("#showCartsLink").removeAttr('href');
                      $("#showCartsLink").attr('disabled', 'disabled');
                      $("#checkoutBtn").attr('disabled', 'disabled');
@@ -6513,6 +6443,7 @@ body {
                     $("#add_" + id).css('visibility', 'visible');
                     $("#remove_" + id).css('opacity', '1');
                     $("#remove_" + id).css('visibility', 'visible');
+
                     for (var productId in response.guest_cart) {
                         if (response.guest_cart.hasOwnProperty(productId)) {
                             var quantity = response.guest_cart[productId].quantity;
@@ -6582,37 +6513,70 @@ body {
         }
      }
 
-     function updateQuantity(id) {
-         $.ajax({
-             url: '/guest/updateQuantity',
-             type: "POST",
-             token: "{{ csrf_token() }}",
-             dataType: "json",
-             headers: {
-                 "X-CSRF-TOKEN": "{{ csrf_token() }}"
-             },
-             data: {
-                 id: id,
-                 warehouse_id: {{ $setting[0]->warehouse_id }}
-             },
-             success: function(responseData) {
-                 checkCart();
-                 if (responseData.message === 'Out of stock') {
-                     toastr.error('Out of stock');
-                 }
-                 for (var productId in responseData.guest_cart) {
-                     if (responseData.guest_cart.hasOwnProperty(productId)) {
-                         var quantity = responseData.guest_cart[productId].quantity;
-                         $("#count_" + productId).text(quantity);
-                     }
-                 }
-                 if (Object.keys(responseData.guest_cart).length === 0) {
-                     $("#count_" + id).text(0);
-                 }
-             },
-             error: function(data) {
-                 console.log(data);
-             }
-         });
-     }
+    function updateQuantity(id) {
+
+        $.ajax({
+            url: '/guest/updateQuantity',
+            type: "POST",
+            token: "{{ csrf_token() }}",
+            dataType: "json",
+            headers: {
+                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+            },
+            data: {
+                id: id,
+                warehouse_id: {{ $setting[0]->warehouse_id }}
+            },
+            success: function(responseData) {
+                if(responseData.guest_cart == 0){
+                    $("#count_" + id).text(0);
+                    $("#count_" + id).css('visibility', 'hidden');
+                    $("#count_" + id).css('opacity', '0');
+                    $("#remove_" + id).css('opacity', '0');
+                    $("#remove_" + id).css('visibility', 'hidden');
+                }
+
+                if($("#count_" + id).text() == 1){
+                    $("#count_" + id).text(0);
+                    $("#count_" + id).css('visibility', 'hidden');
+                    $("#count_" + id).css('opacity', '0');
+                    $("#remove_" + id).css('opacity', '0');
+                    $("#remove_" + id).css('visibility', 'hidden');
+                }
+
+                checkCart();
+                if (responseData.message === 'Out of stock') {
+                    toastr.error('Out of stock');
+                }
+                for (var productId in responseData.guest_cart) {
+                    if (responseData.guest_cart.hasOwnProperty(productId)) {
+                        var quantity = responseData.guest_cart[productId].quantity;
+                        $("#count_" + productId).text(quantity);
+
+                        // if (quantity > 0) {
+                        // $("#count_" + id).text(0);
+                        // $("#count_" + id).css('visibility', 'hidden');
+                        // $("#count_" + id).css('opacity', '0');
+                        // $("#remove_" + id).css('opacity', '0');
+                        // $("#remove_" + id).css('visibility', 'hidden');
+                        // } else {
+                        //     console.log("Out of stock");
+                        //     $("#count_" + productId).css('visibility', 'hidden').css('opacity', '0');
+                        //     $("#remove_" + productId).css('visibility', 'hidden').css('opacity', '0');
+                        // }
+                    }
+                }
+                // if (Object.keys(responseData.guest_cart).length === 0) {
+                //     $("#count_" + id).text(0);
+                //     $("#count_" + id).css('visibility', 'hidden');
+                //     $("#count_" + id).css('opacity', '0');
+                //     $("#remove_" + id).css('opacity', '0');
+                //     $("#remove_" + id).css('visibility', 'hidden');
+                // }
+            },
+            error: function(data) {
+                console.log(data);
+            }
+        });
+    }
  </script>

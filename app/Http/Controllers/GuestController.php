@@ -41,7 +41,7 @@ class GuestController extends Controller
         $categories = Category::where('deleted_at', null)->where('is_ingredient', 0)->get();
 
         $OrderNumber = Session::get('OrderNumber');
-        return view('guest.index')->with(compact('categories', 'setting','OrderNumber'));
+        return view('guest.index')->with(compact('categories', 'setting', 'OrderNumber'));
     }
     public function getProductByCategory($id)
     {
@@ -154,27 +154,28 @@ class GuestController extends Controller
     }
 
     public function updateQuantity(Request $request)
-{
-    $cart = Session::get('guest_cart');
-    $productId = $request->id;
+    {
+        $cart = Session::get('guest_cart');
+        // dd($cart);
+        $productId = $request->id;
 
-    if (isset($cart[$productId])) { // Check if the productId exists in the cart
-        if ($cart[$productId]['quantity'] == 1) {
-            unset($cart[$productId]);
+        if (isset($cart[$productId])) { // Check if the productId exists in the cart
+            if ($cart[$productId]['quantity'] == 1) {
+                unset($cart[$productId]);
+            } else {
+                $cart[$productId]['quantity'] -= 1;
+            }
+            Session::put('guest_cart', $cart);
+
+            return response()->json([
+                'guest_cart' => $cart
+            ]);
         } else {
-            $cart[$productId]['quantity'] -= 1;
+            return response()->json([
+                'guest_cart' => $cart
+            ], 200); // Or any appropriate error code
         }
-        Session::put('guest_cart', $cart);
-
-        return response()->json([
-            'guest_cart' => $cart
-        ]);
-    } else {
-        return response()->json([
-            'guest_cart' => $cart
-        ], 200); // Or any appropriate error code
     }
-}
 
 
     public function cart()
@@ -285,7 +286,7 @@ class GuestController extends Controller
         $order_products = Session::get('guest_cart');
         foreach ($order_products as $order_product) {
             $full_path = $order_product['img_path'];
-            $base_url = url('/')."/images/products/";
+            $base_url = url('/') . "/images/products/";
             $image_path = str_replace($base_url, '', $full_path);
 
             $OnlineOrderDetails = new OnlineOrderDetails();
@@ -455,8 +456,8 @@ class GuestController extends Controller
             ]);
             $order_no = $orders->order_no;
             // Send the email
-            $mail =  Mail::to("hw13604@gmail.com")->send(new OrderCreated($order_no));
-          $this->broadcastNewOrderEvent($orders);
+            $mail = Mail::to("hw13604@gmail.com")->send(new OrderCreated($order_no));
+            $this->broadcastNewOrderEvent($orders);
 
             foreach ($newProductDetails as $newProductDetail) {
                 $unit = Unit::where('id', $newProductDetail->unit_id)->first();
@@ -489,7 +490,7 @@ class GuestController extends Controller
                             'messages' => 'Product ( ' . $productStockCheck->name . ' ) is low in stock, please restock.',
                         ]);
                         $user = User::where('id', 1)->first();
-                        $data =  NotificationDetail::create([
+                        $data = NotificationDetail::create([
                             'notification_id' => $notification->id,
                             'user_id' => $user->id,
                             'status' => 0,
@@ -598,10 +599,10 @@ class GuestController extends Controller
         }
 
         $notification2 = Notification::create([
-            'messages' => 'New Order Created  Order Number: ' . $orders->order_no ,
+            'messages' => 'New Order Created  Order Number: ' . $orders->order_no,
         ]);
         $user = User::where('id', 1)->first();
-        $data2 =  NotificationDetail::create([
+        $data2 = NotificationDetail::create([
             'notification_id' => $notification2->id,
             'user_id' => $user->id,
             'status' => 0,
@@ -665,27 +666,29 @@ class GuestController extends Controller
     public function searchGuestOrder(Request $request)
     {
         $data = OnlineOrderDetails::with('orders', 'orders.paymentMethod', 'products')
-    ->whereHas('orders', function ($query) use ($request) {
-        $query->where('order_no', $request['query']);
-    })
-    ->first();
+            ->whereHas('orders', function ($query) use ($request) {
+                $query->where('order_no', $request['query']);
+            })
+            ->first();
 
         // $data = OnlineOrder::where('order_no',$request['query'])->with('OnlineOrderDetails.Products')->first();
 
-        if($data){
+        if ($data) {
             return response()->json($data);
         }
-        return response()->json(['success' => false, 'data' =>'No Data Found related to this order no']);
+        return response()->json(['success' => false, 'data' => 'No Data Found related to this order no']);
     }
 
-    public  function onlineLinks(){
+    public function onlineLinks()
+    {
         return view('onlineLinks.index');
     }
-    public function QrCode(){
+    public function QrCode()
+    {
         $url = url('/online/links');
         $qrCodes = [];
         $qrCodes['simple'] =
-        QrCode::size(150)->generate($url);
+            QrCode::size(150)->generate($url);
         // $qrCodes['changeColor'] =
         // QrCode::size(150)->color(255, 0, 0)->generate('');
         // $qrCodes['changeBgColor'] =
@@ -694,19 +697,21 @@ class GuestController extends Controller
         // QrCode::size(150)->style('dot')->generate('');
         // $qrCodes['styleSquare'] = QrCode::size(150)->style('square')->generate('');
         // $qrCodes['styleRound'] = QrCode::size(150)->style('round')->generate('');
-        return view('onlineLinks.QRCode',$qrCodes);
+        return view('onlineLinks.QRCode', $qrCodes);
     }
-    public function checkCart(){
+    public function checkCart()
+    {
         $data = Session::get('guest_cart');
         return response()->json(["data" => $data]);
     }
-     public function successShopping(){
-        if(Session::has('OrderNumber')){
+    public function successShopping()
+    {
+        if (Session::has('OrderNumber')) {
 
             $setting = Setting::with('currency')->get();
             $OrderNumber = Session::get('OrderNumber');
-            return view('guest.thankyou')->with(compact('OrderNumber','setting'));
-        }else{
+            return view('guest.thankyou')->with(compact('OrderNumber', 'setting'));
+        } else {
             return redirect()->route('guest.index');
         }
 
