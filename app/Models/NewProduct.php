@@ -16,6 +16,7 @@ class NewProduct extends Model
         'warehouse_id',
         'selection_required',
         'name',
+        'description',
         'img_path',
         'price',
         'online_product_price',

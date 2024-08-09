@@ -98,6 +98,17 @@
                                     class="help-block text-danger">{{ $errors->first('online_product_price') }}</span>
                             @endif
                         </div>
+                        <div class="form-group col-md-4 {{ $errors->has('description') ? 'has-error' : '' }}">
+                            <label for="price">{{ __('Online Product Price') }}
+                                <span class="field_required">*</span>
+                            </label>
+                            <textarea name="description" class="form-control" id="description" cols="30" rows="10"></textarea>
+                            <div class="error-message" id="price-error"></div>
+                            @if ($errors->has('description'))
+                                <span
+                                    class="help-block text-danger">{{ $errors->first('description') }}</span>
+                            @endif
+                        </div>
                         <div class="form-group col-md-4 {{ $errors->has('selection_required') ? 'has-error' : '' }}">
                             <label for="price">{{ __('User can select Flavors?') }}
                                 <span class="field_required">*</span>

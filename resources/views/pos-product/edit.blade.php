@@ -106,6 +106,14 @@
 
                         </div>
                         <div class="form-group col-md-4">
+                            <label for="description">{{ __('Description') }}
+                                <span class="field_required">*</span>
+                            </label>
+                            <textarea name="description" class="form-control" id="description" cols="30" rows="10">{{ $product->description }}</textarea>
+                            <div class="error-message" id="price-error"></div>
+
+                        </div>
+                        <div class="form-group col-md-4">
                             <label for="selection_required">{{ __('User can select Flavors?') }}
                                 <span class="field_required">*</span>
                             </label>

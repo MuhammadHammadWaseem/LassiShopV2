@@ -59,6 +59,7 @@ class PosProductController extends Controller
             'warehouse' => 'required',
             'price' => 'required|min:1',
             'online_product_price' => 'required|min:1',
+            'description ' => '',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'selection_required' => 'required',
             'ingredient_id' => 'required',
@@ -95,6 +96,7 @@ class PosProductController extends Controller
         $product->warehouse_id = $request->warehouse;
         $product->price = $request->price;
         $product->online_product_price = $request->online_product_price;
+        $product->description = $request->description;
         $product->selection_required = $request->selection_required;
         if ($request->image != null) {
             $image = $request->file('image');
@@ -152,6 +154,7 @@ class PosProductController extends Controller
             'warehouse' => 'required',
             'price' => 'required|min:1',
             'online_product_price' => 'required|min:1',
+            'description' => 'max:255',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'ingredient_id' => 'required',
             'ingredient_id.*' => [
@@ -190,6 +193,7 @@ class PosProductController extends Controller
         $product->warehouse_id = $request->warehouse;
         $product->price = $request->price;
         $product->online_product_price = $request->online_product_price;
+        $product->description = $request->description;
         $product->selection_required = $request->selection_required;
         if ($request->new_image != null) {
             $image = $request->file('image');

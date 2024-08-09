@@ -6248,7 +6248,9 @@ body {
                                                                             <div class="menu-item-body">
                                                                                 <div class="menu-item-header">
                                                                                     <h3 class="menu-item-title"><!---->
-                                                                                        <span>{{ $product->name }}</span>
+                                                                                        {{-- <span>{{ $product->name }}</span>
+                                                                                        <br /> --}}
+                                                                                        <p class="menu-item-description menu-item-description--regular mt-3">{{ $product->description ? $product->description : $product->name }}</span>
                                                                                     </h3> <!---->
                                                                                 </div> <!---->
                                                                             </div>
