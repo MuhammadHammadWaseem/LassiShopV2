@@ -6198,7 +6198,7 @@ select#payment_method_id {
                                         <select name="payment_method_id" id="payment_method_id" class="form-select">
                                             <option selected disabled>Select payment method</option>
                                             @foreach ($payment_method as $p)
-                                                @if ($p->title == 'Cash' ||$p->title == 'Credit card')
+                                                @if ($p->title == 'Cash' || $p->title == 'Credit card' || $p->title == 'Payit' )
                                                     <option value="{{ $p->id }}" data-value="{{ $p->title }}">{{ $p->title }}</option>
                                                 @endif
                                             @endforeach

@@ -698,7 +698,7 @@
                                                         class="form-control">
                                                         <option selected disabled>Select Payment</option>
                                                         @foreach ($payment_methods as $payment_method)
-                                                            @if ($payment_method->title == 'Cash' || $payment_method->title == 'Credit card')
+                                                            @if ($payment_method->title == 'Cash' || $payment_method->title == 'Credit card' || $payment_method->title == 'Payit')
                                                                 <option value="{{ $payment_method->id }}">
                                                                     {{ $payment_method->title }}
                                                                 </option>
@@ -985,6 +985,10 @@
                                             <input type="radio" id="card" name="fav_language" value="card">
                                             <label for="card">Card</label>
                                         </div>
+                                        <div class="radio-box-main">
+                                            <input type="radio" id="Payit" name="fav_language" value="Payit">
+                                            <label for="Payit">Payit</label>
+                                        </div>
                                     </div>
                                     <div class="buttons">
                                         <button class="btn-calcu"
@@ -1255,6 +1259,21 @@
                 var cashOptionValue = null;
                 $("#payment_method_id option").each(function() {
                     if ($(this).text().trim() === 'Credit card') {
+                        cashOptionValue = $(this).val();
+                        return false;
+                    }
+                });
+                if (cashOptionValue !== null) {
+                    $("#payment_method_id").val(cashOptionValue).trigger("change");
+                }
+            }
+        });
+
+        $("#Payit").on("change", function() {
+            if ($(this).is(':checked')) {
+                var cashOptionValue = null;
+                $("#payment_method_id option").each(function() {
+                    if ($(this).text().trim() === 'Payit') {
                         cashOptionValue = $(this).val();
                         return false;
                     }
@@ -1731,6 +1750,10 @@
                         if (data.data.onlineOrderDetails[0] && data.data.onlineOrderDetails[0]
                             .payment_method == 'Credit card') {
                             $("#card").prop('checked', true).click();
+                        }
+                        if (data.data.onlineOrderDetails[0] && data.data.onlineOrderDetails[0]
+                            .payment_method == 'Payit') {
+                            $("#Payit").prop('checked', true).click();
                         }
                         ProductByCategory(categoryId, warehouseId, "Warehouse");
                         $.ajax({
@@ -2584,6 +2607,10 @@
                             if ($("#card").is(':checked')) {
                                 $("#card").prop('checked', false);
                                 $("#card").css({ 'color': 'black', 'background': 'white' });
+                            }
+                            if ($("#Payit").is(':checked')) {
+                                $("#Payit").prop('checked', false);
+                                $("#Payit").css({ 'color': 'black', 'background': 'white' });
                             }
 
                             $("#form_Update_Detail").modal("hide").trigger("reset");
