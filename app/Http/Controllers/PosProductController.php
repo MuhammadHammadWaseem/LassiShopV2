@@ -154,7 +154,7 @@ class PosProductController extends Controller
             'warehouse' => 'required',
             'price' => 'required|min:1',
             'online_product_price' => 'required|min:1',
-            'description' => 'max:255',
+            'description' => '',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'ingredient_id' => 'required',
             'ingredient_id.*' => [
