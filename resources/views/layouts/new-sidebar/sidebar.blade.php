@@ -398,6 +398,7 @@ $setting = DB::table('settings')->where('deleted_at', '=', null)->first();
                     auth()->user()->can('adjustment_view_own') ||
                     auth()->user()->can('adjustment_add'))
                 <li>
+                @can('adjustment_add')
                     <div @click="selectCollapse('adjustment')"
                         :class="selected == 'adjustment' ? 'collapse-active' : 'collapse-deactive'"
                         class="collapse-button">
@@ -406,6 +407,7 @@ $setting = DB::table('settings')->where('deleted_at', '=', null)->first();
                             'icon' => 'components.icons.store',
                         ])
                     </div>
+                @endcan
 
                     <div x-ref="adjustment" x-bind:style="activeCollapse($refs, 'adjustment', selected)"
                         class="collapse-content">
@@ -472,7 +474,9 @@ $setting = DB::table('settings')->where('deleted_at', '=', null)->first();
             @if (auth()->user()->can('quotations_view_all') ||
                     auth()->user()->can('quotations_view_own') ||
                     auth()->user()->can('quotations_add'))
+                        
                 <li>
+                    @can('quotations_add')
                     <div @click="selectCollapse('quotation')"
                         :class="selected == 'quotation' ? 'collapse-active' : 'collapse-deactive'"
                         class="collapse-button">
@@ -481,6 +485,7 @@ $setting = DB::table('settings')->where('deleted_at', '=', null)->first();
                             'icon' => 'components.icons.order',
                         ])
                     </div>
+                    @endcan
                     <div x-ref="quotation" x-bind:style="activeCollapse($refs, 'quotation', selected)"
                         class="collapse-content">
                         <ul class="list-group">
@@ -510,6 +515,7 @@ $setting = DB::table('settings')->where('deleted_at', '=', null)->first();
                     auth()->user()->can('purchases_view_own') ||
                     auth()->user()->can('purchases_add'))
                 <li>
+                @can('purchases_add')
                     <div @click="selectCollapse('purchase')"
                         :class="selected == 'purchase' ? 'collapse-active' : 'collapse-deactive'"
                         class="collapse-button">
@@ -518,6 +524,7 @@ $setting = DB::table('settings')->where('deleted_at', '=', null)->first();
                             'icon' => 'components.icons.cart',
                         ])
                     </div>
+                @endcan
                     <div x-ref="purchase" x-bind:style="activeCollapse($refs, 'purchase', selected)"
                         class="collapse-content">
                         <ul class="list-group">
@@ -545,6 +552,8 @@ $setting = DB::table('settings')->where('deleted_at', '=', null)->first();
             {{-- Sales --}}
             @if (auth()->user()->can('sales_view_all') || auth()->user()->can('sales_view_own') || auth()->user()->can('sales_add'))
                 <li>
+                @can('sales_add')
+                    
                     <div @click="selectCollapse('sale')"
                         :class="selected == 'sale' ? 'collapse-active' : 'collapse-deactive'" class="collapse-button">
                         @include('components.sidebar.collapse-navitem', [
@@ -552,6 +561,7 @@ $setting = DB::table('settings')->where('deleted_at', '=', null)->first();
                             'icon' => 'components.icons.add-to-cart',
                         ])
                     </div>
+                @endcan
                     <div x-ref="sale" x-bind:style="activeCollapse($refs, 'sale', selected)"
                         class="collapse-content">
                         <ul class="list-group">
@@ -590,11 +600,13 @@ $setting = DB::table('settings')->where('deleted_at', '=', null)->first();
             {{-- Purchase Return --}}
             @if (auth()->user()->can('purchase_returns_view_all') || auth()->user()->can('purchase_returns_view_own'))
                 <li class="">
+                @can('purchase_returns_add')
                     <a href="/purchase-return/returns_purchase"
                         class="nav-item @if ($path == 'purchase-return/returns_purchase') active @endif">
                         @include('components.icons.purchases-return', ['class' => 'width_16'])
                         <span class="item-name">{{ __('translate.PurchasesReturn') }}</span>
                     </a>
+                @endcan
                 </li>
             @endif
 
