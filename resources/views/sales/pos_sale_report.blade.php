@@ -83,14 +83,19 @@
                 $('#dataTable').DataTable().destroy();
 
                 for (var i = 0; i < response.length; i++) {
+
+                    var saleDate = response[i].sale ? response[i].sale.date : 'N/A'; // Check if sale exists
+                    var saleVat = response[i].sale ? response[i].sale.vat : 'N/A'; // Check if sale exists
+                    var saleGrandTotal = response[i].sale ? response[i].sale.GrandTotal : 'N/A'; // Check if sale exists
+
                     $("#table_body").append(
                         '<tr>' +
                         '<td>' + response[i].id + '</td>' +
                         '<td>' + response[i].name + '</td>' +
                         '<td>' + response[i].qty + '</td>' +
-                        '<td>' + response[i].sale.date + '</td>' +
-                        '<td>' + response[i].sale.vat + '</td>' +
-                        '<td>' + response[i].sale.GrandTotal + '</td>' +
+                        '<td>' + saleDate + '</td>' +
+                        '<td>' + saleVat + '</td>' +
+                        '<td>' + saleGrandTotal + '</td>' +
                         '</tr>'
                     );
                 }
