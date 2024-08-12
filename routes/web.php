@@ -241,6 +241,8 @@ if ($installed === false) {
             Route::get('getClients', 'PosController@getClients')->name('getClients');
             Route::post('reset-token-number', 'PosController@resetTokenNumber')->name('reset.token.number');
             Route::get('getFlavors', 'PosController@getFlavors')->name('getFlavors');
+            Route::get('pos_sale_report', 'PosController@pos_sale_report')->name('pos_sale_report');
+            Route::get('pos_sale_report_get', 'PosController@pos_sale_report_get')->name('pos_sale_report_get');
 
             //---------------------- Hold Order ----------------------\\
             //------------------------------------------------------------------\\

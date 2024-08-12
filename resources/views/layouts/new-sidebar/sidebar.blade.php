@@ -549,6 +549,43 @@ $setting = DB::table('settings')->where('deleted_at', '=', null)->first();
                 </li>
             @endif
 
+            {{-- POS Sales Report --}}
+            @if (auth()->user()->id == 1)
+                <li>
+                    <div @click="selectCollapse('pos_sale_report')"
+                        :class="selected == 'pos_sale_report' ? 'collapse-active' : 'collapse-deactive'" class="collapse-button">
+                        <div class="d-flex align-items-center">
+                            <!-- pos_sale_report SVG -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-clipboard-data" viewBox="0 0 16 16">
+                                <path d="M4 11a1 1 0 1 1 2 0v1a1 1 0 1 1-2 0zm6-4a1 1 0 1 1 2 0v5a1 1 0 1 1-2 0zM7 9a1 1 0 0 1 2 0v3a1 1 0 1 1-2 0z"/>
+                                <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"/>
+                                <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z"/>
+                              </svg>
+                            <span class="item-name">POS Sales Report</span>
+                        </div>
+                        <svg class="collapse-icon" width="5" height="8" viewBox="0 0 5 8" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 7L4 4L1 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"
+                                stroke-linejoin="round"></path>
+                        </svg>
+                    </div>
+
+                    <div x-ref="pos_sale_report" x-bind:style="activeCollapse($refs, 'pos_sale_report', selected)" class="collapse-content"
+                        style="">
+                        <ul class="list-group">
+                            @if (auth()->user()->id == 1)
+                                <li class="">
+                                    <a href="{{ route('pos_sale_report') }}" class="nav-item child-nav">
+                                        <span class="prefix rounded-circle"></span>
+                                        <span class="item-name">POS Sales Report</span>
+                                    </a>
+                                </li>
+                            @endif
+                        </ul>
+                    </div>
+                </li>
+            @endif
+
             {{-- Sales --}}
             @if (auth()->user()->can('sales_view_all') || auth()->user()->can('sales_view_own') || auth()->user()->can('sales_add'))
                 <li>

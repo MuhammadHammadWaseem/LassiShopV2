@@ -972,4 +972,14 @@ class PosController extends Controller
         return response()->json($flavors);
     }
 
+    public function pos_sale_report(Request $request)
+    {
+        return view('sales.pos_sale_report');
+    }
+    public function pos_sale_report_get(Request $request)
+    {
+        $data = PosSaleItems::with('sale')->orderByDesc('id')->get();
+        return response()->json($data);
+    }
+
 }
