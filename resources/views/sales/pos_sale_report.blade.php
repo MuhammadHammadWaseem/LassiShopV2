@@ -107,15 +107,31 @@
                     "ordering": true,
                     "searching": true,
                     "dom": 'lBfrtip',
-                    "buttons": [{
-                        extend: 'collection',
-                        text: 'Export',
-                        buttons: [
-                            'pdf',
-                            'excel'
-                        ]
-                    }]
-                });
+                    buttons: [
+                                {
+                                    extend: 'excel',
+                                    text: 'Export as Excel',
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    },
+                                    title: function() {
+                                        return "Report with Total: " + $("#total").text();
+                                    }
+                                },
+                                {
+                                    extend: 'pdf',
+                                    text: 'Export as PDF',
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    },
+                                    title: function() {
+                                        return "Report with Total: " + $("#total").text();
+                                    }
+                                }
+                            ]
+                        }
+                    );
+                    
 
                 function calculateTotal() {
                     var total = 0;
