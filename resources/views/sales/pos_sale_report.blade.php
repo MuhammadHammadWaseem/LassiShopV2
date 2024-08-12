@@ -47,6 +47,7 @@
                             @endforeach --}}
                         </tbody>
                     </table>
+                    <div id="total"></div>
                 </div>
 
             </div>
@@ -80,13 +81,14 @@
             url: "{{ route('pos_sale_report_get') }}",
             success: function(response) {
                 $("#table_body").empty();
-                $('#dataTable').DataTable().destroy();
+                if ($.fn.DataTable.isDataTable('#dataTable')) {
+                    $('#dataTable').DataTable().destroy();
+                }
 
                 for (var i = 0; i < response.length; i++) {
-
-                    var saleDate = response[i].sale ? response[i].sale.date : 'N/A'; // Check if sale exists
-                    var saleVat = response[i].sale ? response[i].sale.vat : 'N/A'; // Check if sale exists
-                    var saleGrandTotal = response[i].sale ? response[i].sale.GrandTotal : 'N/A'; // Check if sale exists
+                    var saleDate = response[i].sale ? response[i].sale.date : 'N/A';
+                    var saleVat = response[i].sale ? response[i].sale.vat : 'N/A';
+                    var saleGrandTotal = response[i].sale ? response[i].sale.GrandTotal : '0';
 
                     $("#table_body").append(
                         '<tr>' +
@@ -100,7 +102,7 @@
                     );
                 }
 
-                $('#dataTable').DataTable({
+                var table = $('#dataTable').DataTable({
                     "paging": true,
                     "ordering": true,
                     "searching": true,
@@ -112,21 +114,42 @@
                             'pdf',
                             'excel'
                         ]
-                    }, ]
+                    }]
                 });
+
+                function calculateTotal() {
+                    var total = 0;
+                    table.rows({ search: 'applied' }).every(function() {
+                        var data = this.data();
+                        var saleGrandTotal = parseFloat(data[5]) || 0; // Get the GrandTotal from the row
+                        total += saleGrandTotal;
+                    });
+                    $("#total").text("Total: " + total.toFixed(2));
+                }
+
+                // Recalculate the total whenever the table is searched or filtered
+                table.on('search.dt', function() {
+                    calculateTotal();
+                });
+
+                // Initial total calculation
+                calculateTotal();
             },
             error: function(error) {
                 console.log(error);
             }
         })
     }
+
     $(document).ready(function() {
         getData();
 
         $("#start_date").on("change", function() {
             var date = this.value;
-            $('input[type="search"]').val(date).trigger('keyup');
-        })
-    })
+            // Filter table data based on the selected date
+            $('#dataTable').DataTable().column(3).search(date).draw();
+        });
+    });
 </script>
+
 @endsection
