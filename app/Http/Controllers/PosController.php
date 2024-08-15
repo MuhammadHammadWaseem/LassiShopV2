@@ -978,7 +978,7 @@ class PosController extends Controller
     }
     public function pos_sale_report_get(Request $request)
     {
-        $data = PosSaleItems::with('sale')->orderByDesc('id')->get();
+        $data = PosSaleItems::with('sale','paymentSale.payment_method')->orderByDesc('id')->get();
         return response()->json($data);
     }
 

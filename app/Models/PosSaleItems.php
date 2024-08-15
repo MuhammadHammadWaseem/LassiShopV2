@@ -26,4 +26,8 @@ class PosSaleItems extends Model
     {
         return $this->belongsTo(Sale::class, 'sale_id');
     }
+    public function paymentSale()
+    {
+        return $this->hasMany(PaymentSale::class, 'sale_id', 'sale_id');
+    }
 }

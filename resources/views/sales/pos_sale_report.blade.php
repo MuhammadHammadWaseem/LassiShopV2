@@ -30,6 +30,7 @@
                                 <th>Name</th>
                                 <th>Quantity</th>
                                 <th>Date</th>
+                                <th>Payment Method</th>
                                 <th>VAT</th>
                                 <th>Total</th>
                             </tr>
@@ -89,13 +90,15 @@
                     var saleDate = response[i].sale ? response[i].sale.date : 'N/A';
                     var saleVat = response[i].sale ? response[i].sale.vat : 'N/A';
                     var saleGrandTotal = response[i].sale ? response[i].sale.GrandTotal : '0';
-
+                    var salePaymentMethod = response[i].payment_sale[0]?.payment_method?.title ?? 'N/A';
+                    console.log(response[i].payment_sale);
                     $("#table_body").append(
                         '<tr>' +
                         '<td>' + response[i].id + '</td>' +
                         '<td>' + response[i].name + '</td>' +
                         '<td>' + response[i].qty + '</td>' +
                         '<td>' + saleDate + '</td>' +
+                        '<td>' + salePaymentMethod + '</td>' +
                         '<td>' + saleVat + '</td>' +
                         '<td>' + saleGrandTotal + '</td>' +
                         '</tr>'
