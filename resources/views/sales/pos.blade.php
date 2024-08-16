@@ -2633,21 +2633,67 @@
                                 $("#inputGroupSelect02").append('<option value="percent">%</option>');
                             }
 
-                            // Print the document
-                            var printUrl = "{{ url('invoice_pos') }}/" + data.id;
-                            var a = window.open("", "", "height=1000, width=1000");
-                            a.document.write(`
-                                <html>
-                                    <head>
-                                        <link rel="stylesheet" href="/assets/styles/vendor/pos_print.css">
-                                    </head>
-                                    <body>
-                                        <iframe src="${printUrl}" style="width: 100%; height: 100%; border: none;" onload="this.contentWindow.print(); this.contentWindow.onafterprint = function() { setTimeout(function() { window.close(); }, 1000); }"></iframe>
-                                    </body>
-                                </html>
-                            `);
-                            a.document.close();
+                    //         // Print the document
+                    //         var printUrl = "{{ url('invoice_pos') }}/" + data.id;
+                    //         var a = window.open("", "", "height=1000, width=1000");
+                    //         a.document.write(`
+                    //             <html>
+                    //                 <head>
+                    //                     <link rel="stylesheet" href="/assets/styles/vendor/pos_print.css">
+                    //                 </head>
+                    //                 <body>
+                    //                     <iframe src="${printUrl}" style="width: 100%; height: 100%; border: none;" onload="this.contentWindow.print(); this.contentWindow.onafterprint = function() { setTimeout(function() { window.close(); }, 1000); }"></iframe>
+                    //                 </body>
+                    //             </html>
+                    //         `);
+                    //         a.document.close();
 
+                    //     } else {
+                    //         toastr.error(data.message);
+                    //     }
+                    //     if (data.message === "The given data was invalid") {
+                    //         toastr.error(data.errors);
+                    //     }
+
+                    // Print the document without showing the slip page
+                            $.ajax({
+                                url: "{{ url('invoice_pos') }}/" + data.id,
+                                type: "GET",
+                                success: function(printData) {
+                                    var iframe = document.createElement('iframe');
+                                    iframe.style.position = 'absolute';
+                                    iframe.style.width = '0';
+                                    iframe.style.height = '0';
+                                    iframe.style.border = 'none';
+                                
+                                    // Append iframe to the body
+                                    document.body.appendChild(iframe);
+                                
+                                    var doc = iframe.contentWindow ? iframe.contentWindow.document : iframe.contentDocument;
+                                    if (doc) {
+                                        doc.open();
+                                        doc.write(`
+                                            <html>
+                                                <head>
+                                                    <link rel="stylesheet" href="/assets/styles/vendor/pos_print.css">
+                                                </head>
+                                                <body onload="window.print();">${printData}</body>
+                                            </html>
+                                        `);
+                                        doc.close();
+                                            
+                                        // Optional: Remove iframe after printing
+                                        setTimeout(function() {
+                                            document.body.removeChild(iframe);
+                                        }, 1000);
+                                    } else {
+                                        toastr.error("Failed to access iframe document for printing.");
+                                    }
+                                },
+                                error: function() {
+                                    toastr.error("Failed to load the slip for printing.");
+                                }
+                            });
                         } else {
                             toastr.error(data.message);
                         }
