@@ -43,7 +43,7 @@ use App\Http\Controllers\OnlineOrdersController;
 */
 
 Route::middleware('guest')->group(function () {
-    Route::get('/guest', 'GuestController@index')->name('guest.index');
+    Route::get('/', 'GuestController@index')->name('guest.index');
     Route::get('/guest/products', 'GuestController@products')->name('guest');
     Route::get('/guest/getProductByCategory/{id}', 'GuestController@getProductByCategory')->name('getProductByCategory');
     Route::get('search/category', 'CategoriesController@search')->name('search.category');
@@ -86,7 +86,7 @@ if ($installed === false) {
 
     Route::middleware(['XSS'])->group(function () {
 
-        Route::get('/', "HomeController@RedirectToLogin");
+        // Route::get('/', "HomeController@RedirectToLogin");
         Route::get('switch/language/{lang}', 'LocalController@languageSwitch')->name('language.switch');
 
         //------------------------------- dashboard Admin--------------------------\\
