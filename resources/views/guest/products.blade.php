@@ -6177,6 +6177,7 @@ body {
                                 <div class="col-md-12">
                                     <div class="place-content wrapper">
                                         <h1 class="place-title"><span>{{ $setting[0]->app_name }}</span> <!----></h1>
+                                        <h6 class="place-title">Noor Al Jazeera Juices - Lassi Shop Al Quoz</h6>
                                         <div class="place-info">
                                             <div class="place-info__address">
                                                 <div class="place-info__block"><svg xmlns="http://www.w3.org/2000/svg"

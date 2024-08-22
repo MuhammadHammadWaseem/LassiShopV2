@@ -1593,6 +1593,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <h1 class="place-title"><span>{{ $setting[0]->app_name }}</span> <!----></h1>
+                                        <h6 class="place-title">Noor Al Jazeera Juices - Lassi Shop Al Quoz</h6>
                                         <div class="row">
                                             <button class="btn btn-danger sm" id="TrackOrder" data-bs-toggle="modal"
                                                 data-bs-target="#exampleModal"><a href="#">Track Order</a></button>
