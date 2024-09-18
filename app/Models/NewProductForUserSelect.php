@@ -16,4 +16,9 @@ class NewProductForUserSelect extends Model
     {
         return $this->belongsTo(NewProduct::class, 'new_product_id');
     }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id');
+    }
 }

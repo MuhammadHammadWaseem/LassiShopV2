@@ -190,7 +190,7 @@ class PosController extends Controller
                 'user_id' => Auth::id(),
                 'is_onilne' => 0,
             ]);
-    
+
             $order->save();
 
             if(!empty($request->OnlineId)){
@@ -401,12 +401,12 @@ class PosController extends Controller
             // $unreadNotificationsCount2 = NotificationDetail::where('user_id', 1)->where('status', 0)->count();
             // WORKING EVENT
             // event(new NotificationCreate($unreadNotificationsCount2, $notifications2));
-            
+
             $this->broadcastNewOrderEvent($orders);
             return $order->id;
         }, 10);
 
-        $cartData = Session::get('cart');         
+        $cartData = Session::get('cart');
         Session::forget('cart');
 
         return response()->json(['success' => true, 'id' => $item]);
@@ -719,7 +719,7 @@ class PosController extends Controller
             $products = NewProduct::where('warehouse_id', $request->warehouse_id)->paginate($perPage, ['*'], 'page', $page);
             return response()->json($products);
         }
-        // dd($request->all());
+
         if ($request->category_id) {
             $perPage = 6; // Number of products per page
             $page = $request->input('page', 1); // Get the requested page, default to 1
@@ -731,6 +731,16 @@ class PosController extends Controller
             $products = NewProduct::where('warehouse_id', $request->warehouse_id)->paginate($perPage, ['*'], 'page', $page);
             return response()->json($products);
         }
+    }
+
+    public function GetProductForApp()
+    {
+            $products = NewProduct::where('warehouse_id', '=' ,1)->select('id', 'name', 'price', 'img_path')->get();
+            foreach($products as $p){
+                $flavors = NewProductForUserSelect::with('product')->where('new_product_id', $p->id)->get()->pluck('product');
+                $p->flavors = $flavors;
+            }
+            return response()->json(['data' => $products]);
     }
     //------------ autocomplete_product_pos -----------------\\
 
