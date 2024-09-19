@@ -46,10 +46,11 @@ class LoginController extends BaseController
 
     public function loginApi(Request $request)  {
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
-            $user = Auth::user();
+            $user = auth()->user();
             $success['token'] =  $user->createToken('MyApp')->plainTextToken;
-            $success['name'] =  $user->name;
-
+            $success['username'] =  $user->username;
+            $success['role_id'] =  $user->role_users_id;
+            $success['is_employee'] =  $user->is_employee;
             return $this->sendResponse($success, 'User login successfully.');
         }
         else{
