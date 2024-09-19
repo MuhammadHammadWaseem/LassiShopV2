@@ -734,15 +734,34 @@ class PosController extends Controller
     }
 
     public function GetProductForApp()
-    {
-        $setting = Setting::where('deleted_at', '=', null)->pluck('warehouse_id')->first();
-            $products = NewProduct::where('warehouse_id', '=' , $setting)->select('id', 'name', 'price', 'img_path')->get();
-            foreach($products as $p){
-                $flavors = NewProductForUserSelect::with('product')->where('new_product_id', $p->id)->get()->pluck('product');
-                $p->flavors = $flavors;
-            }
-            return response()->json(['data' => $products]);
+{
+    $setting = Setting::whereNull('deleted_at')->pluck('warehouse_id')->first();
+
+    // Fetch the products
+    $products = NewProduct::where('warehouse_id', $setting)
+        ->select('id', 'name', 'price', 'img_path')
+        ->get();
+
+    foreach ($products as $p) {
+        // Fetch the flavors for each product and include necessary attributes
+        $flavors = NewProductForUserSelect::where('new_product_id', $p->id)
+            ->with(['product' => function($query) {
+                // Specify which fields to include in the product relationship
+                $query->select('id', 'type', 'code', 'Type_barcode', 'name', 'cost', 'price', 'category_id',
+                               'brand_id', 'unit_id', 'unit_sale_id', 'unit_purchase_id', 'TaxNet', 'tax_method',
+                               'image', 'note', 'stock_alert', 'qty_min', 'is_promo', 'promo_price', 'promo_start_date',
+                               'promo_end_date', 'is_variant', 'is_imei', 'not_selling', 'is_active', 'created_at',
+                               'updated_at', 'deleted_at');
+            }])->get()->pluck('product');
+
+        // Assign the flavors to the product
+        $p->flavors = $flavors;
     }
+
+    // Return the products with flavors in the expected format
+    return response()->json(['data' => $products]);
+}
+
     //------------ autocomplete_product_pos -----------------\\
 
     public function autocomplete_product_pos(request $request, $id)
