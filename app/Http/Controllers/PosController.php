@@ -735,7 +735,8 @@ class PosController extends Controller
 
     public function GetProductForApp()
     {
-            $products = NewProduct::where('warehouse_id', '=' ,1)->select('id', 'name', 'price', 'img_path')->get();
+        $setting = Setting::where('deleted_at', '=', null)->pluck('warehouse_id')->first();
+            $products = NewProduct::where('warehouse_id', '=' , $setting)->select('id', 'name', 'price', 'img_path')->get();
             foreach($products as $p){
                 $flavors = NewProductForUserSelect::with('product')->where('new_product_id', $p->id)->get()->pluck('product');
                 $p->flavors = $flavors;
