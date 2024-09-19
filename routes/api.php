@@ -4,6 +4,7 @@ use App\Models\Brand;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Auth\LoginController;
 
 
@@ -23,6 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::post('login', [LoginController::class, 'loginApi']);
+Route::get('get_client', [ApiController::class, 'get_client']);
 
 
 //get categories

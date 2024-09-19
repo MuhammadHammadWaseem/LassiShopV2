@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 
-use App\Providers\RouteServiceProvider;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Http\Controllers\BaseController as BaseController;
 
 class LoginController extends BaseController
@@ -47,9 +48,10 @@ class LoginController extends BaseController
     public function loginApi(Request $request)  {
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
             $user = auth()->user();
+            $roleName = Role::where('id', '=', $user->role_users_id)->first();
             $success['token'] =  $user->createToken('MyApp')->plainTextToken;
             $success['username'] =  $user->username;
-            $success['role_id'] =  $user->role_users_id;
+            $success['role'] =  $roleName->name;
             $success['is_employee'] =  $user->is_employee;
             return $this->sendResponse($success, 'User login successfully.');
         }
