@@ -43,6 +43,7 @@ use App\Http\Controllers\OnlineOrdersController;
 */
 
 Route::middleware('guest')->group(function () {
+    Route::get('pos/get_products/app', 'PosController@GetProductForApp')->name('get_products.app');
     Route::get('/', 'GuestController@index')->name('guest.index');
     Route::get('/guest/products', 'GuestController@products')->name('guest');
     Route::get('/guest/getProductByCategory/{id}', 'GuestController@getProductByCategory')->name('getProductByCategory');
@@ -232,7 +233,6 @@ if ($installed === false) {
             Route::post('pos/create_pos', 'PosController@CreatePOS');
             Route::get('pos/get_products_pos', 'PosController@GetProductsByParametre');
             Route::get('pos/get_products', 'PosController@GetProductsAjax')->name('get_products');
-            Route::get('pos/get_products/app', 'PosController@GetProductForApp')->name('get_products.app');
             Route::get('pos/data_create_pos', 'PosController@GetELementPos');
             Route::get('pos/autocomplete_product_pos/{id}', 'PosController@autocomplete_product_pos');
             Route::get('invoice_pos/{id}', 'PosController@Print_Invoice_POS');

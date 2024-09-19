@@ -1,9 +1,12 @@
 <?php
 
+use App\Models\Brand;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Models\Category;
-use App\Models\Brand;
+use App\Http\Controllers\Auth\LoginController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +22,7 @@ use App\Models\Brand;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::post('login', [LoginController::class, 'loginApi']);
 
 
 //get categories
@@ -44,4 +48,4 @@ Route::get('brands', function(Request $request) {
       'last_page' => $brands->lastPage()
     ]);
   });
-  
+

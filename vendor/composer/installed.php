@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'laravel/laravel',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => null,
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => 'ad5af3842868741f7a16ce223a79cf89f9f7ae87',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -539,9 +539,9 @@
             'dev_requirement' => false,
         ),
         'laravel/laravel' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => null,
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => 'ad5af3842868741f7a16ce223a79cf89f9f7ae87',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -874,18 +874,6 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
-        'php-http/async-client-implementation' => array(
-            'dev_requirement' => false,
-            'provided' => array(
-                0 => '*',
-            ),
-        ),
-        'php-http/client-implementation' => array(
-            'dev_requirement' => false,
-            'provided' => array(
-                0 => '*',
-            ),
-        ),
         'phpoffice/phpspreadsheet' => array(
             'pretty_version' => '1.29.0',
             'version' => '1.29.0.0',
@@ -1060,8 +1048,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0|2.0',
-                1 => '1.0.0 || 2.0.0 || 3.0.0',
+                0 => '1.0.0 || 2.0.0 || 3.0.0',
+                1 => '1.0|2.0',
             ),
         ),
         'psr/simple-cache' => array(
@@ -1397,30 +1385,6 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
-        'symfony/http-client' => array(
-            'pretty_version' => 'v5.4.39',
-            'version' => '5.4.39.0',
-            'reference' => '3cdc551aa98173bb8bac7e5ee49f3526abde0b04',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../symfony/http-client',
-            'aliases' => array(),
-            'dev_requirement' => false,
-        ),
-        'symfony/http-client-contracts' => array(
-            'pretty_version' => 'v2.5.3',
-            'version' => '2.5.3.0',
-            'reference' => 'e5cc97c2b4a4db0ba26bebc154f1426e3fd1d2f1',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../symfony/http-client-contracts',
-            'aliases' => array(),
-            'dev_requirement' => false,
-        ),
-        'symfony/http-client-implementation' => array(
-            'dev_requirement' => false,
-            'provided' => array(
-                0 => '2.4',
-            ),
-        ),
         'symfony/http-foundation' => array(
             'pretty_version' => 'v5.4.38',
             'version' => '5.4.38.0',
@@ -1436,24 +1400,6 @@
             'reference' => '21c32c7c6c32ea8d0f4b8e88a2607a2dc72799e5',
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/http-kernel',
-            'aliases' => array(),
-            'dev_requirement' => false,
-        ),
-        'symfony/mailer' => array(
-            'pretty_version' => 'v5.4.39',
-            'version' => '5.4.39.0',
-            'reference' => '93543ff1554d1098b0f80bb01ff27e9da123af5c',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../symfony/mailer',
-            'aliases' => array(),
-            'dev_requirement' => false,
-        ),
-        'symfony/mailgun-mailer' => array(
-            'pretty_version' => 'v5.4.39',
-            'version' => '5.4.39.0',
-            'reference' => 'eb6c5f8f7c664bc1b848bebe940a1dde6729347d',
-            'type' => 'symfony-mailer-bridge',
-            'install_path' => __DIR__ . '/../symfony/mailgun-mailer',
             'aliases' => array(),
             'dev_requirement' => false,
         ),

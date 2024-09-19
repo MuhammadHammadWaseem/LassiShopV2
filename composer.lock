@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ea44c564710338fdd82d5eda2c5edc18",
+    "content-hash": "70d4a300289a12f3e72457d6005f0e9f",
     "packages": [
         {
             "name": "ar-php/ar-php",
@@ -5726,7 +5726,6 @@
             ],
             "time": "2024-01-23T13:51:25+00:00"
         },
-
         {
             "name": "symfony/http-foundation",
             "version": "v5.4.38",
@@ -5914,72 +5913,6 @@
                 }
             ],
             "time": "2024-04-02T19:56:39+00:00"
-        },
-        {
-            "name": "symfony/mailgun-mailer",
-            "version": "v5.4.39",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/mailgun-mailer.git",
-                "reference": "eb6c5f8f7c664bc1b848bebe940a1dde6729347d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/mailgun-mailer/zipball/eb6c5f8f7c664bc1b848bebe940a1dde6729347d",
-                "reference": "eb6c5f8f7c664bc1b848bebe940a1dde6729347d",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.2.5",
-                "psr/event-dispatcher": "^1",
-                "symfony/mailer": "^5.4.21|^6.2.7"
-            },
-            "require-dev": {
-                "symfony/http-client": "^4.4|^5.0|^6.0"
-            },
-            "type": "symfony-mailer-bridge",
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\Mailer\\Bridge\\Mailgun\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony Mailgun Mailer Bridge",
-            "homepage": "https://symfony.com",
-            "support": {
-                "source": "https://github.com/symfony/mailgun-mailer/tree/v5.4.39"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2024-04-18T08:26:06+00:00"
         },
         {
             "name": "symfony/mime",

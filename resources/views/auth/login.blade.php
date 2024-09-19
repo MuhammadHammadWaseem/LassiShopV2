@@ -20,7 +20,7 @@
 
         <div class="login-posly" style="background-image: url(http://127.0.0.1:8000/images/OnlineSite/main-bg.png)">
             <div>
-               
+
                 <div class="login-main">
                    <form class="theme-form" id="form_login" method="POST" action="{{ route('login') }}">
                         @csrf
@@ -46,7 +46,7 @@
                                 @endif
                             </div>
                         </div>
-                        
+
                         <div class="form-group mb-0">
                             <div class="checkbox p-0">
                                 <input id="checkbox1" type="checkbox">

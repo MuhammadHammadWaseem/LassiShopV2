@@ -14,7 +14,7 @@
         "infobip/infobip-api-php-client": "3.2.0",
         "khaled.alshamaa/ar-php": "^6.3",
         "laravel/framework": "^8.0",
-        "laravel/sanctum": "^2.11",
+        "laravel/sanctum": "^2.15",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^3.0",
         "maatwebsite/excel": "^3.1",

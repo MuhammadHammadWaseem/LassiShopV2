@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
+
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\BaseController as BaseController;
 
-class LoginController extends Controller
+class LoginController extends BaseController
 {
     /*
     |--------------------------------------------------------------------------
@@ -41,8 +43,19 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    
 
+    public function loginApi(Request $request)  {
+        if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
+            $user = Auth::user();
+            $success['token'] =  $user->createToken('MyApp')->plainTextToken;
+            $success['name'] =  $user->name;
+
+            return $this->sendResponse($success, 'User login successfully.');
+        }
+        else{
+            return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
+        }
+    }
     public function authenticate(Request $request)
     {
         $credentials = $request->validate([
@@ -54,7 +67,7 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
 
             $request->session()->regenerate();
-            
+
             $user_Auth = Auth::User();
             return redirect('/dashboard/admin');
         }
