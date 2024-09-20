@@ -23,6 +23,7 @@ use App\Http\Controllers\Auth\LoginController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::post('logout', [LoginController::class, 'logoutApi']);
 Route::post('login', [LoginController::class, 'loginApi']);
 Route::get('get_client', [ApiController::class, 'get_client']);
 

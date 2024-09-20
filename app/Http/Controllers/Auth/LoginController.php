@@ -9,6 +9,7 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Providers\RouteServiceProvider;
+use Laravel\Sanctum\PersonalAccessToken;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Http\Controllers\BaseController as BaseController;
 
@@ -56,9 +57,17 @@ class LoginController extends BaseController
             return $this->sendResponse($success, 'User login successfully.');
         }
         else{
-            return $this->sendError('Unauthorised.', ['error'=>'Password or Email is invalid.'], 401);
+            return $this->sendError('Password or Email is invalid..', ['error'=>'Password or Email is invalid.'], 401);
         }
     }
+        public function logoutApi(Request $request)
+        {
+            $user = auth()->user();
+            if ($user) {
+                $user->tokens()->delete();
+                return response()->json(['status' => 'success', 'message' => 'Logged out successfully'], 200);
+            }
+        }
     public function authenticate(Request $request)
     {
         $credentials = $request->validate([
