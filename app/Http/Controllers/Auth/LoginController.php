@@ -62,7 +62,8 @@ class LoginController extends BaseController
     }
         public function logoutApi(Request $request)
         {
-            $user = auth()->user();
+            $user = User::where('email', $request->email)->first();
+
             if ($user) {
                 $user->tokens()->delete();
                 return response()->json(['status' => 'success', 'message' => 'Logged out successfully'], 200);
