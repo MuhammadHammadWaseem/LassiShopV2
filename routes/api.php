@@ -29,9 +29,12 @@ Route::post('login', [LoginController::class, 'loginApi']);
 Route::get('get_client', [ApiController::class, 'get_client']);
 // get all user points
 Route::get('get_points', [ApiController::class, 'get_points']);
-
-
+// create pos for app
+Route::post('pos/create_pos', [ApiController::class, 'create_pos']);
+// default warehoouse
+Route::get('default_warehouse', [ApiController::class, 'default_warehouse']);
 //get categories
+
 Route::get('categories', function(Request $request) {
     $perPage = $request->perPage ?: 7;
     $categories = Category::where('deleted_at', '=', null)

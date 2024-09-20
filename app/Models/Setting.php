@@ -23,4 +23,8 @@ class Setting extends Model
         return $this->belongsTo('App\Models\Currency');
     }
 
+    public function warehouse()
+    {
+        return $this->belongsTo('App\Models\Warehouse');
+    }
 }
