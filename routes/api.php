@@ -33,8 +33,10 @@ Route::get('get_points', [ApiController::class, 'get_points']);
 Route::post('pos/create_pos', [ApiController::class, 'create_pos']);
 // default warehoouse
 Route::get('default_warehouse', [ApiController::class, 'default_warehouse']);
-//get categories
+//get settings
+Route::get('settings', [ApiController::class, 'settings']);
 
+//get categories
 Route::get('categories', function(Request $request) {
     $perPage = $request->perPage ?: 7;
     $categories = Category::where('deleted_at', '=', null)

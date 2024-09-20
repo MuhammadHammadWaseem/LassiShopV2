@@ -184,8 +184,13 @@ class ApiController extends BaseController
     }
 }
 
- public function default_warehouse(){
-     $defaultWarehouse = Setting::where('warehouse_id', '!=', null)->with('warehouse')->first();
-    return response()->json( [ 'warehouse' => $defaultWarehouse->warehouse]);
- }
+    public function default_warehouse(){
+        $defaultWarehouse = Setting::where('warehouse_id', '!=', null)->with('warehouse')->first();
+        return response()->json( [ 'warehouse' => $defaultWarehouse->warehouse]);
+    }
+
+    public function settings(){
+        $settings = Setting::where('deleted_at', '=', null)->first();
+        return response()->json( [ 'settings' => $settings]);
+    }
 }
