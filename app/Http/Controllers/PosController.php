@@ -148,7 +148,6 @@ class PosController extends Controller
 
     public function CreatePOS(Request $request)
     {
-        dd($request->all());
         date_default_timezone_set('Asia/Dubai');
         $validator = Validator::make($request->all(), [
             'client_id' => 'required',
