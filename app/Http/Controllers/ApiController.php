@@ -42,7 +42,7 @@ class ApiController extends BaseController
         // Format the response to include only the required fields
         $formattedPoints = $points->map(function ($point) {
             return [
-                'id' => $point->Clients->id,
+                'client_id' => $point->Clients->id,
                 'name' => $point->clients->username ?? null,  // Client's username
                 'loyaltyPoints' => $point->total_user_point,
                 'remaining_user_point' => $point->remaining_user_point,
