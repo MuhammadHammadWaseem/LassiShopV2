@@ -27,8 +27,8 @@ Route::post('logout', [LoginController::class, 'logoutApi']);
 Route::post('login', [LoginController::class, 'loginApi']);
 // get user get_client
 Route::get('get_client', [ApiController::class, 'get_client']);
-// get user points send client id
-Route::post('get_points', [ApiController::class, 'get_points']);
+// get all user points
+Route::get('get_points', [ApiController::class, 'get_points']);
 
 
 //get categories

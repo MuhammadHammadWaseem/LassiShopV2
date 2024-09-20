@@ -17,12 +17,24 @@ class ApiController extends BaseController
         return response()->json($clients, 200);
     }
 
-    public function get_points(Request $request)
+    public function get_points()
     {
-        $points = Point::with('Clients')->where('user_id', $request->id)->get();
-        if ($points == null) {
-            $points = [];
-        }
-        return response()->json($points);
+        // Fetch all points with related clients and user data
+        $points = Point::with('Clients.user')->get();
+        // Format the response to include only the required fields
+        $formattedPoints = $points->map(function ($point) {
+            return [
+                'id' => $point->id,
+                'name' => $point->clients->username ?? null,  // Client's username
+                'loyaltyPoints' => $point->total_user_point,
+                'remaining_user_point' => $point->remaining_user_point,
+                'user_name' => $point->clients->user->username ?? null,  // User model's username
+            ];
+        });
+
+        // Return the formatted data as JSON
+        return response()->json($formattedPoints);
     }
+
+
 }
