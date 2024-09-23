@@ -8,6 +8,7 @@ use App\Models\Unit;
 use App\Models\Order;
 use App\Models\Point;
 use App\Models\Client;
+use App\Models\product_warehouse;
 use App\Models\Account;
 use App\Models\Product;
 use App\Models\Setting;
