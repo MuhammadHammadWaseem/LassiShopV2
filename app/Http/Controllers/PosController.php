@@ -743,6 +743,17 @@ class PosController extends Controller
             }
             return response()->json(['data' => $products]);
     }
+
+    public function GetAppCategories()
+    {
+        $setting = Setting::where('deleted_at', '=', null)->pluck('warehouse_id')->first();
+        $categories = Category::where('deleted_at', '=', null)->where('is_ingredient', 0)->select('id', 'name')->get();
+        foreach($categories as $c){
+            $items = NewProduct::where('warehouse_id', '=', $setting)->where('category_id', $c->id)->count();
+            $c->items = $items." Items ";
+        }
+        return response()->json(['data' => $categories]);
+    }
     //------------ autocomplete_product_pos -----------------\\
 
     public function autocomplete_product_pos(request $request, $id)

@@ -14,6 +14,7 @@ class Category extends Model
         'code',
         'name',
         'image',
+        'app_image',
         'is_ingredient',
     ];
 
