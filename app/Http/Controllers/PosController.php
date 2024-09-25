@@ -733,15 +733,25 @@ class PosController extends Controller
         }
     }
 
-    public function GetProductForApp()
+    public function GetProductForApp($id = null)
     {
-        $setting = Setting::where('deleted_at', '=', null)->pluck('warehouse_id')->first();
+        if($id){
+            $setting = Setting::where('deleted_at', '=', null)->pluck('warehouse_id')->first();
+            $products = NewProduct::where('category_id', $id)->where('warehouse_id', '=' , $setting)->select('id', 'name', 'price', 'img_path')->get();
+            foreach($products as $p){
+                $flavors = NewProductForUserSelect::with('product')->where('new_product_id', $p->id)->get()->pluck('product.name');
+                $p->flavors = $flavors;
+            }
+            return response()->json(['data' => $products]);
+        }else{
+            $setting = Setting::where('deleted_at', '=', null)->pluck('warehouse_id')->first();
             $products = NewProduct::where('warehouse_id', '=' , $setting)->select('id', 'name', 'price', 'img_path')->get();
             foreach($products as $p){
                 $flavors = NewProductForUserSelect::with('product')->where('new_product_id', $p->id)->get()->pluck('product.name');
                 $p->flavors = $flavors;
             }
             return response()->json(['data' => $products]);
+        }
     }
 
     public function GetAppCategories()
