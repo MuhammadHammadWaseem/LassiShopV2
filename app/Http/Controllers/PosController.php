@@ -768,7 +768,7 @@ class PosController extends Controller
     public function GetAppCategories()
     {
         $setting = Setting::where('deleted_at', '=', null)->pluck('warehouse_id')->first();
-        $categories = Category::where('deleted_at', '=', null)->where('is_ingredient', 0)->select('id', 'name', 'app_image')->get();
+        $categories = Category::where('deleted_at', '=', null)->where('is_ingredient', 0)->select('id', 'name', 'app_image')->orderBy('id', 'desc')->get();
         foreach($categories as $c){
             $items = NewProduct::where('warehouse_id', '=', $setting)->where('category_id', $c->id)->count();
             if($c->name == 'All Products'){
