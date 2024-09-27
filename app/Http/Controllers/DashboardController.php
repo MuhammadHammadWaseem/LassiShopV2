@@ -50,6 +50,9 @@ class DashboardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function policy(){
+        return view('policy');
+    }
     public function dashboard_admin(Request $request)
     {
 

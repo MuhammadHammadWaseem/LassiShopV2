@@ -43,6 +43,7 @@ use App\Http\Controllers\OnlineOrdersController;
 */
 
 Route::middleware('guest')->group(function () {
+    Route::get('privacy-policy', "DashboardController@policy")->name('policy');
     Route::get('pos/get_products/app/{id?}', 'PosController@GetProductForApp')->name('get_products.app');
     Route::get('pos/get_categories/app', 'PosController@GetAppCategories')->name('get_categories.app');
     Route::get('/', 'GuestController@index')->name('guest.index');
