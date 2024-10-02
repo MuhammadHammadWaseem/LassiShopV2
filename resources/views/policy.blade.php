@@ -1,79 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Privacy Policy - LassiShop</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            line-height: 1.6;
-            background-color: #f4f4f4;
-        }
-
-        h1, h2 {
-            color: #333;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-
-        a {
-            color: #007BFF;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Privacy Policy</h1>
-        <p>Last updated: September 27, 2024</p>
-
-        <p>Welcome to LassiShop! Your privacy is important to us, and we are committed to protecting it. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or use our services.</p>
-
-        <h2>1. Information We Collect</h2>
-        <p>We may collect personal identification information (such as your name, email address, phone number) when you voluntarily provide it to us. This can happen when you sign up for our services, subscribe to a newsletter, or fill out a form.</p>
-
-        <h2>2. How We Use Your Information</h2>
-        <p>We use the information we collect to:</p>
-        <ul>
-            <li>Provide, operate, and maintain our website and services.</li>
-            <li>Process your transactions and manage your orders.</li>
-            <li>Improve customer service and respond to your inquiries.</li>
-            <li>Send periodic emails regarding your order or other products and services.</li>
-            <li>Personalize user experience and improve our website.</li>
-        </ul>
-
-        <h2>3. Data Security</h2>
-        <p>We adopt appropriate data collection, storage, and processing practices and security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.</p>
-
-        <h2>4. Sharing Your Information</h2>
-        <p>We do not sell, trade, or rent your personal identification information to others. However, we may share your data with third-party service providers to help us operate our business and provide services to you, as long as those parties agree to keep your information confidential.</p>
-
-        <h2>5. Cookies</h2>
-        <p>Our site may use "cookies" to enhance user experience. You can choose to set your web browser to refuse cookies or to alert you when cookies are being sent. However, some parts of the site may not function properly without cookies.</p>
-
-        <h2>6. Your Consent</h2>
-        <p>By using our website, you consent to our privacy policy.</p>
-
-        <h2>7. Changes to This Privacy Policy</h2>
-        <p>LassiShop reserves the right to update this privacy policy at any time. When we do, we will post the revised date at the top of this page. We encourage you to check this page frequently for any changes.</p>
-
-        <h2>8. Contact Us</h2>
-        <p>If you have any questions about this Privacy Policy, please contact us at:</p>
-        <p>Email: <a href="mailto:info@lassishop.com">info@lassishop.com</a></p>
-    </div>
-</body>
-</html>
+    <html>
+    <head>
+      <meta charset='utf-8'>
+      <meta name='viewport' content='width=device-width'>
+      <title>Privacy Policy</title>
+      <style> body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; padding:1em; } </style>
+    </head>
+    <body>
+    <strong>Privacy Policy</strong><p>This privacy policy applies to the Lassi Shop - AQ: Point of Sale app (hereby referred to as "Application") for mobile devices that was created by Search Marketing Service (hereby referred to as "Service Provider") as a Free service. This service is intended for use "AS IS".</p><br><strong>Information Collection and Use</strong><p>The Application collects information when you download and use it. This information may include information such as </p><ul><li>Your device's Internet Protocol address (e.g. IP address)</li><li>The pages of the Application that you visit, the time and date of your visit, the time spent on those pages</li><li>The time spent on the Application</li><li>The operating system you use on your mobile device</li></ul><p></p><br><p>The Application does not gather precise information about the location of your mobile device.</p><div style="display: none;"><p>The Application collects your device's location, which helps the Service Provider determine your approximate geographical location and make use of in below ways:</p><ul><li>Geolocation Services: The Service Provider utilizes location data to provide features such as personalized content, relevant recommendations, and location-based services.</li><li>Analytics and Improvements: Aggregated and anonymized location data helps the Service Provider to analyze user behavior, identify trends, and improve the overall performance and functionality of the Application.</li><li>Third-Party Services: Periodically, the Service Provider may transmit anonymized location data to external services. These services assist them in enhancing the Application and optimizing their offerings.</li></ul></div><br><p>The Service Provider may use the information you provided to contact you from time to time to provide you with important information, required notices and marketing promotions.</p><br><p>For a better experience, while using the Application, the Service Provider may require you to provide us with certain personally identifiable information. The information that the Service Provider request will be retained by them and used as described in this privacy policy.</p><br><strong>Third Party Access</strong><p>Only aggregated, anonymized data is periodically transmitted to external services to aid the Service Provider in improving the Application and their service. The Service Provider may share your information with third parties in the ways that are described in this privacy statement.</p><div><br><p>Please note that the Application utilizes third-party services that have their own Privacy Policy about handling data. Below are the links to the Privacy Policy of the third-party service providers used by the Application:</p><ul><li><a href="https://www.google.com/policies/privacy/" target="_blank" rel="noopener noreferrer">Google Play Services</a></li><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></ul></div><br><p>The Service Provider may disclose User Provided and Automatically Collected Information:</p><ul><li>as required by law, such as to comply with a subpoena, or similar legal process;</li><li>when they believe in good faith that disclosure is necessary to protect their rights, protect your safety or the safety of others, investigate fraud, or respond to a government request;</li><li>with their trusted services providers who work on their behalf, do not have an independent use of the information we disclose to them, and have agreed to adhere to the rules set forth in this privacy statement.</li></ul><p></p><br><strong>Opt-Out Rights</strong><p>You can stop all collection of information by the Application easily by uninstalling it. You may use the standard uninstall processes as may be available as part of your mobile device or via the mobile application marketplace or network.</p><br><strong>Data Retention Policy</strong><p>The Service Provider will retain User Provided data for as long as you use the Application and for a reasonable time thereafter. If you'd like them to delete User Provided Data that you have provided via the Application, please contact them at mailto:lassishop@searchmarketingservices.online and they will respond in a reasonable time.</p><br><strong>Children</strong><p>The Service Provider does not use the Application to knowingly solicit data from or market to children under the age of 13.</p><div><br><p>The Application does not address anyone under the age of 13.
+The Service Provider does not knowingly collect personally
+identifiable information from children under 13 years of age. In the case
+the Service Provider discover that a child under 13 has provided
+personal information, the Service Provider will immediately
+delete this from their servers. If you are a parent or guardian
+and you are aware that your child has provided us with
+personal information, please contact the Service Provider (mailto:lassishop@searchmarketingservices.online) so that
+they will be able to take the necessary actions.</p></div><!----><br><strong>Security</strong><p>The Service Provider is concerned about safeguarding the confidentiality of your information. The Service Provider provides physical, electronic, and procedural safeguards to protect information the Service Provider processes and maintains.</p><br><strong>Changes</strong><p>This Privacy Policy may be updated from time to time for any reason. The Service Provider will notify you of any changes to the Privacy Policy by updating this page with the new Privacy Policy. You are advised to consult this Privacy Policy regularly for any changes, as continued use is deemed approval of all changes.</p><br><p>This privacy policy is effective as of 2024-10-02</p><br><strong>Your Consent</strong><p>By using the Application, you are consenting to the processing of your information as set forth in this Privacy Policy now and as amended by us.</p><br><strong>Contact Us</strong><p>If you have any questions regarding privacy while using the Application, or have questions about the practices, please contact the Service Provider via email at mailto:lassishop@searchmarketingservices.online.</p><hr><p>This privacy policy page was generated by <a href="https://app-privacy-policy-generator.nisrulz.com/" target="_blank" rel="noopener noreferrer">App Privacy Policy Generator</a></p>
+    </body>
+    </html>
